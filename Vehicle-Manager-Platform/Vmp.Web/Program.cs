@@ -3,7 +3,7 @@ namespace Vmp.Web
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 
-    using Vmp.Web.Data;
+    using Vmp.Data;
 
     public class Program
     {

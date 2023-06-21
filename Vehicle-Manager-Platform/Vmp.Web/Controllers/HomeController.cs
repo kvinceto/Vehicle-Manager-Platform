@@ -1,12 +1,13 @@
-﻿using System.Diagnostics;
-
-using Microsoft.AspNetCore.Mvc;
-
-using Vmp.Web.Models;
-
-namespace Vmp.Web.Controllers
+﻿namespace Vmp.Web.Controllers
 {
-    public class HomeController : Controller
+    using System.Diagnostics;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
+    using Vmp.Web.Models;
+
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
 
@@ -15,6 +16,7 @@ namespace Vmp.Web.Controllers
             _logger = logger;
         }
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View();
