@@ -1,4 +1,4 @@
-namespace Vmp.Web.Models
+namespace Vmp.Web.ViewModels
 {
     public class ErrorViewModel
     {
