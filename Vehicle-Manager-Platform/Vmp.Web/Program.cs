@@ -3,6 +3,7 @@ namespace Vmp.Web
     using Microsoft.EntityFrameworkCore;
 
     using Vmp.Data;
+    using Vmp.Data.Models;
 
     public class Program
     {
@@ -21,7 +22,7 @@ namespace Vmp.Web
             builder.Services
                 .AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<VehicleManagerDbContext>(options =>
+            builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
             {
                 options.SignIn.RequireConfirmedAccount =
                     builder.Configuration.GetValue<bool>("Identity:SignIn:RequireConfirmedAccount");
