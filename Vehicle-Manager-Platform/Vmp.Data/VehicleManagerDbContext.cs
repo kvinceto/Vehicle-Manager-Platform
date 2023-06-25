@@ -15,6 +15,19 @@
         {
         }
 
+        public DbSet<CostCenter> CostCenters { get; set; } = null!;
+
+        public DbSet<Owner> Owners { get; set; } = null!;
+
+        public DbSet<Vehicle> Vehicles { get; set; } = null!;
+
+        public DbSet<Waybill> Waybills { get; set; } = null!;
+
+        public DbSet<DateCheck> DateChecks { get; set; } = null!;
+
+        public DbSet<MileageCheck> MileageChecks { get; set; } = null!;
+
+        public DbSet<TaskModel> Tasks { get; set; } = null!;
 
 
         protected override void OnModelCreating(ModelBuilder builder)
