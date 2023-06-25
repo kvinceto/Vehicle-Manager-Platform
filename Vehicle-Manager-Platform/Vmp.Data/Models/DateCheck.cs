@@ -32,7 +32,7 @@
         public bool IsCompleted { get; set; }
 
         [Comment("Identifier of the cretor of this check")]
-        public string UserId { get; set; } = null!;
+        public Guid UserId { get; set; }
 
         public virtual ApplicationUser User { get; set; } = null!;
     }

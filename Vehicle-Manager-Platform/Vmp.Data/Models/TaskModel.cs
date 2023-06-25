@@ -24,7 +24,7 @@
 
         [Comment("Identifier of the user corresponding with this task")]
         [Required]        
-        public string UserId { get; set; } = null!;
+        public Guid UserId { get; set; }
 
         public virtual ApplicationUser User { get; set; } = null!;
 

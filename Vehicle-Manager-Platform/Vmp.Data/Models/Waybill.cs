@@ -73,7 +73,7 @@
         public virtual CostCenter CostCenter { get; set; } = null!;
 
         [Comment("Identifier of the user who created this waybill")]
-        public string UserId { get; set; } = null!;
+        public Guid UserId { get; set; }
 
         public virtual ApplicationUser User { get; set; } = null!;
     }
