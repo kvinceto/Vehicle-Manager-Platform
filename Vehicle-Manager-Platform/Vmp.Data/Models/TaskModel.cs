@@ -18,6 +18,11 @@
         [MaxLength(NameMaxLength)]
         public string Name { get; set; } = null!;
 
+        [Comment("Description of the task that has to be performed")]
+        [Required]
+        [MaxLength(DescriptionMaxLength)]
+        public string Description { get; set; } = null!;
+
         [Comment("Task deadline")]
         [Required]
         public DateTime EndDate { get; set; }

@@ -16,8 +16,7 @@ namespace Vmp.Web
                 ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
             builder.Services
-                .AddDbContext<VehicleManagerDbContext>(options =>
-                options.UseSqlServer(connectionString));
+                .AddDbContext<VehicleManagerDbContext>(options => options.UseSqlServer(connectionString));
 
             builder.Services
                 .AddDatabaseDeveloperPageExceptionFilter();
@@ -40,7 +39,7 @@ namespace Vmp.Web
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
-          
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseMigrationsEndPoint();

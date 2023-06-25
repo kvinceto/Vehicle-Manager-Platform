@@ -1,6 +1,7 @@
 ﻿namespace Vmp.Data.Models
 {
     using System.ComponentModel.DataAnnotations;
+    using System.Reflection.Metadata.Ecma335;
 
     using Microsoft.EntityFrameworkCore;
 
@@ -60,6 +61,10 @@
 
         [Comment("Status of the vehicle")]
         public bool IsDeleted { get; set; }
+
+        [Comment("Link to example image for the model of this vehicle")]
+        [MaxLength(ImgUrlMaxLength)]
+        public string? ModelImgUrl { get; set; }
 
         public virtual ICollection<MileageCheck> MileageChecks { get; set; }
 

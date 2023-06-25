@@ -33,12 +33,17 @@
             public const decimal FuelCapacityMinValue = 1.00M;
 
             public const decimal FuelCostRateMinValue = 0.00M;
+
+            public const int ImgUrlMaxLength = 2048;
         }
 
         public static class TaskModel
         {
             public const int NameMinLength = 3;
             public const int NameMaxLength = 50;
+
+            public const int DescriptionMinLength = 1;
+            public const int DescriptionMaxLength = 1000;
         }
 
         public class DateCheck
