@@ -4,6 +4,8 @@ namespace Vmp.Web
 
     using Vmp.Data;
     using Vmp.Data.Models;
+    using Vmp.Services;
+    using Vmp.Services.Interfaces;
 
     public class Program
     {
@@ -35,6 +37,9 @@ namespace Vmp.Web
                     builder.Configuration.GetValue<int>("Identity:Password:RequiredLength");
             })
                 .AddEntityFrameworkStores<VehicleManagerDbContext>();
+
+            //Services
+            builder.Services.AddScoped<ITaskService, TaskService>();
 
             builder.Services.AddControllersWithViews();
 
