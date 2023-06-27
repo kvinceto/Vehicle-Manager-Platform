@@ -6,6 +6,6 @@
     {
         Task<ICollection<TaskViewModelAll>> GetAllActiveTasksAsync();
 
-
+        Task AddNewTaskAsync(TaskViewModelAdd model, string? userId);
     }
 }

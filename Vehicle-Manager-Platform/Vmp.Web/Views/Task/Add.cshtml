@@ -1,1 +1,34 @@
-﻿
+﻿@model TaskViewModelAdd
+@{
+    ViewData["Title"] = "Add Task";
+}
+
+<h1>Add Task</h1>
+
+@using (Html.BeginForm("Add", "Task", FormMethod.Post, new { @class = "form" }))
+{
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name)
+                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Name)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Description)
+                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = "4" })
+                    @Html.ValidationMessageFor(model => model.Description)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Deadline)
+                    @Html.TextBoxFor(model => model.Deadline, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Deadline)
+                </div>              
+                <div class="form-group justify-content-md-around ">
+                    <input type="submit" value="Add Task" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </div>
+}

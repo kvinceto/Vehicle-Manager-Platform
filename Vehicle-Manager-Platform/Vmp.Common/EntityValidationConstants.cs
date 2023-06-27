@@ -41,9 +41,12 @@
         {
             public const int NameMinLength = 3;
             public const int NameMaxLength = 50;
+            public const string NameErrorMessage = "Name must be between 3 and 50 characters";
 
             public const int DescriptionMinLength = 1;
             public const int DescriptionMaxLength = 1000;
+            public const string DescriptionErrorMessage = "Description must be between 1 and 1000 characters";
+            public const string DeadlineErrorMessage = "Dedline must be a valid date in format dd/MM/yyyy";
         }
 
         public class DateCheck

@@ -6,6 +6,7 @@
     using Microsoft.EntityFrameworkCore;
 
     using Vmp.Data;
+    using Vmp.Data.Models;
     using Vmp.Services.Interfaces;
     using Vmp.Web.ViewModels.TaskViewModels;
 
@@ -16,6 +17,26 @@
         public TaskService(VehicleManagerDbContext dbContext)
         {
             this.dbContext = dbContext;
+        }
+
+        public async Task AddNewTaskAsync(TaskViewModelAdd model, string? userId)
+        {
+            if (userId == null)
+            {
+               throw new NullReferenceException(nameof(userId));
+            }
+
+            TaskModel newTask = new TaskModel()
+            {
+                Name = model.Name,
+                Description = model.Description,
+                EndDate = DateTime.Parse(model.Deadline),
+                IsCompleted = false,
+                UserId = Guid.Parse(userId)
+            };
+
+            await dbContext.Tasks.AddAsync(newTask);
+            await dbContext.SaveChangesAsync();
         }
 
         public async Task<ICollection<TaskViewModelAll>> GetAllActiveTasksAsync()
