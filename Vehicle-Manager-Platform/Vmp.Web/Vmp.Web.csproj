@@ -26,4 +26,8 @@
     <ProjectReference Include="..\Vmp.Web.ViewModels\Vmp.Web.ViewModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ModelBinders\" />
+  </ItemGroup>
+
 </Project>

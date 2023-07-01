@@ -56,9 +56,6 @@
         [Required]
         public decimal FuelLoaded { get; set; }
 
-        [Comment("Status of the waybill")]
-        public bool IsDeleted { get; set; }
-
         [Comment("Additional info for this waybill")]
         [MaxLength(InfoMaxLength)]
         public string? Info { get; set; }
