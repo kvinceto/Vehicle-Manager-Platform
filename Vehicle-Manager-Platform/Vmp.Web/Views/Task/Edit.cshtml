@@ -1,1 +1,34 @@
-﻿
+﻿@model TaskViewModelAdd
+@{
+    ViewData["Title"] = "Edit Task";
+}
+
+<h1>Edit Task</h1>
+
+@using (Html.BeginForm("Edit", "Task", FormMethod.Post, new { @class = "form" }))
+{
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="@Model.Name" class="form-label-add-edit">Name</label>
+                    <input asp-for="@Model.Name" class="form-control" />
+                    <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Description" class="form-label-add-edit">Description</label>
+                    <input asp-for="@Model.Description" class="form-control" />
+                    <span asp-validation-for="@Model.Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Deadline" class="form-label-add-edit">Deadline</label>
+                    <input asp-for="@Model.Deadline" class="form-control" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                    <span asp-validation-for="@Model.Deadline" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-1 justify-content-md-around ">
+                    <input type="submit" value="Edit Task" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </div>
+}

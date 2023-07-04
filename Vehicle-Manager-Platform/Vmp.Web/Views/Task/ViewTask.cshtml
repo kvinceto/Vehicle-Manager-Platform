@@ -1,1 +1,15 @@
-﻿
+﻿@model TaskViewModelDetails
+@{
+    ViewBag.Title = "Task Details";
+}
+
+<h2>Task Details</h2>
+
+<div class="container-fluid">
+    <h4>Task ID: @Model.Id</h4>
+    <h4>Name: @Model.Name</h4>
+    <h4>Description: @Model.Description</h4>
+    <h4>End Date: @Model.EndDate</h4>
+    <h4>User: @Model.User</h4>
+    <h4>Is Completed: @Model.IsCompleted</h4>
+</div>

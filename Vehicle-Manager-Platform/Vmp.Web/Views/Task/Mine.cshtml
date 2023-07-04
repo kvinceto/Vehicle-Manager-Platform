@@ -1,1 +1,45 @@
-﻿
+﻿@model ICollection<TaskViewModelAll>
+@{
+    ViewData["Title"] = "My tasks";
+    int rowCount = 0;
+}
+
+<div class="container-fluid">
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr class="bg-success">
+                <th class="col-1 text-center" scope="col">Row Number</th>
+                <th class="col-3 text-center" scope="col">Name</th>
+                <th class="col-3 text-center" scope="col">Deadline</th>
+                <th class="col-2 text-center" scope="col">Owner</th>
+                <th class="col-1 text-center" scope="col">View</th>
+                <th class="col-1 text-center" scope="col">Edit</th>
+                <th class="col-1 text-center" scope="col">Complete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                @foreach (var task in Model)
+                {
+                    rowCount++;
+                    <th class="text-center" scope="row">@rowCount</th>
+                    <td class="text-center">@task.Name</td>
+                    <td class="text-center">@task.EndDate</td>
+                    <td class="text-center">@task.User</td>
+                    <td class="text-center">
+                        <a class="text-dark" asp-area="" asp-controller="Task" asp-action="ViewTask" asp-route-Id="@task.Id">View</a>                       
+                    </td>
+                    <td class="text-center">                      
+                        <a class="text-dark" asp-area="" asp-controller="Task" asp-action="Edit" asp-route-Id="@task.Id">Edit</a>
+                    </td>
+                    <td class="text-center">
+                        <form asp-area="" asp-controller="Task" asp-action="Complete" method="post">
+                            <input type="hidden" name="Id" value="@task.Id" />
+                            <button type="submit" class="btn btn-link text-dark">Complete Task</button>
+                        </form>
+                    </td>
+                }
+            </tr>
+        </tbody>
+    </table>
+</div>

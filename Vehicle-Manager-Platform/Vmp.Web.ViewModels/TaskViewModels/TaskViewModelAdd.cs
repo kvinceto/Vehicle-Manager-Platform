@@ -6,6 +6,8 @@
 
     public class TaskViewModelAdd
     {
+        public int? Id { get; set; }
+
         [Required]
         [StringLength(NameMaxLength, MinimumLength = NameMinLength, ErrorMessage = NameErrorMessage)]
         public string Name { get; set; } = null!;

@@ -1,11 +1,15 @@
 ﻿namespace Vmp.Web.Controllers
 {
+    using System.Threading.Tasks;
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     using Vmp.Services.Extensions;
     using Vmp.Services.Interfaces;
     using Vmp.Web.ViewModels.TaskViewModels;
+
+    using static Vmp.Common.NotificationMessagesConstants;
 
     [Authorize]
     public class TaskController : Controller
@@ -25,9 +29,11 @@
         }
 
         [HttpGet]
-        public IActionResult Mine()
+        public async Task<IActionResult> Mine()
         {
-            return View();
+            string? userId = this.User.GetId();
+            ICollection<TaskViewModelAll> tasks = await taskService.GetMyTasks(userId);
+            return View(tasks);
         }
 
         [HttpGet]
@@ -42,6 +48,7 @@
         {
             if (!ModelState.IsValid)
             {
+                TempData[ErrorMessage] = "Enter valid data";
                 return View(model);
             }
 
@@ -53,6 +60,7 @@
             }
             catch (Exception)
             {
+                TempData[ErrorMessage] = "Error in the database! Refresh this page and enter valid data";
                 return View();
             }
 
@@ -61,27 +69,73 @@
 
 
         [HttpGet]
-        public async Task<IActionResult> Edit()
+        public async Task<IActionResult> Edit(int id)
         {
-            return View();
+            try
+            {
+                TaskViewModelAdd model = await taskService.GetTaskByIdForEdit(id);
+
+                TempData[WarningMessage] = "Task viewed for edit";
+                return View(model);
+            }
+            catch (Exception)
+            {
+                TempData[ErrorMessage] = "Error in the database!";
+                return RedirectToAction("Mine", "Task");
+            }
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(object model)
+        public async Task<IActionResult> Edit(TaskViewModelAdd model)
         {
-            return View();
+            if (!ModelState.IsValid)
+            {
+                TempData[ErrorMessage] = "Enter valid data";
+                return View(model);
+            }
+
+            try
+            {
+                await taskService.EditTask(model);
+                TempData[SuccessMessage] = "Task edited!";
+                return RedirectToAction("Mine", "Task");
+            }
+            catch (Exception)
+            {
+                TempData[ErrorMessage] = "Error in the database!";
+                return RedirectToAction("Mine", "Task");
+            }
         }
 
         [HttpGet]
-        public async Task<IActionResult> ViewTask()
+        public async Task<IActionResult> ViewTask(int id)
         {
-            return View();
+            try
+            {
+                TaskViewModelDetails task = await taskService.GetTaskByIdAsync(id);
+
+                TempData[SuccessMessage] = "Task Info Viewed";
+                return View(task);
+            }
+            catch (Exception)
+            {
+                TempData[ErrorMessage] = "Error in the database!";
+                return RedirectToAction("All", "Task");
+            }
         }
+       
 
         [HttpPost]
-        public async Task<IActionResult> Complete(int taskId)
-        {
-            return RedirectToAction();
+        public async Task<IActionResult> Complete(TaskViewModelAdd model)
+        {           
+            bool isCompleted = await taskService.CompleteTaskByIdAsync((int)model.Id!);
+            if (isCompleted)
+            {
+                TempData[SuccessMessage] = "Task Completed";
+                return RedirectToAction("Mine", "Task");
+            }
+            TempData[ErrorMessage] = "Task is not completed";
+            return RedirectToAction("Mine", "Task");
         }
     }
 }
