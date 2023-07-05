@@ -1,0 +1,44 @@
+﻿@using Vmp.Web.ViewModels.OwnerViewModels;
+@model ICollection<OwnerViewModelAll>
+@{
+    ViewData["Title"] = "Owner Details";
+    int rowCount = 0;
+}
+
+<div class="container-fluid">
+    <h1>Owner Details</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Row Number</th>
+                        <th>Owner ID</th>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var owner in Model)
+                    {
+                        rowCount++;
+                        <tr>
+                            <td>
+                                @rowCount
+                            </td>
+                            <td>
+                                @owner.Id
+                            </td>
+                            <td>
+                                @owner.Name
+                            </td>
+                            <td class="text-center bg-info">
+                                <a class="text-dark align-content-center" asp-area="" asp-controller="Owner" asp-action="ViewOwnerInfo" asp-route-Id="@owner.Id">View</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

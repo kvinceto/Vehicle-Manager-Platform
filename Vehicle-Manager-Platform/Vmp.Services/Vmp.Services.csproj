@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Vmp.Common\Vmp.Common.csproj" />
     <ProjectReference Include="..\Vmp.Data\Vmp.Data.csproj" />
     <ProjectReference Include="..\Vmp.Web.ViewModels\Vmp.Web.ViewModels.csproj" />

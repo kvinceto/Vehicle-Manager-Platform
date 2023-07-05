@@ -40,6 +40,7 @@ namespace Vmp.Web
 
             //Services
             builder.Services.AddScoped<ITaskService, TaskService>();
+            builder.Services.AddScoped<IOwnerService, OwnerService>();
 
             builder.Services.AddControllersWithViews();
 

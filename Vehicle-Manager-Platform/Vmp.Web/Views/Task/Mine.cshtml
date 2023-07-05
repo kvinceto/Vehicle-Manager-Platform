@@ -4,6 +4,7 @@
     int rowCount = 0;
 }
 
+<h4 class="text-center">@ViewData["Title"]</h4>
 <div class="container-fluid">
     <table class="table table-hover table-bordered">
         <thead>
@@ -18,28 +19,29 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                @foreach (var task in Model)
-                {
-                    rowCount++;
+
+            @foreach (var task in Model)
+            {
+                rowCount++;
+                <tr>
                     <th class="text-center" scope="row">@rowCount</th>
                     <td class="text-center">@task.Name</td>
                     <td class="text-center">@task.EndDate</td>
                     <td class="text-center">@task.User</td>
-                    <td class="text-center">
-                        <a class="text-dark" asp-area="" asp-controller="Task" asp-action="ViewTask" asp-route-Id="@task.Id">View</a>                       
+                    <td class="text-center bg-info">
+                        <a class="text-dark align-content-center" asp-area="" asp-controller="Task" asp-action="ViewTask" asp-route-Id="@task.Id">View</a>
                     </td>
-                    <td class="text-center">                      
-                        <a class="text-dark" asp-area="" asp-controller="Task" asp-action="Edit" asp-route-Id="@task.Id">Edit</a>
+                    <td class="text-center bg-warning">
+                        <a class="text-dark align-content-center" asp-area="" asp-controller="Task" asp-action="Edit" asp-route-Id="@task.Id">Edit</a>
                     </td>
-                    <td class="text-center">
+                    <td class="text-center bg-danger">
                         <form asp-area="" asp-controller="Task" asp-action="Complete" method="post">
                             <input type="hidden" name="Id" value="@task.Id" />
-                            <button type="submit" class="btn btn-link text-dark">Complete Task</button>
+                            <button type="submit" class="btn btn-link text-dark align-content-center">Complete Task</button>
                         </form>
                     </td>
-                }
-            </tr>
+                </tr>
+            }
         </tbody>
     </table>
 </div>

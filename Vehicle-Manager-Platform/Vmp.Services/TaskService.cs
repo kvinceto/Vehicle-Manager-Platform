@@ -93,6 +93,7 @@
                 .AsNoTracking()
                 .Where(t => t.IsCompleted == false)
                 .Where(t => t.UserId.ToString() == userId)
+                .OrderBy(t => t.EndDate)
                 .Select(t => new TaskViewModelAll()
                 {
                     Id = t.Id,

@@ -6,9 +6,10 @@
         {
             public const int NameMinLength = 3;
             public const int NameMaxLength = 50;
+            public const string NameErrorMessage = "Name must be between 3 and 50 characters";
 
-            public const int InfoMinLength = 3;
             public const int InfoMaxLength = 255;
+            public const string InfoErrorMessage = "Info can not be more than 255 characters";
         }
 
         public static class Vehicle
