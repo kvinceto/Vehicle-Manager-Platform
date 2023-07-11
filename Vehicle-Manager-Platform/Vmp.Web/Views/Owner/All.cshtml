@@ -1,12 +1,12 @@
 ﻿@using Vmp.Web.ViewModels.OwnerViewModels;
 @model ICollection<OwnerViewModelAll>
 @{
-    ViewData["Title"] = "Owner Details";
+    ViewData["Title"] = "All Owners";
     int rowCount = 0;
 }
 
 <div class="container-fluid">
-    <h1>Owner Details</h1>
+    <h1>All Owners</h1>
 
     <div class="row">
         <div class="col-md-6">
@@ -34,6 +34,12 @@
                             </td>
                             <td class="text-center bg-info">
                                 <a class="text-dark align-content-center" asp-area="" asp-controller="Owner" asp-action="ViewOwnerInfo" asp-route-Id="@owner.Id">View</a>
+                            </td>
+                            <td class="text-center bg-danger">
+                                <form asp-area="" asp-controller="Owner" asp-action="Delete" method="post">
+                                    <input type="hidden" name="Id" value="@owner.Id" />
+                                    <button type="submit" class="btn btn-link text-dark align-content-center">Complete Task</button>
+                                </form>
                             </td>
                         </tr>
                     }

@@ -7,5 +7,9 @@
         Task<ICollection<OwnerViewModelAll>> GetAllOwnersAsync();
 
         Task AddNewOwnerAsync(OwnerViewModelAdd ownerModel);
+
+        Task<OwnerViewModelInfo> GetOwnerByIdAsync(int ownerId);
+
+        Task<bool> DeleteOwnerByIdAsync(int ownerId);
     }
 }

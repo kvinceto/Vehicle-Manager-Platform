@@ -1,0 +1,55 @@
+﻿@model Vmp.Web.ViewModels.OwnerViewModels.OwnerViewModelInfo
+@{
+    ViewData["Title"] = "Owner Details";
+}
+
+<div class="container">
+    <h1>@Model.Name Details</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <dl class="row">
+                <dt class="col-sm-4">ID</dt>
+                <dd class="col-sm-8">@Model.Id</dd>
+
+                <dt class="col-sm-4">Name</dt>
+                <dd class="col-sm-8">@Model.Name</dd>
+
+                <dt class="col-sm-4">Additional Info</dt>
+                @if(Model.Info == null)
+                {
+                    <dd class="col-sm-8 bg-warning">No info</dd>
+                }
+                else
+                {
+                    <dd class="col-sm-8">@Model.Info</dd>
+                }
+                <dt class="col-sm-4">Vehicles Count</dt>
+                <dd class="col-sm-8">@Model.VehiclesCount</dd>
+            </dl>
+        </div>
+    </div>
+
+    @foreach (var vehicle in Model.Vehicles)
+    {
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <h4>Vehicle Details</h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Number</th>                          
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@vehicle</td>                           
+                            <td class="bg-info"><a href="@Url.Action("View", "Vehicle", new { id = vehicle })">View Vehicle</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>

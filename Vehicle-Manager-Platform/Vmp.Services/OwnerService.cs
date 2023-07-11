@@ -32,6 +32,21 @@
             await dbContext.SaveChangesAsync();
         }
 
+        public async Task<bool> DeleteOwnerByIdAsync(int id)
+        {
+            Owner? owner = await dbContext.Owners.FirstOrDefaultAsync(o => o.Id == id);
+
+            if (owner == null)
+            {
+                return false;
+            }
+
+            owner.IsInactive = true;
+
+            await dbContext.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<ICollection<OwnerViewModelAll>> GetAllOwnersAsync()
         {
             return await dbContext.Owners
@@ -44,6 +59,32 @@
                      Name = o.Name
                  })
                  .ToListAsync();
+        }
+
+        public async Task<OwnerViewModelInfo> GetOwnerByIdAsync(int ownerId)
+        {
+            Owner? owner = await dbContext.Owners
+                  .FirstOrDefaultAsync(o => o.Id == ownerId);
+
+            if (owner == null)
+            {
+                throw new NullReferenceException(nameof(owner));
+            }
+
+            List<string> vehicles = await dbContext.Vehicles
+                .Where(v => v.OwnerId == ownerId)
+                .Select(v => v.Number)
+                .ToListAsync();
+
+            OwnerViewModelInfo result = new OwnerViewModelInfo()
+            {
+                Id = ownerId,
+                Name = owner.Name,
+                Info = owner.Info,
+                Vehicles = vehicles
+            };
+
+            return result;
         }
     }
 }
