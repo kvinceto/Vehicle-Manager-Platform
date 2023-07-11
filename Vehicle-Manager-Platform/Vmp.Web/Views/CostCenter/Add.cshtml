@@ -1,0 +1,18 @@
+﻿@using Vmp.Web.ViewModels.CostCenterViewModels
+@model CostCenterViewModelAdd
+@{
+    ViewData["Title"] = "Add New Cost Center";
+}
+
+<div class="container-fluid">
+    <h1>Add New Cost Center</h1>
+
+    <form asp-action="Add" method="post">
+        <div class="form-group mt-2">
+            <label asp-for="Name">Name</label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2 bg-success">Add</button>
+    </form>
+</div>
