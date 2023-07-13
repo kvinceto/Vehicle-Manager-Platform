@@ -1,0 +1,32 @@
+﻿@using Vmp.Web.ViewModels.CostCenterViewModels
+@model CostCenterViewModelDetails
+@{
+    ViewData["Title"] = "Cost Center Details";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <h1 class="text-center">Cost Center Details</h1>
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">ID</h5>
+                    <p class="card-text">@Model.Id</p>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Name</h5>
+                    <p class="card-text">@Model.Name</p>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Is Closed</h5>
+                    <p class="card-text">@Model.IsClosed</p>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Waybills Count</h5>
+                    <p class="card-text">@Model.WaybillsCount</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

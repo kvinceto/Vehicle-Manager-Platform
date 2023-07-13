@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
@@ -22,7 +21,7 @@
             this.dbContext = dbContext;
         }
 
-        public async Task AddNewCostCenter(CostCenterViewModelAdd model)
+        public async Task AddNewCostCenterAsync(CostCenterViewModelAdd model)
         {
             CostCenter costCenter = new CostCenter()
             {
@@ -34,10 +33,40 @@
             await dbContext.SaveChangesAsync();
         }
 
+        public async Task<bool> DeleteCostCenterByIdAsync(int costCenterId)
+        {
+           CostCenter? costCenter = await dbContext.CostCenters
+                .FirstOrDefaultAsync(cc => cc.Id == costCenterId);
+            
+            if (costCenter == null)
+            {
+                return false;
+            }
+
+            costCenter.IsClosed = true;
+            await dbContext.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task EditCostCenter(CostCenterViewModelEdit model)
+        {
+            var costCenter = await dbContext.CostCenters
+                .FirstOrDefaultAsync(cc => cc.Id == model.Id);
+
+            if (costCenter == null)
+            {
+                throw new NullReferenceException(nameof(costCenter));
+            }
+
+            costCenter.Name = model.Name;
+            await dbContext.SaveChangesAsync();
+        }
+
         public async Task<ICollection<CostCenterViewModelAll>> GetAllCostCentersAsync()
         {
             var models = await dbContext.CostCenters
                 .Where(cc => cc.IsClosed == false)
+                .OrderBy(cc => cc.Id)
                 .Select(cc => new CostCenterViewModelAll
                 {
                     Id = cc.Id,
@@ -49,6 +78,20 @@
             return models;
         }
 
-
+        public async Task<CostCenterViewModelDetails> GetCostCenterByIdAsync(int costCenterid)
+        {
+            CostCenterViewModelDetails model = await dbContext.CostCenters
+                .Where(cc => cc.Id == costCenterid)
+                .Select(cc => new CostCenterViewModelDetails()
+                {
+                    Id = cc.Id,
+                    Name = cc.Name,
+                    IsClosed = cc.IsClosed,
+                    WaybillsCount = cc.Waybills.Count()
+                })
+                .FirstAsync();
+                
+            return model;
+        }
     }
 }

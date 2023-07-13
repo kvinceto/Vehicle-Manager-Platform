@@ -3,27 +3,55 @@
 @{
     ViewData["Title"] = "All Cost Centers";
 }
+<style>
+    .custom-table {
+        border-collapse: collapse;
+    }
 
-<div class="container-fluid">
-    <h1>All Cost Centers</h1>
+        .custom-table th,
+        .custom-table td {
+            border: 1px solid black;
+        }
+</style>
+<div class="container">
+    <h1 class="text-center">All Cost Centers</h1>
 
-    <div class="table-responsive">
-        <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@item.Id</td>
-                        <td>@item.Name</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered custom-table">
+                    <thead>
+                        <tr class="bg-success">
+                            <th class="align-content-center">Id</th>
+                            <th class="align-content-center">Name</th>
+                            <th class="align-content-center">View</th>
+                            <th class="align-content-center">Edit</th>
+                            <th class="align-content-center">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.Name</td>
+                                <td class="text-center bg-info">
+                                    <a class="text-dark align-content-center" asp-area="" asp-controller="CostCenter" asp-action="Details" asp-route-Id="@item.Id">View</a>
+                                </td>
+                                <td class="text-center bg-warning">
+                                    <a class="text-dark align-content-center" asp-area="" asp-controller="CostCenter" asp-action="Edit" asp-route-Id="@item.Id">Edit</a>
+                                </td>
+                                <td class="text-center bg-danger">
+                                    <form asp-area="" asp-controller="CostCenter" asp-action="Delete" method="post">
+                                        <input type="hidden" name="Id" value="@item.Id" />
+                                        <button type="submit" class="btn btn-link text-dark align-content-center">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>                       
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>

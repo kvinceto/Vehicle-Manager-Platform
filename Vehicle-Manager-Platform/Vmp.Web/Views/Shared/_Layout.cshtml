@@ -15,11 +15,16 @@
     <style>
         body {
             background-color: rgba(0, 128, 0, 0.2);
-        }      
+        }
+        nav {
+            margin: 0;
+            border: 1px, solid, double;
+            background-color: rgba(0, 128, 0, 0.3);
+        }
     </style>
 </head>
 <body>
-    <header>
+    <header class="container-fluid m-0">
         <partial name="_NotificationsPartial" />
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -36,7 +41,8 @@
                         {
                             <li class="nav-item">
                                 <div class="dropdown">
-                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">Tasks
+                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Tasks
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                         <li><a class="nav-link text-dark" asp-area="" asp-controller="Task" asp-action="All">All Tasks</a></li>
@@ -52,7 +58,7 @@
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                         <li><a class="nav-link text-dark" asp-area="" asp-controller="Owner" asp-action="All">All Owners</a></li>
-                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Owner" asp-action="Add">Add Owner</a></li>                                      
+                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Owner" asp-action="Add">Add Owner</a></li>
                                     </ul>
                                 </div>
                             </li>

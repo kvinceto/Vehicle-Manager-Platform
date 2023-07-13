@@ -4,47 +4,65 @@
     ViewData["Title"] = "All Owners";
     int rowCount = 0;
 }
+<style>
+    .custom-table {
+        border-collapse: collapse;
+    }
 
-<div class="container-fluid">
-    <h1>All Owners</h1>
+        .custom-table th,
+        .custom-table td {
+            border: 1px solid black;
+        }
 
-    <div class="row">
-        <div class="col-md-6">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Row Number</th>
-                        <th>Owner ID</th>
-                        <th>Name</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var owner in Model)
-                    {
-                        rowCount++;
-                        <tr>
-                            <td>
-                                @rowCount
-                            </td>
-                            <td>
-                                @owner.Id
-                            </td>
-                            <td>
-                                @owner.Name
-                            </td>
-                            <td class="text-center bg-info">
-                                <a class="text-dark align-content-center" asp-area="" asp-controller="Owner" asp-action="ViewOwnerInfo" asp-route-Id="@owner.Id">View</a>
-                            </td>
-                            <td class="text-center bg-danger">
-                                <form asp-area="" asp-controller="Owner" asp-action="Delete" method="post">
-                                    <input type="hidden" name="Id" value="@owner.Id" />
-                                    <button type="submit" class="btn btn-link text-dark align-content-center">Complete Task</button>
-                                </form>
-                            </td>
+    .table-container {
+        display: flex;
+        justify-content: center;
+    }
+</style>
+<div class="container">
+    <h1 class="text-center">All Owners</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="table-responsive table-container">
+                <table class="table table-striped table-bordered custom-table">
+                    <thead>
+                        <tr class="bg-success">
+                            <th>Row Number</th>
+                            <th>Owner ID</th>
+                            <th>Name</th>
+                            <th class="text-center">View</th>
+                            <th class="text-center">Delete</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var owner in Model)
+                        {
+                            rowCount++;
+                            <tr>
+                                <td>
+                                    @rowCount
+                                </td>
+                                <td>
+                                    @owner.Id
+                                </td>
+                                <td>
+                                    @owner.Name
+                                </td>
+                                <td class="text-center bg-info">
+                                    <a class="text-dark align-content-center" asp-area="" asp-controller="Owner" asp-action="ViewOwnerInfo" asp-route-Id="@owner.Id">View</a>
+                                </td>
+                                <td class="text-center bg-danger">
+                                    <form asp-area="" asp-controller="Owner" asp-action="Delete" method="post">
+                                        <input type="hidden" name="Id" value="@owner.Id" />
+                                        <button type="submit" class="btn btn-link text-dark align-content-center">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

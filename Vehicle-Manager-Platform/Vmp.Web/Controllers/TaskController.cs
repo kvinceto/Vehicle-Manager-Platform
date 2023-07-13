@@ -122,8 +122,7 @@
                 TempData[ErrorMessage] = "Error in the database!";
                 return RedirectToAction("All", "Task");
             }
-        }
-       
+        }  
 
         [HttpPost]
         public async Task<IActionResult> Complete(TaskViewModelAdd model)
