@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="VehicleViewModels\" />
     <Folder Include="WaybillViewModels\" />
   </ItemGroup>
 

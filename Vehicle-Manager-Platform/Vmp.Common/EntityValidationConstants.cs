@@ -16,24 +16,33 @@
         {
             public const int NumberMinLength = 4;
             public const int NumberMaxLength = 12;
+            public const string NumberErrorMessage = "Number must be between 4 and 12 characters";
+
 
             public const int VinMinLength = 11;
             public const int VinMaxLength = 17;
+            public const string VinErrorMessage = "Vin must be between 11 and 17 characters";
 
-            public const int MakeMinLength = 1;
             public const int MakeMaxLength = 50;
+            public const string MakeErrorMessage = "Make must be maximum 50 characters";
 
-            public const int ModelMinLength = 1;
             public const int ModelMaxLength = 50;
+            public const string ModelErrorMessage = "Model must be maximum 50 characters";
+
 
             public const int MileageMinValue = 0;
             public const int MileageMaxValue = 999999;
+            public const string MileageErrorMessage = "Mileage must be between 0 and 999999";
+
 
             public const decimal FuelQuantityMinValue = 0.00M;
+            public const string FuelErrorMessage = "Fuel can not be less than 0";
 
             public const decimal FuelCapacityMinValue = 1.00M;
 
             public const decimal FuelCostRateMinValue = 0.00M;
+            public const string FuelCostRateErrorMessage = "Fuel rate can not be less than 0";
+
 
             public const int ImgUrlMaxLength = 2048;
         }

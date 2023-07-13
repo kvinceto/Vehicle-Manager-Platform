@@ -1,0 +1,77 @@
+﻿@using Vmp.Web.ViewModels.VehicleViewModels
+@model ICollection<VehicleViewModelShortInfo>
+@{
+    ViewData["Title"] = "Vehicle List";
+    string message = "No info!";
+}
+<style>
+    .custom-table {
+        border-collapse: collapse;
+    }
+
+        .custom-table th {
+            border: 1px solid black;
+        }
+
+        .custom-table td {
+            border: 1px solid black;
+        }
+
+</style>
+<div class="container">
+    <h1 class="text-center">Vehicle List</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="table-responsive">
+                <table class="table table-bordered custom-table">
+                    <thead>
+                        <tr class="bg-success">
+                            <th>Number</th>
+                            <th>Model</th>
+                            <th>Make</th>
+                            <th>View</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var vehicle in Model)
+                        {
+                            <tr>
+                                <td>@vehicle.Number</td>
+                                @if (string.IsNullOrEmpty(vehicle.Model))
+                                {
+                                    <td>@message</td>
+                                }
+                                else
+                                {
+                                    <td>@vehicle.Model</td>
+                                }
+                                @if (string.IsNullOrEmpty(vehicle.Make))
+                                {
+                                    <td>@message</td>
+                                }
+                                else
+                                {
+                                    <td>@vehicle.Make</td>
+                                }
+                                <td class="text-center bg-info">
+                                    <a class="text-dark align-content-center" asp-area="" asp-controller="Vehicle" asp-action="Details" asp-route-Id="@vehicle.Number">View</a>
+                                </td>
+                                <td class="text-center bg-warning">
+                                    <a class="text-dark align-content-center" asp-area="" asp-controller="Vehicle" asp-action="Edit" asp-route-Id="@vehicle.Number">Edit</a>
+                                </td>
+                                <td class="text-center bg-danger">
+                                    <form asp-area="" asp-controller="Vehicle" asp-action="Delete" method="post">
+                                        <input type="hidden" name="Id" value="@vehicle.Number" />
+                                        <button type="submit" class="btn btn-link text-dark align-content-center">Complete Task</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
