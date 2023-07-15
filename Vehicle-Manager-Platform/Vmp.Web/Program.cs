@@ -1,11 +1,13 @@
 namespace Vmp.Web
 {
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
 
     using Vmp.Data;
     using Vmp.Data.Models;
     using Vmp.Services;
     using Vmp.Services.Interfaces;
+    using Vmp.Web.ModelBinders;
 
     public class Program
     {
@@ -44,7 +46,13 @@ namespace Vmp.Web
             builder.Services.AddScoped<ICostCenterService, CostCenterService>();
             builder.Services.AddScoped<IVehicleService, VehicleService>();
 
-            builder.Services.AddControllersWithViews();
+            builder.Services
+                .AddControllersWithViews()
+                .AddMvcOptions(options =>
+                {
+                    options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
+                    options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+                });
 
             var app = builder.Build();
 

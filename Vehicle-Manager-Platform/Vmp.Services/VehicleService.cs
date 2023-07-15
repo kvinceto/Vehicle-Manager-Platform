@@ -54,5 +54,43 @@
                 })
                 .ToArrayAsync();
         }
+
+        public async Task<VehicleViewModelDetails> GetVehicleByIdAsync(string regNumber)
+        {
+            var vehicle = await dbContext.Vehicles
+                .AsNoTracking()
+                .Include(v => v.Waybills)
+                .Include(v => v.DateChecks)
+                .Include(v => v.MileageChecks)
+                .Include(v => v.Owner)
+                .Where(v => v.Number == regNumber)
+                .Select(v => new VehicleViewModelDetails()
+                {
+                    RegistrationNumber = v.Number,
+                    Model = v.Model,
+                    Make = v.Make,
+                    Mileage = v.Mileage,
+                    FuelQuantity = v.FuelQuantity,
+                    FuelCapacity = v.FuelCapacity,
+                    FuelCostRate = v.FuelCostRate,
+                    VIN = v.VIN,
+                    Owner = v.Owner.Name,
+                    IsDeleted = v.IsDeleted,
+                    ModelImgUrl = v.ModelImgUrl,
+                    CountOfDateChecks = v.DateChecks.Count,
+                    CountOfMileageChecks = v.MileageChecks.Count,
+                    CountOfWaybills = v.Waybills.Count
+                })
+                .FirstOrDefaultAsync();
+
+            if(vehicle == null)
+            {
+                throw new NullReferenceException(nameof(vehicle));
+            }
+            else
+            {
+                return vehicle;
+            }     
+        }
     }
 }

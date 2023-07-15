@@ -7,5 +7,7 @@
         Task<ICollection<VehicleViewModelShortInfo>> GetAllVehiclesAsync();
 
         Task AddNewVehicleAsync(VehicleViewModelAdd model);
+
+        Task<VehicleViewModelDetails> GetVehicleByIdAsync(string regNumber);
     }
 }

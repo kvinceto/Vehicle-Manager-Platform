@@ -1,0 +1,85 @@
+﻿@using Vmp.Web.ViewModels.VehicleViewModels
+@model VehicleViewModelDetails
+@{
+    ViewData["Title"] = "Vehicle Details";
+}
+
+<div class="container">
+    <h1 class="text-center">Vehicle Details</h1>
+
+
+    <div class="row justify-content-center">
+        <a class="text-center justify-content-center text-capitalize" href="@Model.ModelImgUrl" target="_blank">
+            View Image
+        </a>
+
+        <div class="col-lg-6">
+            <dl class="row mt-4">
+                <dt class="col-sm-4">Registration Number</dt>
+                <dd class="col-sm-8">@Model.RegistrationNumber</dd>
+
+                <dt class="col-sm-4">VIN</dt>
+                <dd class="col-sm-8">@Model.VIN</dd>
+
+                <dt class="col-sm-4">Model</dt>
+                <dd class="col-sm-8">@Model.Model</dd>
+
+                <dt class="col-sm-4">Make</dt>
+                <dd class="col-sm-8">@Model.Make</dd>
+
+                <dt class="col-sm-4">Mileage</dt>
+                <dd class="col-sm-8">@Model.Mileage</dd>
+
+                <dt class="col-sm-4">Current fuel quantity</dt>
+                <dd class="col-sm-8">@Model.FuelQuantity</dd>
+
+                <dt class="col-sm-4">Maximum fuel</dt>
+                <dd class="col-sm-8">@Model.FuelCapacity</dd>
+
+                <dt class="col-sm-4">Name of the owner</dt>
+                <dd class="col-sm-8">@Model.Owner</dd>
+
+                <dt class="col-sm-4">Fuel cost per 100 km / 1 hour</dt>
+                <dd class="col-sm-8">@Model.FuelCostRate</dd>
+
+                <dt class="col-sm-4">Status</dt>
+                @if (Model.IsDeleted == true)
+                {
+                    <dd class="col-sm-8 bg-danger">Vehicle has been deleted</dd>
+                }
+                else
+                {
+                    <dd class="col-sm-8 bg-success">Active</dd>
+                }
+
+                <dt class="col-sm-4">Waybills</dt>
+                @if (Model.CountOfWaybills == 0)
+                {
+                    <dt class="col-sm-8 bg-danger">No Waybills assigned to this vehicle</dt>
+                }
+                else
+                {
+                    <dt class="col-sm-8">Count of Waybills</dt>
+                }
+                <dt class="col-sm-4">Mileage checks</dt>
+                @if (Model.CountOfMileageChecks == 0)
+                {
+                    <dt class="col-sm-8 bg-danger">No Mileage checks assigned to this vehicle</dt>
+                }
+                else
+                {
+                    <dd class="col-sm-8">@Model.CountOfMileageChecks</dd>
+                }
+                <dt class="col-sm-4">Date checks</dt>
+                @if (Model.CountOfDateChecks == 0)
+                {
+                    <dt class="col-sm-8 bg-danger">No Date checks assigned to this vehicle</dt>
+                }
+                else
+                {
+                    <dd class="col-sm-8">@Model.CountOfDateChecks</dd>
+                }
+            </dl>
+        </div>
+    </div>
+</div>

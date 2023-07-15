@@ -8,31 +8,32 @@
     public class VehicleViewModelAdd
     {
         [Required(AllowEmptyStrings = false)]
-        [StringLength(NumberMaxLength, MinimumLength = NumberMinLength, ErrorMessage = NumberErrorMessage)]
+        [StringLength(NumberMaxLength, MinimumLength = NumberMinLength)]
         public string Number { get; set; } = null!;
 
         [Required(AllowEmptyStrings = false)]
-        [StringLength(VinMaxLength, MinimumLength = VinMinLength, ErrorMessage = VinErrorMessage)]
+        [StringLength(VinMaxLength, MinimumLength = VinMinLength)]
         public string VIN { get; set; } = null!;
 
-        [MaxLength(ModelMaxLength, ErrorMessage = ModelErrorMessage)]
+        [MaxLength(ModelMaxLength)]
         public string? Model { get; set; }
 
-        [MaxLength(MakeMaxLength, ErrorMessage = MakeErrorMessage)]
+        [MaxLength(MakeMaxLength)]
         public string? Make { get; set; }
 
-        [Range(MileageMinValue, MileageMaxValue, ErrorMessage = MileageErrorMessage)]
+        [Range(MileageMinValue, MileageMaxValue)]
         public int Mileage { get; set; }
 
-        [Range((double)FuelQuantityMinValue, double.MaxValue, ErrorMessage = FuelErrorMessage)]
+        [Range((double)FuelQuantityMinValue, double.MaxValue)]
         public decimal FuelQuantity { get; set; }
 
-        [Range((double)FuelCapacityMinValue, double.MaxValue, ErrorMessage = FuelErrorMessage)]
+        [Range((double)FuelCapacityMinValue, double.MaxValue)]
         public decimal FuelCapacity { get; set; }
 
+        [Range(1, int.MaxValue)]
         public int OwnerId { get; set; }
 
-        [Range((double)FuelCostRateMinValue, double.MaxValue, ErrorMessage = FuelCostRateErrorMessage)]
+        [Range((double)FuelCostRateMinValue, double.MaxValue)]
         public decimal FuelCostRate { get; set; }
 
         [MaxLength(ImgUrlMaxLength)]
