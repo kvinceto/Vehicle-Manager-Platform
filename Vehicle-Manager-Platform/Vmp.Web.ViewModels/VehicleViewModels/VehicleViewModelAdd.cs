@@ -3,6 +3,8 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
+    using Vmp.Web.ViewModels.OwnerViewModels;
+
     using static Vmp.Common.EntityValidationConstants.Vehicle;
 
     public class VehicleViewModelAdd
@@ -38,5 +40,7 @@
 
         [MaxLength(ImgUrlMaxLength)]
         public string? ModelImgUrl { get; set; }
+
+        public ICollection<OwnerViewModelAll> Owners { get; set; } = new List<OwnerViewModelAll>();
     }
 }

@@ -1,4 +1,5 @@
-﻿@model Vmp.Web.ViewModels.OwnerViewModels.OwnerViewModelInfo
+﻿@using Vmp.Web.ViewModels.OwnerViewModels
+@model OwnerViewModelInfo
 @{
     ViewData["Title"] = "Owner Details";
 }
@@ -44,8 +45,13 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>@vehicle</td>                           
-                            <td class="bg-info"><a href="@Url.Action("View", "Vehicle", new { id = vehicle })">View Vehicle</a></td>
+                            <td>@vehicle</td>
+                            <td class="text-center bg-info">
+                                <form asp-area="" asp-controller="Vehicle" asp-action="ViewVehicleInfo" method="post">
+                                    <input type="hidden" name="regNumber" value="@vehicle" />
+                                    <button type="submit" class="btn btn-link text-dark align-content-center">View</button>
+                                </form>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

@@ -56,15 +56,21 @@
                                 {
                                     <td>@vehicle.Make</td>
                                 }
+
                                 <td class="text-center bg-info">
                                     <form asp-area="" asp-controller="Vehicle" asp-action="ViewVehicleInfo" method="post">
                                         <input type="hidden" name="regNumber" value="@vehicle.Number" />
                                         <button type="submit" class="btn btn-link text-dark align-content-center">View</button>
                                     </form>
                                 </td>
+
                                 <td class="text-center bg-warning">
-                                    <a class="text-dark align-content-center" asp-area="" asp-controller="Vehicle" asp-action="Edit" asp-route-Id="@vehicle.Number">Edit</a>
+                                    <form asp-area="" asp-controller="Vehicle" asp-action="Edit" method="post">
+                                        <input type="hidden" name="regNumber" value="@vehicle.Number" />
+                                        <button type="submit" class="btn btn-link text-dark align-content-center">Edit</button>
+                                    </form>
                                 </td>
+
                                 <td class="text-center bg-danger">
                                     <form asp-area="" asp-controller="Vehicle" asp-action="Delete" method="post">
                                         <input type="hidden" name="Id" value="@vehicle.Number" />

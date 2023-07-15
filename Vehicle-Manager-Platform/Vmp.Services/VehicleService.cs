@@ -41,6 +41,29 @@
             await dbContext.SaveChangesAsync();
         }
 
+        public async Task EditVehicle(VehicleViewModelAdd model)
+        {
+            Vehicle? vehicle = await dbContext.Vehicles
+                .FirstOrDefaultAsync(v => v.Number == model.Number);
+            if (vehicle == null)
+            {
+                throw new NullReferenceException(nameof(vehicle));
+            }
+
+            vehicle.Number = model.Number;
+            vehicle.Make = model.Make;
+            vehicle.Model = model.Model;
+            vehicle.Mileage = model.Mileage;
+            vehicle.FuelCapacity = model.FuelCapacity;
+            vehicle.FuelCostRate = model.FuelCostRate;
+            vehicle.FuelQuantity = model.FuelQuantity;
+            vehicle.ModelImgUrl = model.ModelImgUrl;
+            vehicle.OwnerId = model.OwnerId;
+            vehicle.VIN = model.VIN;
+
+            await dbContext.SaveChangesAsync();       
+        }
+
         public async Task<ICollection<VehicleViewModelShortInfo>> GetAllVehiclesAsync()
         {
             return await dbContext.Vehicles
@@ -91,6 +114,30 @@
             {
                 return vehicle;
             }     
+        }
+
+        public async Task<VehicleViewModelAdd> GetVehicleByIdForEditAsync(string regNumber)
+        {
+            var v = await dbContext
+                .Vehicles
+                .Include(v => v.Owner)
+                .FirstAsync(v => v.Number == regNumber);
+
+            VehicleViewModelAdd model = new VehicleViewModelAdd()
+            {
+                Number = v.Number,
+                Model = v.Model,
+                Make = v.Make,
+                Mileage = v.Mileage,
+                FuelQuantity = v.FuelQuantity,
+                FuelCapacity = v.FuelCapacity,
+                FuelCostRate = v.FuelCostRate,
+                VIN = v.VIN,
+                OwnerId = v.Owner.Id,
+                ModelImgUrl = v.ModelImgUrl
+            };
+
+            return model;
         }
     }
 }

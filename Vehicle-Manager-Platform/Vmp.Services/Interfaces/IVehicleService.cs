@@ -9,5 +9,9 @@
         Task AddNewVehicleAsync(VehicleViewModelAdd model);
 
         Task<VehicleViewModelDetails> GetVehicleByIdAsync(string regNumber);
+
+        Task<VehicleViewModelAdd> GetVehicleByIdForEditAsync(string regNumber);
+
+        Task EditVehicle(VehicleViewModelAdd model);
     }
 }
