@@ -84,5 +84,44 @@
             TempData[ErrorMessage] = "Owner is not deleted";
             return RedirectToAction("All", "Owner");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            try
+            {
+                OwnerViewModelEdit model = await ownerService.GetOwnerByIdForEditAsync(id);
+
+                TempData[WarningMessage] = "Owner viewed for edit";
+                return View(model);
+            }
+            catch (Exception)
+            {
+                TempData[ErrorMessage] = "Error in the database!";
+                return RedirectToAction("All", "Owner");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(OwnerViewModelEdit model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData[ErrorMessage] = "Enter valid data";
+                return View(model);
+            }
+
+            try
+            {
+                await ownerService.EditOwner(model);
+                TempData[SuccessMessage] = "Owner edited!";
+                return RedirectToAction("All", "Owner");
+            }
+            catch (Exception)
+            {
+                TempData[ErrorMessage] = "Error in the database!";
+                return RedirectToAction("All", "Owner");
+            }
+        }
     }
 }

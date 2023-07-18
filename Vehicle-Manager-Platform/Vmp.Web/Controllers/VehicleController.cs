@@ -30,10 +30,6 @@
         public async Task<IActionResult> All()
         {
             var models = await vehicleService.GetAllVehiclesAsync();
-            foreach (var item in models)
-            {
-                item.EncodedNumber = ReplaceBulgarianCharsWithEnglish(item.Number);
-            }
             return View(models);
         }
 

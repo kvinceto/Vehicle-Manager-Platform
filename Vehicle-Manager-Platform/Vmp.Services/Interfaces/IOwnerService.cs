@@ -10,6 +10,10 @@
 
         Task<OwnerViewModelInfo> GetOwnerByIdAsync(int ownerId);
 
+        Task<OwnerViewModelEdit> GetOwnerByIdForEditAsync(int ownerId);
+
         Task<bool> DeleteOwnerByIdAsync(int ownerId);
+
+        Task EditOwner(OwnerViewModelEdit ownerModel);
     }
 }

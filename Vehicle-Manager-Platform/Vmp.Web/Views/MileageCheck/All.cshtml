@@ -1,0 +1,86 @@
+﻿@using System.Text.Encodings.Web;
+@using Vmp.Web.ViewModels.MileageCheckViewModels;
+@using Vmp.Web.ViewModels.VehicleViewModels;
+@model MileageCheckViewModelAllDto
+@{
+    ViewData["Title"] = "All Mileages checks";
+    string vehicleNumber = "";
+}
+<style>
+    .custom-table {
+        border-collapse: collapse;
+    }
+
+        .custom-table th {
+            border: 1px solid black;
+        }
+
+        .custom-table td {
+            border: 1px solid black;
+        }
+        
+        .btn-light-blue {
+        color: #fff;
+        background-color: #17a2b8;
+        text-decoration: none;
+    }
+</style>
+<div class="container-fluid d-flex justify-content-center align-items-center mb-2">
+    <div class="text-decoration-none bg-info p-2">
+        <form asp-area="" asp-controller="MileageCheck" asp-action="AllMine" method="post">
+            <button type="submit" class="btn btn-link text-dark">View only my checks</button>
+        </form>
+    </div>
+</div>
+<div class="container text-center mb-2 bg-info bg-opacity-10">
+    <div class="d-flex flex-column align-items-center">
+        <form asp-area="" asp-controller="MileageCheck" asp-action="All" method="post">
+            <div class="row">
+                <div class="col-md-6">
+                    <select asp-for="@vehicleNumber" class="form-select w-75 mx-auto mx-md-0">
+                        @foreach (var vehicle in Model.Vehicles)
+                        {
+                            <option value="@vehicle.Number">@vehicle.Number</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-6 text-md-start">
+                    <button type="submit" class="btn btn-link text-dark mb-2 btn-light-blue">View checks only for this vehicle</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="container">
+    <h1 class="text-center">Mileage checks List</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="table-responsive">
+                <table class="table table-bordered custom-table">
+                    <thead>
+                        <tr class="bg-success">
+                            <th>Name</th>
+                            <th>Vehicle Number</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var check in Model.Checks)
+                        {
+                            <tr>
+                                <td>@check.Name</td>
+                                <td>@check.VehicleNumber</td>
+                                <td class="text-center bg-info">
+                                    <form asp-area="" asp-controller="MileageCheck" asp-action="ViewInfo" method="get">
+                                        <input type="hidden" name="id" value="@check.Id" />
+                                        <button type="submit" class="btn btn-link text-dark align-content-center">View</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

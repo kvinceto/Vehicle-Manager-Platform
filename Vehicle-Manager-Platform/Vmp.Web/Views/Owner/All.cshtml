@@ -32,6 +32,7 @@
                             <th>Owner ID</th>
                             <th>Name</th>
                             <th class="text-center">View</th>
+                            <th class="text-center">Edit</th>
                             <th class="text-center">Delete</th>
                         </tr>
                     </thead>
@@ -51,6 +52,9 @@
                                 </td>
                                 <td class="text-center bg-info">
                                     <a class="text-dark align-content-center" asp-area="" asp-controller="Owner" asp-action="ViewOwnerInfo" asp-route-Id="@owner.Id">View</a>
+                                </td>
+                                <td class="text-center bg-warning">
+                                    <a class="text-dark align-content-center" asp-area="" asp-controller="Owner" asp-action="Edit" asp-route-Id="@owner.Id">Edit</a>
                                 </td>
                                 <td class="text-center bg-danger">
                                     <form asp-area="" asp-controller="Owner" asp-action="Delete" method="post">

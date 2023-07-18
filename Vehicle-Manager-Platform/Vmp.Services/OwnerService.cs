@@ -47,6 +47,22 @@
             return true;
         }
 
+        public async Task EditOwner(OwnerViewModelEdit ownerModel)
+        {
+            Owner? owner = await dbContext.Owners
+                .FirstOrDefaultAsync(o => o.Id ==  ownerModel.Id);
+
+            if(owner == null)
+            {
+                throw new NullReferenceException(nameof(owner));
+            }
+
+            owner.Name = ownerModel.Name;
+            owner.Info = ownerModel.Info;
+
+            await dbContext.SaveChangesAsync();
+        }
+
         public async Task<ICollection<OwnerViewModelAll>> GetAllOwnersAsync()
         {
             return await dbContext.Owners
@@ -85,6 +101,24 @@
             };
 
             return result;
+        }
+
+        public async Task<OwnerViewModelEdit> GetOwnerByIdForEditAsync(int ownerId)
+        {
+            Owner? owner = await dbContext.Owners
+                .AsNoTracking()
+                .FirstOrDefaultAsync (o => o.Id == ownerId);
+            if (owner == null)
+            {
+                throw new NullReferenceException(nameof(owner));
+            }
+
+            return new OwnerViewModelEdit()
+            {
+                Id= owner.Id,
+                Name = owner.Name,
+                Info = owner.Info
+            };
         }
     }
 }

@@ -1,0 +1,16 @@
+﻿@using Vmp.Web.ViewModels.MileageCheckViewModels;
+@model MileageCheckViewModelDetails
+@{
+    ViewData["Title"] = "Mileage Check Details";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="container-fluid">
+    <h4>ID: @Model.Id</h4>
+    <h4>Name: @Model.Name</h4>
+    <h4>Expected Mileage: @Model.ExpectedMileage</h4>
+    <h4>Vehicle Number: @Model.VehicleNumber</h4>
+    <h4>User: @Model.User</h4>
+    <h4>Is Completed: @Model.IsCompleted</h4>
+</div>
