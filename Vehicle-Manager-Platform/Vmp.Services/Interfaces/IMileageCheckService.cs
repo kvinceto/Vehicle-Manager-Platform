@@ -9,6 +9,10 @@
     {
         Task AddAsync(MileageCheckViewModelAdd modelAdd, string myId);
 
+        Task<string> CompleteCheckByIdAsync(int id, string myId);
+
+        Task EditAsync(MileageCheckViewModelEdit viewModel);
+
         Task<ICollection<MileageCheckViewModelAll>> GetAllAsync();
 
         Task<ICollection<MileageCheckViewModelAll>> GetAllForVehicleAsync(string vehicleNumber);
@@ -16,5 +20,7 @@
         Task<ICollection<MileageCheckViewModelAll>> GetAllMineAsync(string myId);
 
         Task<MileageCheckViewModelDetails> GetChechByIdAsync(int id);
+
+        Task<MileageCheckViewModelEdit> GetCheckByIdForEditAsync(int id);
     }
 }

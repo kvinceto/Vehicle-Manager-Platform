@@ -11,8 +11,4 @@
     <ProjectReference Include="..\Vmp.Data\Vmp.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="WaybillViewModels\" />
-  </ItemGroup>
-
 </Project>

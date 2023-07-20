@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
@@ -12,6 +11,7 @@
     using Vmp.Data.Models;
     using Vmp.Services.Interfaces;
     using Vmp.Web.ViewModels.MileageCheckViewModels;
+    using Vmp.Web.ViewModels.VehicleViewModels;
 
     public class MileageCheckService : IMileageCheckService
     {
@@ -34,6 +34,46 @@
             };
 
             await dbContext.MileageChecks.AddAsync(mileageCheck);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task<string> CompleteCheckByIdAsync(int id, string myId)
+        {
+            MileageCheck? mileageCheck = await dbContext.MileageChecks
+                  .FirstOrDefaultAsync(mc => mc.Id == id);
+
+            if(mileageCheck == null)
+            {
+                return "not changed";
+            }
+
+            if(mileageCheck.UserId.ToString() !=  myId)
+            {
+                return "not me";
+            }
+
+            mileageCheck.IsCompleted = true;
+
+            await dbContext.SaveChangesAsync();
+
+            return "changed";
+
+        }
+
+        public async Task EditAsync(MileageCheckViewModelEdit viewModel)
+        {
+            MileageCheck? mileageCheck = await dbContext.MileageChecks
+                .FirstOrDefaultAsync(mc => mc.Id == viewModel.Id!.Value);
+
+            if (mileageCheck == null)
+            {
+                throw new NullReferenceException(nameof(mileageCheck));
+            }
+
+            mileageCheck.Name = viewModel.Name;
+            mileageCheck.ExpectedMileage = viewModel.ExpectedMileage;
+            mileageCheck.VehicleNumber = viewModel.VehicleNumber;
+
             await dbContext.SaveChangesAsync();
         }
 
@@ -85,11 +125,11 @@
 
         public async Task<MileageCheckViewModelDetails> GetChechByIdAsync(int id)
         {
-           MileageCheck? mileageCheck = await dbContext.MileageChecks
-                .Include(mc => mc.User)
-                .FirstOrDefaultAsync(mc => mc.Id == id);
+            MileageCheck? mileageCheck = await dbContext.MileageChecks
+                 .Include(mc => mc.User)
+                 .FirstOrDefaultAsync(mc => mc.Id == id);
 
-            if(mileageCheck == null)
+            if (mileageCheck == null)
             {
                 throw new NullReferenceException(nameof(mileageCheck));
             }
@@ -103,6 +143,37 @@
                 User = mileageCheck.User.UserName,
                 VehicleNumber = mileageCheck.VehicleNumber
             };
+        }
+
+        public async Task<MileageCheckViewModelEdit> GetCheckByIdForEditAsync(int id)
+        {
+            MileageCheck? mileageCheck = await dbContext.MileageChecks
+                 .FirstOrDefaultAsync(mc => mc.Id == id);
+
+            if (mileageCheck == null)
+            {
+                throw new NullReferenceException(nameof(mileageCheck));
+            }
+
+            MileageCheckViewModelEdit result = new MileageCheckViewModelEdit()
+            {
+                Id = mileageCheck.Id,
+                Name = mileageCheck.Name,
+                ExpectedMileage = mileageCheck.ExpectedMileage,
+                UserId = mileageCheck.UserId.ToString(),
+                VehicleNumber = mileageCheck.VehicleNumber,
+                Vehicles = await dbContext.Vehicles
+                                .Where(v => v.IsDeleted == false)
+                                .Select(v => new VehicleViewModelShortInfo()
+                                {
+                                    Number = v.Number,
+                                    Make = v.Make,
+                                    Model = v.Model
+                                }).ToArrayAsync()
+            };
+
+            return result;
+
         }
     }
 }

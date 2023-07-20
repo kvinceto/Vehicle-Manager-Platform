@@ -1,0 +1,40 @@
+﻿@using Vmp.Web.ViewModels.VehicleViewModels;
+@model ICollection<VehicleViewModelShortInfo>
+@{
+    ViewData["Title"] = "Select Vehicle";
+}
+
+<style>
+    .validation-message {
+        color: red;
+        display: none;
+    }
+
+    select:invalid + .validation-message {
+        display: block;
+    }
+</style>
+
+<div class="container d-flex justify-content-center">
+    <div class="w-50">
+        <h1>@ViewData["Title"]</h1>
+
+        <form asp-controller="Waybill" asp-action="Add" method="post">
+            <div class="form-group">
+                <div>
+                    <label>Vehicle Number</label>
+                    <select name="regNumber" class="form-control" required>
+                        <option value="">Select a vehicle</option>
+                        @foreach (var vehicle in Model)
+                        {
+                            <option value="@vehicle.Number">@vehicle.Number</option>
+                        }
+                    </select>
+                    <span class="validation-message">Please select a vehicle</span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Choose vehicle</button>
+        </form>
+    </div>
+</div>

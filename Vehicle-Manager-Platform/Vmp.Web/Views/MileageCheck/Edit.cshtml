@@ -1,0 +1,44 @@
+﻿@using Vmp.Web.ViewModels.MileageCheckViewModels;
+@model MileageCheckViewModelEdit
+@{
+    ViewData["Title"] = "Edit Mileage check";
+}
+
+<div class="container d-flex justify-content-center">
+    <div class="w-50">
+        <h1>@ViewData["Title"]</h1>
+
+        <form asp-action="Edit" method="post">
+            <div class="form-group">
+                <input type="hidden" asp-for="@Model.Id" value="@Model.Id!.Value" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.Name">Name</label>
+                <input asp-for="@Model.Name" class="form-control" />
+                <span asp-validation-for="@Model.Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.ExpectedMileage">Expected Mileage</label>
+                <input asp-for="@Model.ExpectedMileage" min="1" step="1" class="form-control" />
+                <span asp-validation-for="@Model.ExpectedMileage" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <div>
+                    <label asp-for="@Model.VehicleNumber">Vehicle Number</label>
+                    <select asp-for="@Model.VehicleNumber" class="form-control">
+                        @foreach (var vehicle in Model.Vehicles)
+                        {
+                            <option value="@vehicle.Number">@vehicle.Number</option>
+                        }
+                    </select>
+                    <span asp-validation-for="@Model.VehicleNumber" class="text-danger"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Edit</button>
+        </form>
+    </div>
+</div>

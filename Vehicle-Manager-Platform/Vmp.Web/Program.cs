@@ -46,6 +46,7 @@ namespace Vmp.Web
             builder.Services.AddScoped<ICostCenterService, CostCenterService>();
             builder.Services.AddScoped<IVehicleService, VehicleService>();
             builder.Services.AddScoped<IMileageCheckService, MileageCheckService>();
+            builder.Services.AddScoped<IWaybillService, WaybillService>();
 
             builder.Services
                 .AddControllersWithViews()

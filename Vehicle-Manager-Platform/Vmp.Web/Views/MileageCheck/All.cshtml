@@ -1,10 +1,9 @@
-﻿@using System.Text.Encodings.Web;
-@using Vmp.Web.ViewModels.MileageCheckViewModels;
+﻿@using Vmp.Web.ViewModels.MileageCheckViewModels;
 @using Vmp.Web.ViewModels.VehicleViewModels;
 @model MileageCheckViewModelAllDto
 @{
     ViewData["Title"] = "All Mileages checks";
-    string vehicleNumber = "";
+    string vehicleNumber = "";    
 }
 <style>
     .custom-table {
@@ -62,6 +61,8 @@
                             <th>Name</th>
                             <th>Vehicle Number</th>
                             <th>View</th>
+                            <th>Edit</th>
+                            <th>Complete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -74,6 +75,18 @@
                                     <form asp-area="" asp-controller="MileageCheck" asp-action="ViewInfo" method="get">
                                         <input type="hidden" name="id" value="@check.Id" />
                                         <button type="submit" class="btn btn-link text-dark align-content-center">View</button>
+                                    </form>
+                                </td>
+                                <td class="text-center bg-warning">
+                                    <form asp-area="" asp-controller="MileageCheck" asp-action="Edit" method="get">
+                                        <input type="hidden" name="id" value="@check.Id" />
+                                        <button type="submit" class="btn btn-link text-dark align-content-center">Edit</button>
+                                    </form>
+                                </td>
+                                <td class="text-center bg-warning">
+                                    <form asp-area="" asp-controller="MileageCheck" asp-action="Complete" method="post">
+                                        <input type="hidden" name="id" value="@check.Id" />
+                                        <button type="submit" class="btn btn-link text-dark align-content-center">Complete</button>
                                     </form>
                                 </td>
                             </tr>
