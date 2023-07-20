@@ -1,5 +1,6 @@
 namespace Vmp.Web
 {
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
 
@@ -47,6 +48,9 @@ namespace Vmp.Web
             builder.Services.AddScoped<IVehicleService, VehicleService>();
             builder.Services.AddScoped<IMileageCheckService, MileageCheckService>();
             builder.Services.AddScoped<IWaybillService, WaybillService>();
+            builder.Services.AddScoped<SignInManager<ApplicationUser>>();
+            builder.Services.AddScoped<UserManager<ApplicationUser>>();
+            
 
             builder.Services
                 .AddControllersWithViews()
