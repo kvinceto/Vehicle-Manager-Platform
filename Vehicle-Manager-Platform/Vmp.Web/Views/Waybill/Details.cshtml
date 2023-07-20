@@ -1,0 +1,94 @@
+﻿@using Vmp.Web.ViewModels.WaybillViewModels;
+@model WaybillViewModelDetails
+
+@{
+    ViewData["Title"] = "Waybill Details";
+    string message = "No info!";
+}
+
+<style>
+    .custom-table {
+        border-collapse: collapse;
+        width: 50%;
+        margin: 0 auto;
+        border: 1px solid black;
+    }
+
+        .custom-table th,
+        .custom-table td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+</style>
+
+<h1 class="text-center">@ViewData["Title"]</h1>
+
+<div class="table-responsive">
+    <table class="table custom-table">
+        <tbody>
+            <tr>
+                <th>Date</th>
+                <td>@Model.Date</td>
+            </tr>
+            <tr>
+                <th>Vehicle Number</th>
+                <td>@Model.VehicleNumber</td>
+            </tr>
+            <tr>
+                <th>Mileage Start</th>
+                <td>@Model.MileageStart</td>
+            </tr>
+            <tr>
+                <th>Mileage End</th>
+                <td>@Model.MileageEnd</td>
+            </tr>
+            <tr>
+                <th>Mileage Traveled</th>
+                <td>@Model.MileageTraveled</td>
+            </tr>
+            <tr>
+                <th>Route Traveled</th>
+                <td>@Model.RouteTraveled</td>
+            </tr>
+            <tr>
+                <th>Fuel Quantity Start</th>
+                <td>@Model.FuelQuantityStart</td>
+            </tr>
+            <tr>
+                <th>Fuel Quantity End</th>
+                <td>@Model.FuelQuantityEnd</td>
+            </tr>
+            <tr>
+                <th>Fuel Consumed</th>
+                <td>@Model.FuelConsumed</td>
+            </tr>
+            <tr>
+                <th>Fuel Loaded</th>
+                <td>@Model.FuelLoaded</td>
+            </tr>
+            <tr>
+                <th>Info</th>
+                @if (string.IsNullOrEmpty(Model.Info))
+                {
+                    <td class="text-danger">@message</td>
+                }
+                else
+                {
+                    <td>@Model.Info</td>
+                }
+            </tr>
+            <tr>
+                <th>Date Created</th>
+                <td>@Model.DateCreated</td>
+            </tr>
+            <tr>
+                <th>Cost Center</th>
+                <td>@Model.CostCenter</td>
+            </tr>
+            <tr>
+                <th>Creator</th>
+                <td>@Model.Creator</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

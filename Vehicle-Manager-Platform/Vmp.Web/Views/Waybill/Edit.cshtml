@@ -1,0 +1,125 @@
+﻿@using Vmp.Web.ViewModels.WaybillViewModels;
+@model WaybillViewModelEdit
+@{
+    ViewData["Title"] = "Edit Waybill";
+}
+
+<div class="container mt-4 text-center justify-content-center">
+    <h1>@ViewData["Title"] for vehicle @Model.VehicleNumber</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form asp-action="EditWaybill" method="post">
+                <table class="table table-bordered">
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label>Waybill Old Date</label>
+                                <input asp-for="OldDate" class="form-control" readonly value="@Model.OldDate" />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Mileage Start</label>
+                                <input asp-for="MileageStart" class="form-control" type="number" readonly value="@Model.MileageStart" />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Old Mileage End</label>
+                                <input asp-for="OldMileageEnd" class="form-control" readonly value="@Model.OldMileageEnd" />
+                                <span asp-validation-for="OldMileageEnd" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Old Route Traveled</label>
+                                <input asp-for="NewRouteTraveled" class="form-control" readonly value="@Model.OldRouteTraveled"/>
+                                <span asp-validation-for="NewRouteTraveled" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Old Info</label>
+                                <textarea asp-for="OldInfo" class="form-control" rows="4" readonly value="@Model.OldInfo"></textarea>
+                                <span asp-validation-for="OldInfo" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Old Fuel Loaded</label>
+                                <input asp-for="OldFuelLoaded" class="form-control" readonly value="@Model.OldFuelLoaded" />
+                                <span asp-validation-for="OldFuelLoaded" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Old Cost Center Name</label>
+                                <input asp-for="OldCostCenterName" class="form-control" readonly value="@Model.OldCostCenterName"/>
+                                <span asp-validation-for="OldCostCenterName" class="text-danger"></span>
+                            </div>
+
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <label>Waybill New Date</label>
+                                <input asp-for="NewDate" class="form-control" type="date" data-val-dateformat="dd/MM/yyyy" data-val="true" />
+                                <span asp-validation-for="NewDate" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Vehicle Number</label>
+                                <input asp-for="VehicleNumber" class="form-control" readonly value="@Model.VehicleNumber" />
+                            </div>
+
+                            <div class="form-group">
+                                <label>New Mileage End</label>
+                                <input asp-for="NewMileageEnd" class="form-control" type="number" />
+                                <span asp-validation-for="NewMileageEnd" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>New Route Traveled</label>
+                                <input asp-for="NewRouteTraveled" class="form-control" />
+                                <span asp-validation-for="NewRouteTraveled" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>New Info</label>
+                                <textarea asp-for="NewInfo" class="form-control" rows="4"></textarea>
+                                <span asp-validation-for="NewInfo" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>New Fuel Loaded</label>
+                                <input asp-for="NewFuelLoaded" class="form-control" type="number" step="0.001" />
+                                <span asp-validation-for="NewFuelLoaded" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>New Cost Center</label>
+                                <select asp-for="CostCenterId" class="form-control" data-val="true" data-val-required="The Cost Center field is required.">
+                                    <option value="">Select a cost center</option>
+                                    @foreach (var costCenter in Model.CostCenters)
+                                    {
+                                        <option value="@costCenter.Id">@costCenter.Name</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="CostCenterId" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Waybill Id</label>
+                                <input asp-for="Id" class="form-control" readonly value="@Model.Id" />
+                                <span asp-validation-for="Id" class="text-danger"></span>
+                            </div>
+
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Update Waybill</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+}

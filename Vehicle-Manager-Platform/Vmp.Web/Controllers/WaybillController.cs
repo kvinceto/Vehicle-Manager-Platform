@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 using Vmp.Services.Extensions;
 using Vmp.Services.Interfaces;
@@ -37,7 +36,7 @@ namespace Vmp.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(string regNumber)
         {
-            WaybillViewModelAdd viewModel = 
+            WaybillViewModelAdd viewModel =
                 await waybillService.GetWaybillForAddingAsync(regNumber);
             viewModel.CostCenters = await costCenterService.GetAllCostCentersAsync();
 
@@ -53,7 +52,7 @@ namespace Vmp.Web.Controllers
                 return RedirectToAction("Index", "Waybill");
             }
 
-            if(viewModel.MileageTraveled < 0)
+            if (viewModel.MileageTraveled < 0)
             {
                 TempData[ErrorMessage] = "Error! Invalid data!";
                 return RedirectToAction("Index", "Waybill");
@@ -71,6 +70,84 @@ namespace Vmp.Web.Controllers
             {
                 TempData[ErrorMessage] = "Error in the Database!";
                 return RedirectToAction("Index", "Waybill");
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> All()
+        {
+            try
+            {
+                ICollection<WaybillViewModelAll> waybills = await waybillService.GetAll();
+                TempData[SuccessMessage] = "All Waybills are viewed";
+                return View(waybills);
+            }
+            catch (Exception)
+            {
+                TempData[ErrorMessage] = "Error in the Database!";
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            try
+            {
+                WaybillViewModelDetails viewModel = await waybillService.GetWaybillByIdAsync(id);
+                TempData[SuccessMessage] = "Details for waybill are viewed";
+                return View(viewModel);
+            }
+            catch (Exception)
+            {
+                TempData[ErrorMessage] = "Error in tha Database!";
+                return RedirectToAction("All", "Waybill");
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            try
+            {
+                WaybillViewModelShort modelToCheckId = await waybillService.GetShortWaybillByIdAsync(id);
+
+                string myId = User.GetId()!;
+
+                if(myId != modelToCheckId.UserId)
+                {
+                    ViewData["Error"] = "Only the creator of the waybill can edit it!";
+                    return View("NoAccess");
+                }
+
+                WaybillViewModelEdit modelForEdit = await waybillService.GetWaybillForEditByIdAsync(id);
+
+                TempData[WarningMessage] = "Waybill is viewed for Edit!";
+
+                return View(modelForEdit);
+            }
+            catch (Exception)
+            {
+                TempData[ErrorMessage] = "Error in the Database!";
+                return RedirectToAction("All", "Waybills");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditWaybill(WaybillViewModelEdit modelToEdit)
+        {
+            string myId = User.GetId()!;
+
+            try
+            {
+                await waybillService.EditWaybillAsync(modelToEdit, myId);
+                TempData[SuccessMessage] = "Waybill Edited!";
+                return RedirectToAction("All", "Waybill");
+            }
+            catch (Exception)
+            {
+                TempData[ErrorMessage] = "Error in tha Database!";
+                return RedirectToAction("All", "Waybill");
             }
         }
     }
