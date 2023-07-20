@@ -97,7 +97,7 @@
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                         <li><a class="nav-link text-dark" asp-area="" asp-controller="MileageCheck" asp-action="All">All MileageChecks</a></li>
-                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="MileageCheck" asp-action="Add">Add New MIleage Check</a></li>
+                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="MileageCheck" asp-action="Add">Add New Mileage Check</a></li>
                                         <li><a class="nav-link text-dark" asp-area="" asp-controller="DateCheck" asp-action="All">All DateChecks</a></li>
                                         <li><a class="nav-link text-dark" asp-area="" asp-controller="DateCheck" asp-action="Add">Add Date Check</a></li>
                                     </ul>
@@ -105,8 +105,19 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Waybill" asp-action="Index">Waybills</a>
+                                <div class="dropdown">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Waybills
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Waybill" asp-action="Index">Add New Waybill</a></li>
+                                      @*  <li><a class="nav-link text-dark" asp-area="" asp-controller="Waybill" asp-action="Add">Add New MIleage Check</a></li>
+                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="DateCheck" asp-action="All">All DateChecks</a></li>
+                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="DateCheck" asp-action="Add">Add Date Check</a></li>*@
+                                    </ul>
+                                </div>
                             </li>
+
                         }
                     </ul>
                     <partial name="_LoginPartial" />

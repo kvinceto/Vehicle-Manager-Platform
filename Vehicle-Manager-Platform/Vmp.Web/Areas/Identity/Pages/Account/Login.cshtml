@@ -1,17 +1,17 @@
 ﻿@page
 @using Vmp.Web.Areas.Identity.Pages.Account;
 @model LoginModel
-
 @{
     ViewData["Title"] = "Log in";
 }
 
-<h1>@ViewData["Title"]</h1>
-<div class="row">
+<h1 class="text-center align-content-center justify-content-center">@ViewData["Title"]</h1>
+
+<div class="row container-fluid align-content-center justify-content-center">
     <div class="col-md-4">
         <section>
             <form id="account" method="post">
-                <h2>Use a local account to log in.</h2>
+                @* <h2>Use a local account to log in.</h2>*@
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-floating mt-2">
@@ -23,15 +23,14 @@
                     <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
                     <label asp-for="Input.Password" class="form-label"></label>
                     <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>               
+                </div>
                 <div>
                     <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary mt-2">Log in</button>
-                </div>               
+                </div>
             </form>
         </section>
-    </div>  
+    </div>
 </div>
-
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
