@@ -24,8 +24,18 @@
         [HttpGet]
         public async Task<IActionResult> All()
         {
-            var tasks = await taskService.GetAllActiveTasksAsync();
-            return View(tasks);
+            try
+            {
+                var tasks = await taskService.GetAllActiveTasksAsync();
+                TempData[SuccessMessage] = "All Tasks Viewed";
+                return View(tasks);
+            }
+            catch (Exception)
+            {
+                TempData[ErrorMessage] = "Error in the Database!";
+                return RedirectToAction("Index", "Home");
+            }
+
         }
 
         [HttpGet]
@@ -57,16 +67,16 @@
             try
             {
                 await taskService.AddNewTaskAsync(model, userId);
+                TempData[SuccessMessage] = "New task added";
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the database! Refresh this page and enter valid data";
+                TempData[ErrorMessage] = "Error in the database!";
                 return View();
             }
 
             return RedirectToAction("Mine", "Task");
         }
-
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
@@ -88,6 +98,14 @@
         [HttpPost]
         public async Task<IActionResult> Edit(TaskViewModelAdd model)
         {
+            string? myId = this.User.GetId();
+
+            if (myId == null)
+            {
+                TempData[ErrorMessage] = "You must regist an account to enter this page!";
+                return RedirectToAction("Index", "Home");
+            }
+
             if (!ModelState.IsValid)
             {
                 TempData[ErrorMessage] = "Enter valid data";
@@ -96,7 +114,14 @@
 
             try
             {
-                await taskService.EditTask(model);
+                bool isEdited = await taskService.EditTask(model, myId);
+
+                if (!isEdited)
+                {
+                    TempData[ErrorMessage] = "You do not have access to edit this task!";
+                    return RedirectToAction("Mine", "Task");
+                }
+
                 TempData[SuccessMessage] = "Task edited!";
                 return RedirectToAction("Mine", "Task");
             }
@@ -122,19 +147,35 @@
                 TempData[ErrorMessage] = "Error in the database!";
                 return RedirectToAction("All", "Task");
             }
-        }  
+        }
 
         [HttpPost]
         public async Task<IActionResult> Complete(TaskViewModelAdd model)
-        {           
-            bool isCompleted = await taskService.CompleteTaskByIdAsync((int)model.Id!);
-            if (isCompleted)
+        {
+            string? myId = User.GetId();
+
+            if(myId == null)
+            {              
+                return RedirectToAction("Index", "Home");
+            }
+
+            try
             {
-                TempData[SuccessMessage] = "Task Completed";
+
+                bool isCompleted = await taskService.CompleteTaskByIdAsync((int)model.Id!, myId);
+                if (isCompleted)
+                {
+                    TempData[SuccessMessage] = "Task Completed";
+                    return RedirectToAction("Mine", "Task");
+                }
+                TempData[ErrorMessage] = "Task is not completed";
                 return RedirectToAction("Mine", "Task");
             }
-            TempData[ErrorMessage] = "Task is not completed";
-            return RedirectToAction("Mine", "Task");
+            catch (Exception)
+            {
+                TempData[ErrorMessage] = "Error in the Database! Task is not completed";
+                return RedirectToAction("Mine", "Task");
+            }
         }
     }
 }

@@ -76,25 +76,26 @@
                 throw new NullReferenceException(nameof(vehicle));
             }
 
-            vehicle.Mileage -= modelToEdit.OldMileageTraveled;
-            vehicle.Mileage += modelToEdit.NewMileageTraveled;
-            vehicle.FuelQuantity -= modelToEdit.OldFuelLoaded;
-            vehicle.FuelQuantity += modelToEdit.NewFuelLoaded;
+            vehicle.FuelQuantity -= waybillToEdit.FuelLoaded;
             vehicle.FuelQuantity += waybillToEdit.FuelConsumed;
-            vehicle.FuelQuantity -= modelToEdit.FuelConsumed!.Value;
+            vehicle.Mileage -= waybillToEdit.MileageTraveled;
 
             waybillToEdit.Date = DateTime.Parse(modelToEdit.NewDate);
+            waybillToEdit.VehicleNumber = modelToEdit.VehicleNumber;
+            waybillToEdit.MileageStart = modelToEdit.MileageStart;
             waybillToEdit.MileageEnd = modelToEdit.NewMileageEnd;
             waybillToEdit.MileageTraveled = modelToEdit.NewMileageTraveled;
             waybillToEdit.RouteTraveled = modelToEdit.NewRouteTraveled;
-            waybillToEdit.FuelQuantityStart = modelToEdit.FuelQuantityStart!.Value;
-            waybillToEdit.FuelQuantityEnd = modelToEdit.FuelQuantityEnd!.Value;
-            waybillToEdit.FuelConsumed = modelToEdit.FuelConsumed!.Value;
+            waybillToEdit.FuelQuantityEnd = (vehicle.FuelQuantity + modelToEdit.NewFuelLoaded - (vehicle.FuelCostRate * modelToEdit.NewMileageTraveled));
+            waybillToEdit.FuelConsumed = (vehicle.FuelCostRate * modelToEdit.NewMileageTraveled);
             waybillToEdit.FuelLoaded = modelToEdit.NewFuelLoaded;
             waybillToEdit.Info = modelToEdit.NewInfo;
-            waybillToEdit.DateCreated = DateTime.UtcNow.Date;
             waybillToEdit.CostCenterId = modelToEdit.CostCenterId;
             waybillToEdit.UserId = Guid.Parse(myId);
+
+            vehicle.FuelQuantity += waybillToEdit.FuelLoaded;
+            vehicle.FuelQuantity -= waybillToEdit.FuelConsumed;
+            vehicle.Mileage += waybillToEdit.MileageTraveled;
 
             await dbContext.SaveChangesAsync();
            

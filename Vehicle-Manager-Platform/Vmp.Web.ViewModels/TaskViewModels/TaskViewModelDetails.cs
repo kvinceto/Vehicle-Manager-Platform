@@ -12,6 +12,6 @@
 
         public string User { get; set; } = null!;
 
-        public bool IsCompleted { get; set; }
+        //public bool IsCompleted { get; set; }
     }
 }

@@ -11,7 +11,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vmp.Common", "Vmp.Common\Vm
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vmp.Services", "Vmp.Services\Vmp.Services.csproj", "{CFD8B443-22A0-441C-8602-BF46B01909AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vmp.Web.ViewModels", "Vmp.Web.ViewModels\Vmp.Web.ViewModels.csproj", "{ACE2527F-EC7A-40A4-BA7C-7E6E29AEC1A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vmp.Web.ViewModels", "Vmp.Web.ViewModels\Vmp.Web.ViewModels.csproj", "{ACE2527F-EC7A-40A4-BA7C-7E6E29AEC1A5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "web", "web", "{382D27BA-B50F-42AE-B536-61777007B642}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "services", "services", "{54C22055-DDAC-4AB3-8F85-5EC97D17424E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{9E155515-145B-4650-8AF6-E4AB9E94C890}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{CE8F6973-7267-4652-A992-26A33B951371}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +50,13 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BED7C9EA-A9D0-4D31-8BCB-35E8768814C9} = {382D27BA-B50F-42AE-B536-61777007B642}
+		{3E9AC832-4042-4B96-9A21-9443489CB75B} = {9E155515-145B-4650-8AF6-E4AB9E94C890}
+		{66CCA10D-CC6D-48EC-A7EB-7EC2D09361D1} = {54C22055-DDAC-4AB3-8F85-5EC97D17424E}
+		{CFD8B443-22A0-441C-8602-BF46B01909AB} = {54C22055-DDAC-4AB3-8F85-5EC97D17424E}
+		{ACE2527F-EC7A-40A4-BA7C-7E6E29AEC1A5} = {382D27BA-B50F-42AE-B536-61777007B642}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2DEF60DC-A257-44FF-9037-A31C9961AB03}

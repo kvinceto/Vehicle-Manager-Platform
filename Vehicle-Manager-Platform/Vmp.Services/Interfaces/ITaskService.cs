@@ -14,8 +14,8 @@
 
         Task<TaskViewModelAdd> GetTaskByIdForEdit(int taskId);
 
-        Task EditTask(TaskViewModelAdd model);
+        Task<bool> EditTask(TaskViewModelAdd model, string? myId);
 
-        Task<bool> CompleteTaskByIdAsync(int taskId);
+        Task<bool> CompleteTaskByIdAsync(int taskId, string? myId);
     }
 }

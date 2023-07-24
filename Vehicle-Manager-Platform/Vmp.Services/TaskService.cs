@@ -39,10 +39,16 @@
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<bool> CompleteTaskByIdAsync(int taskId)
+        public async Task<bool> CompleteTaskByIdAsync(int taskId, string? myId)
         {
             TaskModel task = await dbContext.Tasks
-                .FirstAsync(t => t.Id ==  taskId);
+                .Include(t => t.User)
+                .FirstAsync(t => t.Id == taskId);
+
+            if(task.UserId.ToString() != myId)
+            {
+               return false;
+            }
 
             task.IsCompleted = true;
 
@@ -50,23 +56,36 @@
             return task.IsCompleted;
         }
 
-        public async Task EditTask(TaskViewModelAdd model)
+        public async Task<bool> EditTask(TaskViewModelAdd model, string? myId)
         {
-            TaskModel task = await dbContext.Tasks
-                .FirstAsync(t => t.Id == model.Id);
+            bool isMine = await dbContext.Tasks
+                .AnyAsync(t => t.Id == model.Id && t.UserId.ToString() == myId);
+
+            if (!isMine)
+            {
+                return isMine;
+            }
+
+            TaskModel? task = await dbContext.Tasks
+                .FirstAsync(t => t.Id == model.Id && t.UserId.ToString() == myId);
+
+
 
             task.Name = model.Name;
             task.Description = model.Description;
             task.EndDate = DateTime.Parse(model.Deadline);
 
             await dbContext.SaveChangesAsync();
+            return isMine;
         }
 
         public async Task<ICollection<TaskViewModelAll>> GetAllActiveTasksAsync()
         {
+
             var tasks = await dbContext.Tasks
                  .Where(t => t.IsCompleted == false)
                  .OrderBy(t => t.EndDate)
+                 .AsNoTracking()
                  .Select(t => new TaskViewModelAll()
                  {
                      Id = t.Id,
@@ -74,7 +93,7 @@
                      EndDate = t.EndDate.ToString("dd/MM/yyyy"),
                      User = t.User.UserName
                  })
-                 .ToArrayAsync();
+                .ToArrayAsync();
 
             return tasks;
         }
@@ -119,13 +138,14 @@
             }
 
 
-            TaskViewModelDetails model = new TaskViewModelDetails();
-            model.Id = task.Id;
-            model.Name = task.Name;
-            model.Description = task.Description;
-            model.EndDate = task.EndDate.ToString("dd/MM/yyyy");
-            model.User = task.User.UserName;
-            model.IsCompleted = task.IsCompleted;
+            TaskViewModelDetails model = new TaskViewModelDetails()
+            {
+                Id = task.Id,
+                Name = task.Name,
+                EndDate = task.EndDate.ToString("dd/MM/yyyy"),
+                User = task.User.UserName.ToString(),
+                Description = task.Description
+            };           
 
             return model;
         }
