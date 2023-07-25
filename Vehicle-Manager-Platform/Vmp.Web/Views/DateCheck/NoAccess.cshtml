@@ -1,0 +1,12 @@
+﻿@{
+    ViewData["Title"] = "No Access Page";
+}
+
+<div class="container d-flex justify-content-center text-center">
+    <h1 class="text-uppercase text-decoration-none text-danger">
+        @ViewData["Error"]
+    </h1>
+</div>
+<div class="container d-flex justify-content-center text-center w-25 list-inline-item bg-info">
+    <a class="nav-link text-dark" asp-area="" asp-controller="DateCheck" asp-action="All">Return to All Date Checks</a>
+</div>

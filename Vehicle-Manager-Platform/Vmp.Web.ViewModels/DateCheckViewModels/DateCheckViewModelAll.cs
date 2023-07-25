@@ -1,10 +1,13 @@
-﻿namespace Vmp.Web.ViewModels.MileageCheckViewModels
+﻿namespace Vmp.Web.ViewModels.DateCheckViewModels
 {
-    public class MileageCheckViewModelAll
+    public class DateCheckViewModelAll
     {
+
         public int Id { get; set; }
 
         public string Name { get; set; } = null!;
+
+        public string EndDate { get; set; } = null!;
 
         public string VehicleNumber { get; set; } = null!;
 

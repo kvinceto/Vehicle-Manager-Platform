@@ -1,0 +1,39 @@
+﻿@model DateCheckViewModelAdd
+@{
+    ViewData["Title"] = "Add New Date Check";
+}
+
+<div class="container d-flex justify-content-center">
+    <div class="w-50">
+        <h4 class="text-center">@ViewData["Title"]</h4>
+
+        <form asp-action="Add" method="post">
+            <div class="form-group">
+                <label asp-for="@Model.Name">Name</label>
+                <input asp-for="@Model.Name" class="form-control" />
+                <span asp-validation-for="@Model.Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.EndDate">Deadline</label>
+                <input asp-for="@Model.EndDate" type="date" value="@DateTime.UtcNow.Date" asp-format="dd/MM/yyyy" class="form-control" />
+                <span asp-validation-for="@Model.EndDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <div>
+                    <label asp-for="@Model.VehicleNumber">Vehicle Number</label>
+                    <select asp-for="@Model.VehicleNumber" class="form-control">
+                        @foreach (var vehicle in Model.Vehicles)
+                        {
+                            <option value="@vehicle.Number">@vehicle.Number</option>
+                        }
+                    </select>
+                    <span asp-validation-for="@Model.VehicleNumber" class="text-danger"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-outline-warning text-center justify-content-center">Add</button>
+        </form>
+    </div>
+</div>

@@ -50,6 +50,7 @@ namespace Vmp.Web
             builder.Services.AddScoped<IWaybillService, WaybillService>();
             builder.Services.AddScoped<SignInManager<ApplicationUser>>();
             builder.Services.AddScoped<UserManager<ApplicationUser>>();
+            builder.Services.AddScoped<IDateCheckService, DateCheckService>();
             
 
             builder.Services

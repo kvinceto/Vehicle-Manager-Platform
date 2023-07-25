@@ -12,16 +12,19 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.3/toastr.min.js" integrity="sha512-lbwH47l/tPXJYG9AcFNoJaTMhGvYWhVM9YI43CT+uteTRRaiLCui8snIgyAN8XWgNjNhCqlAUdzZptso6OCoFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.3/toastr.min.css" integrity="sha512-6S2HWzVFxruDlZxI3sXOZZ4/eJ8AcxkQH1+JjSe/ONCEqR9L4Ysq5JdT5ipqtzU7WHalNwzwBv+iE51gNHJNqQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <style>
         body {
             background-color: rgba(0, 128, 0, 0.2);
         }
+
         nav {
             margin: 0;
             border: 1px, solid, double;
-            background-color: rgba(0, 128, 0, 0.3);         
+            background-color: rgba(0, 128, 0, 0.3);
         }
     </style>
+
 </head>
 <body>
     <header class="container-fluid m-0">
@@ -36,84 +39,89 @@
                     <ul class="navbar-nav flex-grow-1">
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><strong>Home</strong></a>
                         </li>
 
                         @if (this.User.Identity?.IsAuthenticated ?? false)
                         {
                             <li class="nav-item">
                                 <div class="dropdown">
-                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Tasks
+                                    <button class="btn btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <strong>Tasks</strong>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Task" asp-action="All">All Tasks</a></li>
-                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Task" asp-action="MIne">My Tasks</a></li>
-                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Task" asp-action="Add">Add Task</a></li>
+                                        <li><a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Task" asp-action="All">All Tasks</a></li>
+                                        <li><a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Task" asp-action="MIne">My Tasks</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Task" asp-action="Add">Add Task</a></li>
                                     </ul>
                                 </div>
                             </li>
 
                             <li class="nav-item">
                                 <div class="dropdown">
-                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Owners
+                                    <button class="btn btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <strong>Owners</strong>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Owner" asp-action="All">All Owners</a></li>
-                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Owner" asp-action="Add">Add Owner</a></li>
+                                        <li><a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Owner" asp-action="All">All Owners</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Owner" asp-action="Add">Add Owner</a></li>
                                     </ul>
                                 </div>
                             </li>
 
                             <li class="nav-item">
                                 <div class="dropdown">
-                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Cost Centers
+                                    <button class="btn btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <strong>Cost Centers</strong>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="CostCenter" asp-action="All">All Cost Centers</a></li>
-                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="CostCenter" asp-action="Add">Add New Cost Center</a></li>
+                                        <li><a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="CostCenter" asp-action="All">All Cost Centers</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="CostCenter" asp-action="Add">Add New Cost Center</a></li>
                                     </ul>
                                 </div>
                             </li>
 
                             <li class="nav-item">
                                 <div class="dropdown">
-                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Vehicles
+                                    <button class="btn btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <strong>Vehicles</strong>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Vehicle" asp-action="All">All Vehicles</a></li>
-                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Vehicle" asp-action="Add">Add New Vehicle</a></li>
+                                        <li><a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Vehicle" asp-action="All">All Vehicles</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Vehicle" asp-action="Add">Add New Vehicle</a></li>
                                     </ul>
                                 </div>
                             </li>
 
                             <li class="nav-item">
                                 <div class="dropdown">
-                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Checks
+                                    <button class="btn btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <strong>Checks</strong>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="MileageCheck" asp-action="All">All MileageChecks</a></li>
-                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="MileageCheck" asp-action="Add">Add New Mileage Check</a></li>
-                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="DateCheck" asp-action="All">All DateChecks</a></li>
-                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="DateCheck" asp-action="Add">Add Date Check</a></li>
+                                        @*  <li><a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="User" asp-action="All">All My Checks</a></li>*@
+                                        <li><a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="MileageCheck" asp-action="All">All MileageChecks</a></li>
+                                        <li><a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="DateCheck" asp-action="All">All DateChecks</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="MileageCheck" asp-action="Add">Add New Mileage Check</a></li>
+                                        <li><a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="DateCheck" asp-action="Add">Add New Date Check</a></li>
                                     </ul>
                                 </div>
                             </li>
 
                             <li class="nav-item">
                                 <div class="dropdown">
-                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Waybills
+                                    <button class="btn btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <strong>Waybills</strong>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Waybill" asp-action="Index">Add New Waybill</a></li>
-                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Waybill" asp-action="All">All Waybills</a></li>
-                                        @*<li><a class="nav-link text-dark" asp-area="" asp-controller="DateCheck" asp-action="All">All DateChecks</a></li>
-                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="DateCheck" asp-action="Add">Add Date Check</a></li>*@
+                                        <li><a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Waybill" asp-action="All">All Waybills</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Waybill" asp-action="Index">Add New Waybill</a></li>
                                     </ul>
                                 </div>
                             </li>
