@@ -51,6 +51,7 @@ namespace Vmp.Web
             builder.Services.AddScoped<SignInManager<ApplicationUser>>();
             builder.Services.AddScoped<UserManager<ApplicationUser>>();
             builder.Services.AddScoped<IDateCheckService, DateCheckService>();
+            builder.Services.AddScoped<IUserService, UserService>();
             
 
             builder.Services

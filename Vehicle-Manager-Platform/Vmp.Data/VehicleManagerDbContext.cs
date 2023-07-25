@@ -29,6 +29,8 @@
 
         public DbSet<TaskModel> Tasks { get; set; } = null!;
 
+        public DbSet<ApplicationUser> AspNetUsers { get; set; } = null!;
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

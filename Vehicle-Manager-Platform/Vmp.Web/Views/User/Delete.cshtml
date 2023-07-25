@@ -1,0 +1,22 @@
+﻿@model UserViewModel
+@{
+    ViewData["Title"] = "Delete Account";
+}
+
+<div class="container d-flex justify-content-center align-content-center">
+    <div class="w-50">
+
+        <h4 class="text-center">@ViewData["Title"]</h4>
+
+        <form asp-action="DeleteUserData" asp-controller="User" method="post">
+
+            <div class="form-group mt-2">
+                <input type="hidden" asp-for="@Model.Id" value="@Model.Id" class="form-control" />
+            </div>
+
+            <div class="form-group mt-2 justify-content-md-around text-center">
+                <button type="submit" class="btn btn-outline-danger text-center justify-content-center align-content-center mt-2">Delete</button>
+            </div>
+        </form>
+    </div>
+</div>
