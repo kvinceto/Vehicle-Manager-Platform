@@ -1,29 +1,27 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-using Vmp.Services.Extensions;
-using Vmp.Services.Interfaces;
-using Vmp.Web.ViewModels.VehicleViewModels;
-using Vmp.Web.ViewModels.WaybillViewModels;
-
-using static Vmp.Common.NotificationMessagesConstants;
-
-namespace Vmp.Web.Controllers
+﻿namespace Vmp.Web.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
+    using Vmp.Services.Extensions;
+    using Vmp.Services.Interfaces;
+    using Vmp.Web.ViewModels.VehicleViewModels;
+    using Vmp.Web.ViewModels.WaybillViewModels;
+
+    using static Vmp.Common.NotificationMessagesConstants;
+
     [Authorize]
     public class WaybillController : Controller
     {
         private readonly IWaybillService waybillService;
         private readonly IVehicleService vehicleService;
         private readonly ICostCenterService costCenterService;
-        private readonly IOwnerService ownerService;
 
-        public WaybillController(IWaybillService waybillService, IVehicleService vehicleService, ICostCenterService costCenterService, IOwnerService ownerService)
+        public WaybillController(IWaybillService waybillService, IVehicleService vehicleService, ICostCenterService costCenterService)
         {
             this.waybillService = waybillService;
             this.vehicleService = vehicleService;
             this.costCenterService = costCenterService;
-            this.ownerService = ownerService;
         }
 
         [HttpGet]
@@ -81,6 +79,22 @@ namespace Vmp.Web.Controllers
                 ICollection<WaybillViewModelAll> waybills = await waybillService.GetAll();
                 TempData[SuccessMessage] = "All Waybills are viewed";
                 return View(waybills);
+            }
+            catch (Exception)
+            {
+                TempData[ErrorMessage] = "Error in the Database!";
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AllForVehicle(string regNumber)
+        {
+            try
+            {
+                ICollection<WaybillViewModelAll> waybills = await waybillService.GetAllForVehicle(regNumber);
+                TempData[SuccessMessage] = $"All Waybills for {regNumber} are viewed";
+                return View("All", waybills);
             }
             catch (Exception)
             {

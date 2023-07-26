@@ -1,5 +1,4 @@
-﻿@using Vmp.Web.ViewModels.VehicleViewModels;
-@model ICollection<VehicleViewModelShortInfo>
+﻿@model ICollection<VehicleViewModelShortInfo>
 @{
     ViewData["Title"] = "Select Vehicle";
 }
@@ -17,7 +16,7 @@
 
 <div class="container d-flex justify-content-center">
     <div class="w-50">
-        <h1>@ViewData["Title"] to add Waybill</h1>
+        <h4 class="text-center">@ViewData["Title"] to add Waybill</h4>
 
         <form asp-controller="Waybill" asp-action="Add" method="post">
             <div class="form-group">
@@ -34,7 +33,9 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Choose vehicle</button>
+            <div class="form-group mt-2 justify-content-md-around text-center">
+                <button type="submit" class="btn btn-outline-success mt-2">Choose vehicle</button>
+            </div>
         </form>
     </div>
 </div>

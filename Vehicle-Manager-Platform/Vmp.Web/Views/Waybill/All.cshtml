@@ -1,5 +1,4 @@
-﻿@using Vmp.Web.ViewModels.WaybillViewModels;
-@model ICollection<WaybillViewModelAll>
+﻿@model ICollection<WaybillViewModelAll>
 @{
     ViewData["Title"] = "All Waybills";
     string massage = "No info!";
@@ -19,7 +18,7 @@
         }
 </style>
 
-<h1 class="text-center">@ViewData["Title"]</h1>
+<h4 class="text-center">@ViewData["Title"]</h4>
 
 <div class="table-responsive w-75 mx-auto">
     <table class="table table-striped table-hover custom-table">
@@ -53,12 +52,4 @@
             }
         </tbody>
     </table>
-</div>
-
-<div class="text-center mt-3">
-    <div class="btn-group" role="group">
-        <button type="button" class="btn btn-secondary">10</button>
-        <button type="button" class="btn btn-secondary">20</button>
-        <button type="button" class="btn btn-secondary">50</button>
-    </div>
 </div>

@@ -1,11 +1,10 @@
-﻿@using Vmp.Web.ViewModels.CostCenterViewModels
-@model CostCenterViewModelAdd
+﻿@model CostCenterViewModelAdd
 @{
     ViewData["Title"] = "Edit Cost Center";
 }
 
 <div class="container">
-    <h1 class="text-center">Edit Cost Center</h1>
+    <h4 class="text-center">@ViewData["Title"]</h4>
 
     <div class="row justify-content-center">
         <div class="col-lg-6">
@@ -15,7 +14,10 @@
                     <input asp-for="Name" class="form-control" />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
-                <button type="submit" class="btn btn-primary mt-2 bg-success">Edit</button>
+
+                <div class="form-group mt-2 justify-content-md-around text-center">
+                    <button type="submit" class="btn btn-outline-warning mt-2">Edit</button>
+                </div>             
             </form>
         </div>
     </div>

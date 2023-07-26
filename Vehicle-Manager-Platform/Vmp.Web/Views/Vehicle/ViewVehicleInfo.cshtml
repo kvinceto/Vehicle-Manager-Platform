@@ -1,17 +1,31 @@
-﻿@using Vmp.Web.ViewModels.VehicleViewModels
-@model VehicleViewModelDetails
+﻿@model VehicleViewModelDetails
 @{
     ViewData["Title"] = "Vehicle Details";
 }
+
+<style>
+
+    dt,
+    dl {
+        border: 1px solid black;
+    }
+</style>
 
 <div class="container">
     <h1 class="text-center">Vehicle Details</h1>
 
 
     <div class="row justify-content-center">
-        <a class="text-center justify-content-center text-capitalize" href="@Model.ModelImgUrl" target="_blank">
-            View Image
-        </a>
+        @if (Model.ModelImgUrl != null)
+        {
+            <a class="text-center justify-content-center text-capitalize" href="@Model.ModelImgUrl" target="_blank">
+                View Image
+            </a>
+        }
+        else
+        {
+            <p class="text-center text-danger">No Image</p>
+        }
 
         <div class="col-lg-6">
             <dl class="row mt-4">
@@ -59,7 +73,12 @@
                 }
                 else
                 {
-                    <dt class="col-sm-8">@Model.CountOfWaybills</dt>
+                    <dt class="col-sm-8">
+                        <form asp-area="" asp-controller="Waybill" asp-action="AllForVehicle" method="post">
+                            <input type="hidden" name="regNumber" value="@Model.RegistrationNumber" />
+                            <button type="submit" class="btn btn-link text-dark align-content-center text-decoration-none"> @Model.CountOfWaybills View</button>
+                        </form>
+                    </dt>
                 }
                 <dt class="col-sm-4">Mileage checks</dt>
                 @if (Model.CountOfMileageChecks == 0)
@@ -68,7 +87,12 @@
                 }
                 else
                 {
-                    <dd class="col-sm-8">@Model.CountOfMileageChecks</dd>
+                    <dt class="col-sm-8">
+                        <form asp-area="" asp-controller="MileageCheck" asp-action="All" method="post">
+                            <input type="hidden" name="vehicleNumber" value="@Model.RegistrationNumber" />
+                            <button type="submit" class="btn btn-link text-dark align-content-center text-decoration-none"> @Model.CountOfMileageChecks View</button>
+                        </form>
+                    </dt>
                 }
                 <dt class="col-sm-4">Date checks</dt>
                 @if (Model.CountOfDateChecks == 0)
@@ -77,7 +101,12 @@
                 }
                 else
                 {
-                    <dd class="col-sm-8">@Model.CountOfDateChecks</dd>
+                    <dt class="col-sm-8">
+                        <form asp-area="" asp-controller="DateCheck" asp-action="All" method="post">
+                            <input type="hidden" name="vehicleNumber" value="@Model.RegistrationNumber" />
+                            <button type="submit" class="btn btn-link text-dark align-content-center text-decoration-none"> @Model.CountOfDateChecks View</button>
+                        </form>
+                    </dt>
                 }
             </dl>
         </div>

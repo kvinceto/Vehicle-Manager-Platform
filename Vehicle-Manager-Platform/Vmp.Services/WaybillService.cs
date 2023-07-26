@@ -120,6 +120,21 @@
 
         }
 
+        public async Task<ICollection<WaybillViewModelAll>> GetAllForVehicle(string regNumber)
+        {
+            return await dbContext.Waybills
+                .Include(w => w.Vehicle)
+                .Where(w => w.VehicleNumber == regNumber)
+                .Select(w => new WaybillViewModelAll()
+                {
+                    Id = w.Id,
+                    Date = w.Date.ToString("dd/MM/yyyy"),
+                    Info = w.Info,
+                    VehicleNumber = w.VehicleNumber.ToString()
+                })
+                .ToArrayAsync();
+        }
+
         public async Task<WaybillViewModelShort> GetShortWaybillByIdAsync(int id)
         {
             var waybill = await dbContext.Waybills

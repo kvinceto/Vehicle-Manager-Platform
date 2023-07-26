@@ -1,12 +1,12 @@
-﻿@using Vmp.Web.ViewModels.MileageCheckViewModels;
-@model MileageCheckViewModelAdd
+﻿@model MileageCheckViewModelAdd
 @{
-    ViewData["Title"] = "Add Mileage check";
+    ViewData["Title"] = "Add New Mileage check";
 }
 
 <div class="container d-flex justify-content-center">
     <div class="w-50">
-        <h1>@ViewData["Title"]</h1>
+
+        <h4 class="text-center">@ViewData["Title"]</h4>
 
         <form asp-action="Add" method="post">
             <div class="form-group">
@@ -34,7 +34,9 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Add</button>
+            <div class="form-group mt-2 justify-content-md-around text-center">
+                <button type="submit" class="btn btn-outline-warning mt-2">Add</button>
+            </div>
         </form>
     </div>
 </div>

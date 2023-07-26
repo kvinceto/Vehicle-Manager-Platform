@@ -1,11 +1,12 @@
 ﻿@model OwnerViewModelAdd
 @{
-    ViewData["Title"] = "Add Owner";
+    ViewData["Title"] = "Add New Owner";
 }
 
 <div class="container d-flex justify-content-center">
     <div class="w-50">
-        <h1>Add Owner</h1>
+
+        <h4 class="text-center">@ViewData["Title"]</h4>
 
         <form asp-action="Add" method="post">
             <div class="form-group">
@@ -20,7 +21,9 @@
                 <span asp-validation-for="Info" class="text-danger"></span>
             </div>
 
-            <button type="submit" class="btn btn-primary">Add</button>
+            <div class="form-group mt-1 d-flex justify-content-center">
+                <button type="submit" class="btn btn-outline-warning">Add</button>
+            </div>
         </form>
     </div>
 </div>

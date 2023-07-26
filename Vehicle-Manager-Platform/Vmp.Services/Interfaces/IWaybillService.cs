@@ -12,6 +12,8 @@
 
         Task<ICollection<WaybillViewModelAll>> GetAll();
 
+        Task<ICollection<WaybillViewModelAll>> GetAllForVehicle(string regNumber);
+
         Task<WaybillViewModelShort> GetShortWaybillByIdAsync(int id);
 
         Task<WaybillViewModelDetails> GetWaybillByIdAsync(int id);
