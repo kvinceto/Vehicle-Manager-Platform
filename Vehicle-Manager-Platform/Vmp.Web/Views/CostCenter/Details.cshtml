@@ -45,9 +45,21 @@
                 <th>
                     Waybils Count:
                 </th>
-                <td>
-                    @Model.WaybillsCount
-                </td>
+                @if (Model.WaybillsCount <= 0)
+                {
+                    <td class="text-danger">
+                        No Waybills
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <form asp-area="" asp-controller="Waybill" asp-action="AllForCostCenter" method="get">
+                            <input type="hidden" name="id" value="@Model.Id" />
+                            <button type="submit" class="btn btn-link text-dark align-content-center text-decoration-none"> @Model.WaybillsCount <strong class="text-info">View</strong></button>
+                        </form>
+                    </td>
+                }
             </tr>
         </tbody>
     </table>

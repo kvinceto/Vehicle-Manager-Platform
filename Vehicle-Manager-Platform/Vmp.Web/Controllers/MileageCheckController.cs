@@ -1,7 +1,7 @@
 ﻿namespace Vmp.Web.Controllers
 {
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
 
     using Vmp.Services.Interfaces;
     using Vmp.Web.ViewModels.MileageCheckViewModels;

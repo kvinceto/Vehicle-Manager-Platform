@@ -1,9 +1,9 @@
 ﻿namespace Vmp.Services
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using System.Collections.Generic;
 
     using Microsoft.EntityFrameworkCore;
 
@@ -22,7 +22,7 @@
             this.dbContext = dbContext;
         }
 
-        public async Task AddWaybill(WaybillViewModelAdd viewModel, string myId)
+        public async Task AddWaybillAsync(WaybillViewModelAdd viewModel, string myId)
         {
             Vehicle? vehicle = await dbContext.Vehicles
                 .FirstOrDefaultAsync(v => v.Number == viewModel.VehicleNumber);
@@ -101,7 +101,7 @@
            
         }
 
-        public async Task<ICollection<WaybillViewModelAll>> GetAll()
+        public async Task<ICollection<WaybillViewModelAll>> GetAllAsync()
         {
             var result = await dbContext.Waybills
                 .OrderBy(w => w.Date)
@@ -120,7 +120,23 @@
 
         }
 
-        public async Task<ICollection<WaybillViewModelAll>> GetAllForVehicle(string regNumber)
+        public async Task<ICollection<WaybillViewModelAll>> GetAllForCostCenterAsync(int id)
+        {
+           return await dbContext.Waybills
+                .AsNoTracking()
+                .Include(w => w.Vehicle)
+                .Where(w => w.CostCenterId == id)
+                .Select(w => new WaybillViewModelAll()
+                {
+                    Id = w.Id,
+                    Info = w.Info,
+                    Date = w.Date.ToString("dd/MM/yyyy"),
+                    VehicleNumber = w.VehicleNumber
+                })
+                .ToArrayAsync();
+        }
+
+        public async Task<ICollection<WaybillViewModelAll>> GetAllForVehicleAsync(string regNumber)
         {
             return await dbContext.Waybills
                 .Include(w => w.Vehicle)

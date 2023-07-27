@@ -1,12 +1,10 @@
 ﻿namespace Vmp.Web.Controllers
 {
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
 
-    using Vmp.Services;
     using Vmp.Services.Interfaces;
     using Vmp.Web.ViewModels.OwnerViewModels;
-    using Vmp.Web.ViewModels.TaskViewModels;
 
     using static Vmp.Common.NotificationMessagesConstants;
 
@@ -92,6 +90,11 @@
             {
                 OwnerViewModelEdit model = await ownerService.GetOwnerByIdForEditAsync(id);
 
+                if(model == null)
+                {
+                    TempData[WarningMessage] = "Owner is null!";
+                    return RedirectToAction("All", "Owner");
+                }
                 TempData[WarningMessage] = "Owner viewed for edit";
                 return View(model);
             }

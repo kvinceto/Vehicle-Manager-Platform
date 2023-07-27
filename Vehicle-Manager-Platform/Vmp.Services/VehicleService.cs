@@ -1,8 +1,8 @@
 ﻿namespace Vmp.Services
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using System.Collections.Generic;
 
     using Microsoft.EntityFrameworkCore;
 
@@ -41,7 +41,7 @@
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task EditVehicle(VehicleViewModelAdd model)
+        public async Task EditVehicleAsync(VehicleViewModelAdd model)
         {
             Vehicle? vehicle = await dbContext.Vehicles
                 .FirstOrDefaultAsync(v => v.Number == model.Number);

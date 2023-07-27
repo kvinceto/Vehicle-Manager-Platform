@@ -1,6 +1,7 @@
 ﻿@model DateCheckViewModelDetails
 @{
     ViewData["Title"] = "Date Check Details";
+    DateTime today = DateTime.UtcNow.Date;
 }
 
 <style>
@@ -45,9 +46,21 @@
                 <th>
                     Deadline:
                 </th>
-                <td>
-                    @Model.EndDate
-                </td>
+                @{
+                    DateTime endDate = DateTime.Parse(Model.EndDate);
+                }
+                @if (today.CompareTo(endDate) < 0)
+                {
+                    <td>@Model.EndDate</td>
+                }
+                else if (today.CompareTo(endDate) == 0)
+                {
+                    <td class="text-warning">@Model.EndDate</td>
+                }
+                else
+                {
+                    <td class="text-danger">@Model.EndDate</td>
+                }               
             </tr>
 
             <tr>

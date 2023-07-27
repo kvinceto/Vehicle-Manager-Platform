@@ -2,8 +2,8 @@
 {
     using System.Threading.Tasks;
 
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
 
     using Vmp.Services.Extensions;
     using Vmp.Services.Interfaces;
@@ -84,7 +84,11 @@
             try
             {
                 TaskViewModelAdd model = await taskService.GetTaskByIdForEdit(id);
-
+                if(model == null)
+                {
+                    TempData[WarningMessage] = "Task is null!";
+                    return RedirectToAction("Mine", "Task");
+                }
                 TempData[WarningMessage] = "Task viewed for edit";
                 return View(model);
             }

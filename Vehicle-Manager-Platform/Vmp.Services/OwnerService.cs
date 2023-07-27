@@ -1,7 +1,7 @@
 ﻿namespace Vmp.Services
 {
-    using System.Collections.Generic;
     using System.Threading.Tasks;
+    using System.Collections.Generic;
 
     using Microsoft.EntityFrameworkCore;
 
@@ -110,7 +110,7 @@
                 .FirstOrDefaultAsync (o => o.Id == ownerId);
             if (owner == null)
             {
-                throw new NullReferenceException(nameof(owner));
+                return null;
             }
 
             return new OwnerViewModelEdit()

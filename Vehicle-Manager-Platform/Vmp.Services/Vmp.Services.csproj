@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="IronXL.Excel" Version="2023.7.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Vmp.Common\Vmp.Common.csproj" />
     <ProjectReference Include="..\Vmp.Data\Vmp.Data.csproj" />
     <ProjectReference Include="..\Vmp.Web.ViewModels\Vmp.Web.ViewModels.csproj" />

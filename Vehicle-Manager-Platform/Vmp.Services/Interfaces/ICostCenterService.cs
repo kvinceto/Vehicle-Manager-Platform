@@ -1,7 +1,6 @@
 ﻿namespace Vmp.Services.Interfaces
 {
     using Vmp.Web.ViewModels.CostCenterViewModels;
-    using Vmp.Web.ViewModels.TaskViewModels;
 
     public interface ICostCenterService
     {

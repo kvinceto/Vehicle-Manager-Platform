@@ -11,7 +11,5 @@
         public string EndDate { get; set; } = null!;
 
         public string User { get; set; } = null!;
-
-        //public bool IsCompleted { get; set; }
     }
 }

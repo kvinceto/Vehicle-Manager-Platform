@@ -6,13 +6,15 @@
 
     public interface IWaybillService
     {
-        Task AddWaybill(WaybillViewModelAdd viewModel, string myId);
+        Task AddWaybillAsync(WaybillViewModelAdd viewModel, string myId);
 
         Task EditWaybillAsync(WaybillViewModelEdit modelToEdit, string myId);
 
-        Task<ICollection<WaybillViewModelAll>> GetAll();
+        Task<ICollection<WaybillViewModelAll>> GetAllAsync();
 
-        Task<ICollection<WaybillViewModelAll>> GetAllForVehicle(string regNumber);
+        Task<ICollection<WaybillViewModelAll>> GetAllForCostCenterAsync(int id);
+
+        Task<ICollection<WaybillViewModelAll>> GetAllForVehicleAsync(string regNumber);
 
         Task<WaybillViewModelShort> GetShortWaybillByIdAsync(int id);
 

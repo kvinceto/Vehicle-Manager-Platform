@@ -1,8 +1,8 @@
 ﻿namespace Vmp.Web.Controllers
 {
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Authorization;
 
     using Vmp.Data.Models;
     using Vmp.Services.Extensions;

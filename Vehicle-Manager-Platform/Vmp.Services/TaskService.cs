@@ -1,7 +1,7 @@
 ﻿namespace Vmp.Services
 {
-    using System.Collections.Generic;
     using System.Threading.Tasks;
+    using System.Collections.Generic;
 
     using Microsoft.EntityFrameworkCore;
 
@@ -158,7 +158,7 @@
 
             if (task == null)
             {
-                throw new NullReferenceException();
+                return null;
             }
 
             TaskViewModelAdd model = new TaskViewModelAdd()

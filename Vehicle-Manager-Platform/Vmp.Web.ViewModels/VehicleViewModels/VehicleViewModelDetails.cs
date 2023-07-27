@@ -1,10 +1,7 @@
 ﻿namespace Vmp.Web.ViewModels.VehicleViewModels
 {
-    using System.ComponentModel;
-
     public class VehicleViewModelDetails
     {
-        [DisplayName("Registration Number")]
         public string RegistrationNumber { get; set; } = null!; 
 
         public string VIN { get; set; } = null!;

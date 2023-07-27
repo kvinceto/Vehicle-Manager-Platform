@@ -1,7 +1,7 @@
 namespace Vmp.Web
 {
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 
     using Vmp.Data;
@@ -52,6 +52,7 @@ namespace Vmp.Web
             builder.Services.AddScoped<UserManager<ApplicationUser>>();
             builder.Services.AddScoped<IDateCheckService, DateCheckService>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IExcelService, ExcelService>();
             
 
             builder.Services

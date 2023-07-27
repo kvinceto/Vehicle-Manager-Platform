@@ -3,58 +3,107 @@
     ViewData["Title"] = "Owner Details";
 }
 
-<div class="container">
-    <h1>@Model.Name Details</h1>
+<style>
+    .custom-table {
+        border-collapse: collapse;
+        width: 50%;
+        margin: 0 auto;
+        border: 1px solid black;
+    }
 
-    <div class="row">
-        <div class="col-md-6">
-            <dl class="row">
-                <dt class="col-sm-4">ID</dt>
-                <dd class="col-sm-8">@Model.Id</dd>
+        .custom-table th,
+        .custom-table td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+</style>
 
-                <dt class="col-sm-4">Name</dt>
-                <dd class="col-sm-8">@Model.Name</dd>
+<h4 class="text-center">@Model.Name Details</h4>
 
-                <dt class="col-sm-4">Additional Info</dt>
-                @if(Model.Info == null)
+<div class="table-responsive">
+    <table class="table custom-table mt-2 mb-5">
+        <tbody>
+            <tr>
+                <th>
+                    ID:
+                </th>
+                <td>
+                    @Model.Id
+                </td>
+            </tr>
+
+            <tr>
+                <th>
+                    Name:
+                </th>
+                <td>
+                    @Model.Name
+                </td>
+            </tr>
+
+            <tr>
+                <th>
+                    Additional Info:
+                </th>
+                @if (Model.Info == null)
                 {
-                    <dd class="col-sm-8 bg-warning">No info</dd>
+                    <td class="text-danger">
+                        No info
+                    </td>
                 }
                 else
                 {
-                    <dd class="col-sm-8">@Model.Info</dd>
+                    <td>
+                        @Model.Info
+                    </td>
                 }
-                <dt class="col-sm-4">Vehicles Count</dt>
-                <dd class="col-sm-8">@Model.VehiclesCount</dd>
-            </dl>
+            </tr>
+
+            <tr>
+                <th>
+                    Vehicles Count:
+                </th>
+                @if (Model.VehiclesCount <= 0)
+                {
+                    <td class="text-danger">
+                        No vehicles
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Model.VehiclesCount
+                    </td>
+                }
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+@foreach (var vehicle in Model.Vehicles)
+{
+    <div class="row mt-4 justify-content-center align-content-center text-center">
+        <div class="col-md-6">
+            <h4 class="text-center">This owner vehicles</h4>
+            <table class="table table-striped table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <th>Number</th>
+                        <th>View</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@vehicle</td>
+                        <td class="text-center bg-info">
+                            <form asp-area="" asp-controller="Vehicle" asp-action="ViewVehicleInfo" method="post">
+                                <input type="hidden" name="regNumber" value="@vehicle" />
+                                <button type="submit" class="btn btn-link text-dark align-content-center text-decoration-none">View</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-
-    @foreach (var vehicle in Model.Vehicles)
-    {
-        <div class="row mt-4">
-            <div class="col-md-6">
-                <h4>Vehicle Details</h4>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Number</th>                          
-                            <th>View</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>@vehicle</td>
-                            <td class="text-center bg-info">
-                                <form asp-area="" asp-controller="Vehicle" asp-action="ViewVehicleInfo" method="post">
-                                    <input type="hidden" name="regNumber" value="@vehicle" />
-                                    <button type="submit" class="btn btn-link text-dark align-content-center">View</button>
-                                </form>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    }
-</div>
+}

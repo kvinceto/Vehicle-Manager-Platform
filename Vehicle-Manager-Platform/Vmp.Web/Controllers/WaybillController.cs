@@ -1,7 +1,7 @@
 ﻿namespace Vmp.Web.Controllers
 {
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
 
     using Vmp.Services.Extensions;
     using Vmp.Services.Interfaces;
@@ -60,7 +60,7 @@
 
             try
             {
-                await waybillService.AddWaybill(viewModel, myId);
+                await waybillService.AddWaybillAsync(viewModel, myId);
                 TempData[SuccessMessage] = $"Waybill for {viewModel.VehicleNumber} added!";
                 return RedirectToAction("Index", "Waybill");
             }
@@ -76,7 +76,7 @@
         {
             try
             {
-                ICollection<WaybillViewModelAll> waybills = await waybillService.GetAll();
+                ICollection<WaybillViewModelAll> waybills = await waybillService.GetAllAsync();
                 TempData[SuccessMessage] = "All Waybills are viewed";
                 return View(waybills);
             }
@@ -87,12 +87,28 @@
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> AllForCostCenter(int id)
+        {
+            try
+            {
+                ICollection<WaybillViewModelAll> waybills = await waybillService.GetAllForCostCenterAsync(id);
+                TempData[InformationMessage] = $"All Waybills for Cost center with id: {id} are viewed";
+                return View("All", waybills);
+            }
+            catch (Exception)
+            {
+                TempData[ErrorMessage] = "Error in the Database!";
+                return RedirectToAction("All", "CostCenter");
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> AllForVehicle(string regNumber)
         {
             try
             {
-                ICollection<WaybillViewModelAll> waybills = await waybillService.GetAllForVehicle(regNumber);
+                ICollection<WaybillViewModelAll> waybills = await waybillService.GetAllForVehicleAsync(regNumber);
                 TempData[SuccessMessage] = $"All Waybills for {regNumber} are viewed";
                 return View("All", waybills);
             }

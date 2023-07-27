@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="IronXL.Excel" Version="2023.7.4" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.15" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.20" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.20" />
@@ -24,6 +25,10 @@
     <ProjectReference Include="..\Vmp.Data\Vmp.Data.csproj" />
     <ProjectReference Include="..\Vmp.Services\Vmp.Services.csproj" />
     <ProjectReference Include="..\Vmp.Web.ViewModels\Vmp.Web.ViewModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\templates\" />
   </ItemGroup>
 
 </Project>

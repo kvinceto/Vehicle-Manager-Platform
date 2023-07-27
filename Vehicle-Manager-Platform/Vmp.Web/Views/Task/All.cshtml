@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "All Active Tasks";
     int rowCount = 0;
+    DateTime today = DateTime.UtcNow.Date;
 }
 
 <style>
@@ -42,7 +43,21 @@
                             <tr>
                                 <th class="text-center" scope="row">@rowCount</th>
                                 <td class="text-center">@task.Name</td>
-                                <td class="text-center">@task.EndDate</td>
+                                @{
+                                    DateTime endDate = DateTime.Parse(task.EndDate);
+                                }
+                                @if(today.CompareTo(endDate) < 0)
+                                {
+                                    <td class="text-center">@task.EndDate</td>
+                                }
+                                else if (today.CompareTo(endDate) == 0)
+                                {
+                                    <td class="text-center text-warning">@task.EndDate</td>
+                                }
+                                else
+                                {
+                                    <td class="text-center text-danger">@task.EndDate</td>
+                                }
                                 <td class="text-center">@task.User</td>
                                 <td class="text-center bg-info">
                                     <a class="text-dark align-content-center" asp-area="" asp-controller="Task" asp-action="ViewTask" asp-route-Id="@task.Id">View</a>

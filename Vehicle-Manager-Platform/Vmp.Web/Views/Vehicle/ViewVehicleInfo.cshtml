@@ -1,21 +1,31 @@
 ﻿@model VehicleViewModelDetails
 @{
     ViewData["Title"] = "Vehicle Details";
+    string message = "No info";
 }
 
 <style>
 
-    dt,
-    dl {
+    .custom-table {
+        border-collapse: collapse;
+        width: 50%;
+        margin: 0 auto;
         border: 1px solid black;
     }
+
+        .custom-table th,
+        .custom-table td {
+            border: 1px solid black;
+            padding: 8px;
+        }
 </style>
 
 <div class="container">
-    <h1 class="text-center">Vehicle Details</h1>
 
+    <h4 class="text-center">Details for vehicle with registration number: @Model.RegistrationNumber</h4>
 
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-2">
+
         @if (Model.ModelImgUrl != null)
         {
             <a class="text-center justify-content-center text-capitalize" href="@Model.ModelImgUrl" target="_blank">
@@ -27,88 +37,199 @@
             <p class="text-center text-danger">No Image</p>
         }
 
-        <div class="col-lg-6">
-            <dl class="row mt-4">
-                <dt class="col-sm-4">Registration Number</dt>
-                <dd class="col-sm-8">@Model.RegistrationNumber</dd>
+        <div class="container-fluid text-center mt-2 mb-2">
+            <form asp-area="" asp-controller="Excell" asp-action="ExportVehicle" method="get">
+                <input type="hidden" name="registrationNumber" value="@Model.RegistrationNumber" />
+                <button type="submit" class="btn btn-primary text-dark align-content-center">Export to Excel</button>
+            </form>
 
-                <dt class="col-sm-4">VIN</dt>
-                <dd class="col-sm-8">@Model.VIN</dd>
+        </div>
 
-                <dt class="col-sm-4">Model</dt>
-                <dd class="col-sm-8">@Model.Model</dd>
+        <div class="table-responsive">
+            <table class="table custom-table">
+                <tbody>
+                    <tr>
+                        <th>
+                            Registration Number:
+                        </th>
+                        <td>
+                            @Model.RegistrationNumber
+                        </td>
+                    </tr>
 
-                <dt class="col-sm-4">Make</dt>
-                <dd class="col-sm-8">@Model.Make</dd>
+                    <tr>
+                        <th>
+                            VIN:
+                        </th>
+                        <td>
+                            @Model.VIN
+                        </td>
+                    </tr>
 
-                <dt class="col-sm-4">Mileage</dt>
-                <dd class="col-sm-8">@Model.Mileage</dd>
+                    <tr>
+                        <th>
+                            Model:
+                        </th>
+                        @if (Model.Model == null)
+                        {
+                            <td class="text-danger">
+                                @message
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Model.Model
+                            </td>
+                        }
+                    </tr>
 
-                <dt class="col-sm-4">Current fuel quantity</dt>
-                <dd class="col-sm-8">@Model.FuelQuantity</dd>
+                    <tr>
+                        <th>
+                            Make:
+                        </th>
+                        @if (Model.Make == null)
+                        {
+                            <td class="text-danger">
+                                @message
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Model.Make
+                            </td>
+                        }
+                    </tr>
 
-                <dt class="col-sm-4">Maximum fuel</dt>
-                <dd class="col-sm-8">@Model.FuelCapacity</dd>
+                    <tr>
+                        <th>
+                            Mileage:
+                        </th>
+                        <td>
+                            @Model.Mileage
+                        </td>
+                    </tr>
 
-                <dt class="col-sm-4">Name of the owner</dt>
-                <dd class="col-sm-8">@Model.Owner</dd>
+                    <tr>
+                        <th>
+                            Current fuel quantity:
+                        </th>
+                        <td>
+                            @Model.FuelQuantity
+                        </td>
+                    </tr>
 
-                <dt class="col-sm-4">Fuel cost per 100 km / 1 hour</dt>
-                <dd class="col-sm-8">@Model.FuelCostRate</dd>
+                    <tr>
+                        <th>
+                            Maximum fuel capacity:
+                        </th>
+                        <td>
+                            @Model.FuelCapacity
+                        </td>
+                    </tr>
 
-                <dt class="col-sm-4">Status</dt>
-                @if (Model.IsDeleted == true)
-                {
-                    <dd class="col-sm-8 bg-danger">Vehicle has been deleted</dd>
-                }
-                else
-                {
-                    <dd class="col-sm-8 bg-success">Active</dd>
-                }
+                    <tr>
+                        <th>
+                            Name of the owner:
+                        </th>
+                        <td>
+                            @Model.Owner
+                        </td>
+                    </tr>
 
-                <dt class="col-sm-4">Waybills</dt>
-                @if (Model.CountOfWaybills == 0)
-                {
-                    <dt class="col-sm-8 bg-danger">No Waybills assigned to this vehicle</dt>
-                }
-                else
-                {
-                    <dt class="col-sm-8">
-                        <form asp-area="" asp-controller="Waybill" asp-action="AllForVehicle" method="post">
-                            <input type="hidden" name="regNumber" value="@Model.RegistrationNumber" />
-                            <button type="submit" class="btn btn-link text-dark align-content-center text-decoration-none"> @Model.CountOfWaybills View</button>
-                        </form>
-                    </dt>
-                }
-                <dt class="col-sm-4">Mileage checks</dt>
-                @if (Model.CountOfMileageChecks == 0)
-                {
-                    <dt class="col-sm-8 bg-danger">No Mileage checks assigned to this vehicle</dt>
-                }
-                else
-                {
-                    <dt class="col-sm-8">
-                        <form asp-area="" asp-controller="MileageCheck" asp-action="All" method="post">
-                            <input type="hidden" name="vehicleNumber" value="@Model.RegistrationNumber" />
-                            <button type="submit" class="btn btn-link text-dark align-content-center text-decoration-none"> @Model.CountOfMileageChecks View</button>
-                        </form>
-                    </dt>
-                }
-                <dt class="col-sm-4">Date checks</dt>
-                @if (Model.CountOfDateChecks == 0)
-                {
-                    <dt class="col-sm-8 bg-danger">No Date checks assigned to this vehicle</dt>
-                }
-                else
-                {
-                    <dt class="col-sm-8">
-                        <form asp-area="" asp-controller="DateCheck" asp-action="All" method="post">
-                            <input type="hidden" name="vehicleNumber" value="@Model.RegistrationNumber" />
-                            <button type="submit" class="btn btn-link text-dark align-content-center text-decoration-none"> @Model.CountOfDateChecks View</button>
-                        </form>
-                    </dt>
-                }
-            </dl>
+                    <tr>
+                        <th>
+                            Fuel cost per 100 km or 1 hour:
+                        </th>
+                        <td>
+                            @Model.FuelCostRate
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            Status:
+                        </th>
+                        @if (Model.IsDeleted == true)
+                        {
+                            <td class="text-danger">
+                                Vehicle has been deleted
+                            </td>
+                        }
+                        else
+                        {
+                            <td class="text-success">
+                                Active
+                            </td>
+                        }
+                    </tr>
+
+                    <tr>
+                        <th>
+                            Waybills Count:
+                        </th>
+                        @if (Model.CountOfWaybills == 0)
+                        {
+                            <td class="text-danger">
+                                No Waybills assigned to this vehicle
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <form asp-area="" asp-controller="Waybill" asp-action="AllForVehicle" method="post">
+                                    <input type="hidden" name="regNumber" value="@Model.RegistrationNumber" />
+                                    <button type="submit" class="btn btn-link text-dark align-content-center text-decoration-none"> @Model.CountOfWaybills <strong class="text-info">View</strong></button>
+                                </form>
+                            </td>
+                        }
+                    </tr>
+
+                    <tr>
+                        <th>
+                            Mileage checks:
+                        </th>
+                        @if (Model.CountOfMileageChecks == 0)
+                        {
+                            <td class="text-danger">
+                                No Mileage checks assigned to this vehicle
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <form asp-area="" asp-controller="MileageCheck" asp-action="All" method="post">
+                                    <input type="hidden" name="vehicleNumber" value="@Model.RegistrationNumber" />
+                                    <button type="submit" class="btn btn-link text-dark align-content-center text-decoration-none"> @Model.CountOfMileageChecks <strong class="text-info">View</strong></button>
+                                </form>
+                            </td>
+                        }
+                    </tr>
+
+                    <tr>
+                        <th>
+                            Date checks:
+                        </th>
+                        @if (Model.CountOfDateChecks == 0)
+                        {
+                            <td class="text-danger">
+                                No Date checks assigned to this vehicle
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <form asp-area="" asp-controller="DateCheck" asp-action="All" method="post">
+                                    <input type="hidden" name="vehicleNumber" value="@Model.RegistrationNumber" />
+                                    <button type="submit" class="btn btn-link text-dark align-content-center text-decoration-none"> @Model.CountOfDateChecks <strong class="text-info">View</strong></button>
+                                </form>
+                            </td>
+                        }
+                    </tr>
+
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
