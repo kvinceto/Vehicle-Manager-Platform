@@ -115,5 +115,18 @@
                 return RedirectToAction("All", "Vehicle");
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string regNumber)
+        {
+            bool isCompleted = await vehicleService.DeleteVehicleByIdAsync(regNumber);
+            if (isCompleted)
+            {
+                TempData[SuccessMessage] = "Vehicle Deleted! To restore contact Admin!";
+                return RedirectToAction("All", "Vehicle");
+            }
+            TempData[ErrorMessage] = "Vehicle is not deleted";
+            return RedirectToAction("All", "Vehicle");
+        }
     }
 }

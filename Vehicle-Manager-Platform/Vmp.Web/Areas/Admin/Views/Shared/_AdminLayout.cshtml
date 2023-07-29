@@ -17,8 +17,9 @@
     <header class="container-fluid m-0">
         <partial name="_NotificationsPartial" />
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
-            <div class="container-fluid">                             
-                <a href="@Url.Action("Index", "Home", new { area = "" })">Go to General Home Page</a> 
+            <div class="container-fluid">
+                <a class="text-info text-start" href="@Url.Action("Index", "Home", new { area = "" })">Go to General Home Page</a>
+                <a class="text-info text-end" href="@Url.Action("Index", "Admin", new { area = "Admin" })">Admin panel</a>
             </div>
         </nav>
     </header>

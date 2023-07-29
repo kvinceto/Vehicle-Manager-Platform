@@ -14,6 +14,6 @@
 
         Task<bool> DeleteOwnerByIdAsync(int ownerId);
 
-        Task EditOwner(OwnerViewModelEdit ownerModel);
+        Task EditOwner(OwnerViewModelEdit ownerModel);        
     }
 }

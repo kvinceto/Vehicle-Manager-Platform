@@ -1,0 +1,43 @@
+﻿@model ICollection<DateCheckRestoreViewModel>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "All deleted date checks";
+}
+
+<style>
+    .validation-message {
+        color: red;
+        display: none;
+    }
+
+    select:invalid + .validation-message {
+        display: block;
+    }
+</style>
+
+<div class="container d-flex justify-content-center">
+    <div class="w-50">
+        <h4 class="text-center">@ViewData["Title"]</h4>
+
+        <form asp-area="Admin" asp-controller="Admin" asp-action="RestoreDateCheck" method="post">
+            <div class="form-group">
+                <div>
+                    <label>Vehicle Number</label>
+                    <select name="id" class="form-control" required>
+                        <option value="">Select a date check</option>
+                        @foreach (var check in Model)
+                        {
+                            <option value="@check.Id">1) Name: @check.Name 2) Vehicle Number: @check.VehicleNumber</option>
+                        }
+                    </select>
+                    <span class="validation-message">Please select a date check to restore</span>
+                </div>
+            </div>
+
+            <div class="form-group mt-2 justify-content-md-around text-center">
+                <button type="submit" class="btn btn-outline-success mt-2">Select date check</button>
+            </div>
+        </form>
+
+    </div>
+</div>

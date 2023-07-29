@@ -13,5 +13,7 @@
         Task<VehicleViewModelAdd> GetVehicleByIdForEditAsync(string regNumber);
 
         Task EditVehicleAsync(VehicleViewModelAdd model);
+
+        Task<bool> DeleteVehicleByIdAsync(string regNumber);
     }
 }

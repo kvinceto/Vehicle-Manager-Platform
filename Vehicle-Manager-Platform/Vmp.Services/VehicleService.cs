@@ -41,6 +41,21 @@
             await dbContext.SaveChangesAsync();
         }
 
+        public async Task<bool> DeleteVehicleByIdAsync(string regNumber)
+        {
+            Vehicle? vehicle= await dbContext.Vehicles.FirstOrDefaultAsync(v => v.Number == regNumber);
+
+            if (vehicle == null)
+            {
+                return false;
+            }
+
+            vehicle.IsDeleted = true;
+
+            await dbContext.SaveChangesAsync();
+            return true;
+        }
+
         public async Task EditVehicleAsync(VehicleViewModelAdd model)
         {
             Vehicle? vehicle = await dbContext.Vehicles

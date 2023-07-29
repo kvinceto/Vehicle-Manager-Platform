@@ -1,0 +1,43 @@
+﻿@model ICollection<TaskRestoreViewModel>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "All completed tasks";
+}
+
+<style>
+    .validation-message {
+        color: red;
+        display: none;
+    }
+
+    select:invalid + .validation-message {
+        display: block;
+    }
+</style>
+
+<div class="container d-flex justify-content-center">
+    <div class="w-50">
+        <h4 class="text-center">@ViewData["Title"]</h4>
+
+        <form asp-area="Admin" asp-controller="Admin" asp-action="RestoreTask" method="post">
+            <div class="form-group">
+                <div>
+                    <label>Task Name</label>
+                    <select name="taskId" class="form-control" required>
+                        <option value="">Select a task</option>
+                        @foreach (var task in Model)
+                        {
+                            <option value="@task.Id">@task.Name</option>
+                        }
+                    </select>
+                    <span class="validation-message">Please select a task to restore</span>
+                </div>
+            </div>
+
+            <div class="form-group mt-2 justify-content-md-around text-center">
+                <button type="submit" class="btn btn-outline-success mt-2">Select task</button>
+            </div>
+        </form>
+
+    </div>
+</div>

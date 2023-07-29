@@ -1,0 +1,84 @@
+﻿@model ICollection<UserViewModel>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "User control panel";
+}
+
+<style>
+    .validation-message {
+        color: red;
+        display: none;
+    }
+
+    select:invalid + .validation-message {
+        display: block;
+    }
+</style>
+<h4 class="text-center mt-2 mb-5">@ViewData["Title"]</h4>
+
+<h5 class="text-center mb-2">Change roles</h5>
+<div class="container d-flex justify-content-center bg-success w-50">
+    <div class="w-50">
+
+
+        <form asp-area="Admin" asp-controller="Admin" asp-action="ChangeUserRole" method="post">
+            <div class="form-group">
+                <div>
+                    <label for="userId">Select User:</label>
+                    <select name="userId" id="userId" class="form-control">
+                        <option value="">Select a user</option>
+                        @foreach (var user in Model)
+                        {
+                            <option value="@user.Id">@user.UserName</option>
+                        }
+                    </select>
+                    <span class="validation-message">Please select User</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div>
+                    <label for="newRole">Select Role:</label>
+                    <select name="newRole" id="newRole" class="form-control">
+                        <option value="@UserRoleName">@UserRoleName</option>
+                        <option value="@AdminRoleName">@AdminRoleName</option>
+                    </select>
+                    <span class="validation-message">Please select Role</span>
+                </div>
+            </div>
+
+            <div class="form-group mt-2 justify-content-md-around text-center">
+                <button type="submit" class="btn btn-warning mt-2 mb-2">Change Role</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<h5 class="text-center mt-2 mb-2">Delete user</h5>
+<div class="container d-flex justify-content-center bg-warning w-50">
+    <div class="w-50">
+
+        <form asp-area="Admin" asp-controller="Admin" asp-action="DeleteUser" method="post">
+            <div class="form-group">
+                <div>
+                    <label for="userId">Select User:</label>
+                    <select name="userId" id="userId" class="form-control">
+                        <option value="">Select a user</option>
+                        @foreach (var user in Model)
+                        {
+                            <option value="@user.Id">@user.UserName</option>
+                        }
+                    </select>
+                    <span class="validation-message">Please select User</span>
+                </div>
+            </div>
+
+            <div class="form-group mt-2 justify-content-md-around text-center">
+                <button type="submit" class="btn btn-danger mt-2 mb-2">Delete</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
