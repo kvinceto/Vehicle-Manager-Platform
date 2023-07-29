@@ -31,7 +31,6 @@
 
         public DbSet<ApplicationUser> AspNetUsers { get; set; } = null!;
 
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             Assembly configAssembly = Assembly.GetAssembly(typeof(VehicleManagerDbContext)) ??
@@ -39,6 +38,33 @@
             builder.ApplyConfigurationsFromAssembly(configAssembly);
 
             base.OnModelCreating(builder);
+            
+            //Add admin user
+            const string adminEmail = "admin@admin.bg";
+            const string adminPassword = "Admin123";
+            var hasher = new PasswordHasher<ApplicationUser>();
+
+            Guid adminUserId = Guid.NewGuid();
+
+            var adminUser = new ApplicationUser
+            {
+                Id = adminUserId,
+                UserName = adminEmail,
+                NormalizedUserName = adminEmail.ToUpper(),
+                Email = adminEmail,
+                NormalizedEmail = adminEmail.ToUpper(),
+                EmailConfirmed = true,
+                SecurityStamp = adminEmail.ToUpper(),
+            };
+
+            adminUser.PasswordHash = hasher.HashPassword(adminUser, adminPassword);
+
+            builder.Entity<ApplicationUser>(au =>
+            {
+                au.HasData(adminUser);
+            });
+
+            
         }
     }
 }

@@ -6,7 +6,6 @@ namespace Vmp.Web.Areas.Identity.Pages.Account
 {
     using System.ComponentModel.DataAnnotations;
     using System.Text;
-    using System.Text.Encodings.Web;
 
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Identity;
@@ -16,21 +15,26 @@ namespace Vmp.Web.Areas.Identity.Pages.Account
 
     using Vmp.Data.Models;
 
+    using static Vmp.Common.GlobalApplicationConstants;
+
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserStore<ApplicationUser> _userStore;
+        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
-            SignInManager<ApplicationUser> signInManager
+            SignInManager<ApplicationUser> signInManager,
+            RoleManager<IdentityRole<Guid>> roleManager
           )
         {
             _userManager = userManager;
             _userStore = userStore;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
 
         /// <summary>
@@ -110,6 +114,7 @@ namespace Vmp.Web.Areas.Identity.Pages.Account
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    await _userManager.AddToRoleAsync(user, UserRoleName);
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,

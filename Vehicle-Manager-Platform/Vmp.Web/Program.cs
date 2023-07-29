@@ -9,6 +9,7 @@ namespace Vmp.Web
     using Vmp.Services;
     using Vmp.Services.Interfaces;
     using Vmp.Web.ModelBinders;
+    using Vmp.Services.Extensions;
 
     public class Program
     {
@@ -39,6 +40,7 @@ namespace Vmp.Web
                 options.Password.RequiredLength =
                     builder.Configuration.GetValue<int>("Identity:Password:RequiredLength");
             })
+                .AddRoles<IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<VehicleManagerDbContext>();
 
             //Services
@@ -53,7 +55,8 @@ namespace Vmp.Web
             builder.Services.AddScoped<IDateCheckService, DateCheckService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IExcelService, ExcelService>();
-            
+            builder.Services.AddScoped<IAdminService, AdminService>();
+
 
             builder.Services
                 .AddControllersWithViews()
@@ -85,9 +88,22 @@ namespace Vmp.Web
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+            app.SeedRoles();
+
+            app.UseEndpoints(endpoints =>
+            {
+                // Default route
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                // Area route
+                endpoints.MapControllerRoute(
+                    name: "Admin",
+                    pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
+            });
+
+            app.MapDefaultControllerRoute();
             app.MapRazorPages();
 
             app.Run();

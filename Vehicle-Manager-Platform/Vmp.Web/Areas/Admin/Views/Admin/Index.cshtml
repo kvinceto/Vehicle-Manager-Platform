@@ -1,0 +1,70 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Admin page";
+}
+
+<style>
+    .custom-table {
+        border-collapse: collapse;
+    }
+
+        .custom-table td {
+            border: 1px solid black;
+        }
+
+    .table-container {
+        display: flex;
+        justify-content: center;
+    }
+</style>
+
+<h4 class="text-center">@ViewData["Title"]</h4>
+
+<div class="container d-flex justify-content-center">
+    <div class="table-responsive table-container">
+        <table class="table table-striped table-bordered custom-table table-hover">
+            <tbody>
+                <tr>
+                    <td class="col-12 text-center">
+                        Restore Task
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-12 text-center">
+                        Restore Owner
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-12 text-center">
+                        Restore Vehicle
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-12 text-center">
+                        Restore Cost Center
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-12 text-center">
+                        Restore Mileage Check
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-12 text-center">
+                        Restore Date Check
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-12 text-center">
+                        Resrore Waybill
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-12 text-center">
+                        Users Control panel
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

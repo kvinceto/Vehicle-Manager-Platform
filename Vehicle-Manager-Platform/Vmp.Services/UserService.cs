@@ -21,13 +21,13 @@
 
         public async Task DeleteDataAsync(string? id)
         {
-            ApplicationUser? user = await dbContext.AspNetUsers
+            ApplicationUser? user = await dbContext.AspNetUsers              
                 .FirstOrDefaultAsync(u => u.Id.ToString() == id);
 
             if (user == null)
             {
                 throw new NullReferenceException(nameof(user));
-            }
+            }        
 
             user.UserName = null;
             user.NormalizedUserName = null;

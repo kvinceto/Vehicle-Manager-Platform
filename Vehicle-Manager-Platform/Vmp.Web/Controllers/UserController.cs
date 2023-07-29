@@ -10,6 +10,7 @@
     using Vmp.Web.ViewModels;
 
     using static Vmp.Common.NotificationMessagesConstants;
+    using static Vmp.Common.GlobalApplicationConstants;
 
     [Authorize]
     public class UserController : Controller
@@ -24,6 +25,7 @@
             this.signInManager = signInManager;
         }
 
+        [Authorize(Roles = UserRoleName)]
         [HttpGet]
         public IActionResult Delete()
         {
@@ -51,7 +53,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Eror in the Database!";
+                TempData[ErrorMessage] = "Error in the Database!";
             }
 
             return RedirectToAction("Index", "Home");

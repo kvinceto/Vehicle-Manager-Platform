@@ -125,7 +125,12 @@
                                     </ul>
                                 </div>
                             </li>
-
+                            @if (User.IsInRole(AdminRoleName))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-warning" asp-area="Admin" asp-controller="Admin" asp-action="Index"><strong>Admin panel</strong></a>
+                                </li>
+                            }
                         }
                     </ul>
                     <partial name="_LoginPartial" />
