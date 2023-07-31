@@ -16,6 +16,8 @@
 
         Task<ICollection<WaybillViewModelAll>> GetAllForVehicleAsync(string regNumber);
 
+        Task<ICollection<WaybillViewModelAll>> GetAllForVehicleForPeriod(string vehicleNumber, string startDate, string endDate);
+
         Task<WaybillViewModelShort> GetShortWaybillByIdAsync(int id);
 
         Task<WaybillViewModelDetails> GetWaybillByIdAsync(int id);

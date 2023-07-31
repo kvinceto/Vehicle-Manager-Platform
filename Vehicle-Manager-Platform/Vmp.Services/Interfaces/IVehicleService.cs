@@ -15,5 +15,7 @@
         Task EditVehicleAsync(VehicleViewModelAdd model);
 
         Task<bool> DeleteVehicleByIdAsync(string regNumber);
+
+        Task<ICollection<VehicleViewModelShortInfo>> GetAllAsync();
     }
 }

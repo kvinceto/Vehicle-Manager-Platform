@@ -119,7 +119,7 @@
                                         <strong>Waybills</strong>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li><a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Waybill" asp-action="All">All Waybills</a></li>
+                                        <li><a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Waybill" asp-action="AllPeriod">All Waybills</a></li>
                                         <li><hr class="dropdown-divider"></li>
                                         <li><a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Waybill" asp-action="Index">Add New Waybill</a></li>
                                     </ul>
@@ -128,7 +128,7 @@
                             @if (User.IsInRole(AdminRoleName))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-warning" asp-area="Admin" asp-controller="Admin" asp-action="Index"><strong>Admin panel</strong></a>
+                                    <a class="nav-link text-primary" asp-area="Admin" asp-controller="Admin" asp-action="Index"><strong>Admin panel</strong></a>
                                 </li>
                             }
                         }

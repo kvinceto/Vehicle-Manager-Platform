@@ -98,7 +98,7 @@
             vehicle.Mileage += waybillToEdit.MileageTraveled;
 
             await dbContext.SaveChangesAsync();
-           
+
         }
 
         public async Task<ICollection<WaybillViewModelAll>> GetAllAsync()
@@ -122,18 +122,18 @@
 
         public async Task<ICollection<WaybillViewModelAll>> GetAllForCostCenterAsync(int id)
         {
-           return await dbContext.Waybills
-                .AsNoTracking()
-                .Include(w => w.Vehicle)
-                .Where(w => w.CostCenterId == id)
-                .Select(w => new WaybillViewModelAll()
-                {
-                    Id = w.Id,
-                    Info = w.Info,
-                    Date = w.Date.ToString("dd/MM/yyyy"),
-                    VehicleNumber = w.VehicleNumber
-                })
-                .ToArrayAsync();
+            return await dbContext.Waybills
+                 .AsNoTracking()
+                 .Include(w => w.Vehicle)
+                 .Where(w => w.CostCenterId == id)
+                 .Select(w => new WaybillViewModelAll()
+                 {
+                     Id = w.Id,
+                     Info = w.Info,
+                     Date = w.Date.ToString("dd/MM/yyyy"),
+                     VehicleNumber = w.VehicleNumber
+                 })
+                 .ToArrayAsync();
         }
 
         public async Task<ICollection<WaybillViewModelAll>> GetAllForVehicleAsync(string regNumber)
@@ -149,6 +149,25 @@
                     VehicleNumber = w.VehicleNumber.ToString()
                 })
                 .ToArrayAsync();
+        }
+
+        public async Task<ICollection<WaybillViewModelAll>> GetAllForVehicleForPeriod(string vehicleNumber, string startDate, string endDate)
+        {
+            DateTime start = DateTime.Parse(startDate);
+            DateTime end = DateTime.Parse(endDate);
+
+            return await dbContext.Waybills
+                 .Include(w => w.Vehicle)
+                 .Where(w => w.VehicleNumber == vehicleNumber && w.Date >= start && w.Date <= end)
+                 .OrderByDescending(w => w.Date)
+                 .Select(w => new WaybillViewModelAll()
+                 {
+                     Id = w.Id,
+                     Date = w.Date.ToString("dd/MM/yyyy"),
+                     Info = w.Info,
+                     VehicleNumber = w.VehicleNumber
+                 })
+                 .ToArrayAsync();
         }
 
         public async Task<WaybillViewModelShort> GetShortWaybillByIdAsync(int id)

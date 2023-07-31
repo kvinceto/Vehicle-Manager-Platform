@@ -72,12 +72,27 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> AllPeriod()
         {
+            WaybillDatesViewModel viewModel = new WaybillDatesViewModel();
+            viewModel.Vehicles = await vehicleService.GetAllAsync();
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> All(WaybillDatesViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData[ErrorMessage] = "Enter valid data!";
+                return RedirectToAction("AllPeriod", "Waybill");
+            }
+
             try
             {
-                ICollection<WaybillViewModelAll> waybills = await waybillService.GetAllAsync();
-                TempData[SuccessMessage] = "All Waybills are viewed";
+                ICollection<WaybillViewModelAll> waybills = await waybillService.GetAllForVehicleForPeriod(viewModel.VehicleNumber, viewModel.StartDate, viewModel.EndDate);
+                TempData[SuccessMessage] = $"All Waybills for vehicle {viewModel.VehicleNumber} between {viewModel.StartDate} and {viewModel.EndDate} are viewed";
+                ViewData["Text"] = $"for Vehicle: {viewModel.VehicleNumber} between {viewModel.StartDate} and {viewModel.EndDate}";                
                 return View(waybills);
             }
             catch (Exception)
@@ -94,6 +109,7 @@
             {
                 ICollection<WaybillViewModelAll> waybills = await waybillService.GetAllForCostCenterAsync(id);
                 TempData[InformationMessage] = $"All Waybills for Cost center with id: {id} are viewed";
+                ViewData["Text"] = $"for Cost center with id: {id}";
                 return View("All", waybills);
             }
             catch (Exception)

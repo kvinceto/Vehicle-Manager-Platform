@@ -79,6 +79,19 @@
             await dbContext.SaveChangesAsync();       
         }
 
+        public async Task<ICollection<VehicleViewModelShortInfo>> GetAllAsync()
+        {
+            return await dbContext.Vehicles
+                .OrderBy(v => v.Number)
+                .Select(v => new VehicleViewModelShortInfo
+                {
+                    Number = v.Number,
+                    Make = null,
+                    Model = null
+                })
+                .ToArrayAsync();
+        }
+
         public async Task<ICollection<VehicleViewModelShortInfo>> GetAllVehiclesAsync()
         {
             return await dbContext.Vehicles
