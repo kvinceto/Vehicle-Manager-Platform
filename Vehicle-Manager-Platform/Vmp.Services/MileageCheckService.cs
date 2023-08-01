@@ -22,6 +22,12 @@
             this.dbContext = dbContext;
         }
 
+        /// <summary>
+        /// This method creates new mileage check in the Database
+        /// </summary>
+        /// <param name="modelAdd">View Model for the data</param>
+        /// <param name="myId">User Id</param>
+        /// <returns>Void</returns>
         public async Task AddAsync(MileageCheckViewModelAdd modelAdd, string myId)
         {
             MileageCheck mileageCheck = new MileageCheck()
@@ -37,17 +43,23 @@
             await dbContext.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// This method marks mileage check as completed
+        /// </summary>
+        /// <param name="id">The Id for the mileage check</param>
+        /// <param name="myId">User Id</param>
+        /// <returns>string</returns>
         public async Task<string> CompleteCheckByIdAsync(int id, string myId)
         {
             MileageCheck? mileageCheck = await dbContext.MileageChecks
                   .FirstOrDefaultAsync(mc => mc.Id == id);
 
-            if(mileageCheck == null)
+            if (mileageCheck == null)
             {
                 return "not changed";
             }
 
-            if(mileageCheck.UserId.ToString() !=  myId)
+            if (mileageCheck.UserId.ToString() != myId)
             {
                 return "not me";
             }
@@ -60,6 +72,12 @@
 
         }
 
+        /// <summary>
+        /// This method edits a mileage check data
+        /// </summary>
+        /// <param name="viewModel">View Model for the data</param>
+        /// <returns>Void</returns>
+        /// <exception cref="NullReferenceException">If not found throws exception</exception>
         public async Task EditAsync(MileageCheckViewModelEdit viewModel)
         {
             MileageCheck? mileageCheck = await dbContext.MileageChecks
@@ -77,7 +95,11 @@
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<ICollection<MileageCheckViewModelAll>> GetAllAsync()
+        /// <summary>
+        /// This methos returns all active mileage checks
+        /// </summary>
+        /// <returns>Collection of type MileageCheckViewModelAll</returns>
+        public async Task<ICollection<MileageCheckViewModelAll>> GetAllActiveAsync()
         {
             return await dbContext.MileageChecks
                 .AsNoTracking()
@@ -92,6 +114,11 @@
                 .ToArrayAsync();
         }
 
+        /// <summary>
+        /// This methos returns all active mileage checks for vehicle
+        /// </summary>
+        /// <param name="vehicleNumber">The vehicle registration number</param>
+        /// <returns>Collection of type MileageChecViewModelAll</returns>
         public async Task<ICollection<MileageCheckViewModelAll>> GetAllForVehicleAsync(string vehicleNumber)
         {
             return await dbContext.MileageChecks
@@ -107,6 +134,11 @@
                .ToArrayAsync();
         }
 
+        /// <summary>
+        /// This methos returns all active mileage checks for user
+        /// </summary>
+        /// <param name="vehicleNumber">The vehicle registration number</param>
+        /// <returns>Collection of type MileageChecViewModelAll</returns>
         public async Task<ICollection<MileageCheckViewModelAll>> GetAllMineAsync(string myId)
         {
 
@@ -123,6 +155,12 @@
                .ToArrayAsync();
         }
 
+        /// <summary>
+        /// This method returns mileage check data
+        /// </summary>
+        /// <param name="id">The Id of the mileage check</param>
+        /// <returns>Check of type MileageCheckViewModelDetails</returns>
+        /// <exception cref="NullReferenceException">If not found throws exception</exception>
         public async Task<MileageCheckViewModelDetails> GetChechByIdAsync(int id)
         {
             MileageCheck? mileageCheck = await dbContext.MileageChecks
@@ -145,6 +183,12 @@
             };
         }
 
+        /// <summary>
+        /// This methos returns mileage check for Edit
+        /// </summary>
+        /// <param name="id">The Id of the mileage check</param>
+        /// <returns>Check of type MileageCheckViewModelEdit</returns>
+        /// <exception cref="NullReferenceException">If not found throws exception</exception>
         public async Task<MileageCheckViewModelEdit> GetCheckByIdForEditAsync(int id)
         {
             MileageCheck? mileageCheck = await dbContext.MileageChecks

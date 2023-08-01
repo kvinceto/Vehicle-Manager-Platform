@@ -3,30 +3,30 @@
     ViewData["Title"] = "Add New Task";
 }
 
-<div class="container d-flex justify-content-center">
+<div class="container d-flex justify-content-center align-content-center">
     <div class="w-50">
 
         <h4 class="text-center">@ViewData["Title"]</h4>
 
         <form method="post" asp-action="Add" class="form">
 
-            <div class="form-group">
-                <label asp-for="Name" class="form-label-add-edit">Name</label>
-                <input asp-for="@Model.Name" type="text" class="form-control" />
+            <div class="form-group mt-1 mb-1">
+                <label asp-for="Name" class="form-label-add-edit fs-5">Task Name<bold class="text-danger">*</bold></label>
+                <input asp-for="@Model.Name" type="text" class="form-control" placeholder="Example: Create new task" />
                 <span asp-validation-for="@Model.Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="form-label-add-edit">Description</label>
-                <input asp-for="@Model.Description" type="text" class="form-control" />
+            <div class="form-group mt-1 mb-1">
+                <label asp-for="Description" class="form-label-add-edit fs-5">Task Description<bold class="text-danger">*</bold></label>
+                <input asp-for="@Model.Description" type="text" class="form-control" placeholder="Describe what should be done" />
                 <span asp-validation-for="@Model.Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Deadline" class="form-label-add-edit">Deadline</label>
+            <div class="form-group mt-1 mb-1">
+                <label asp-for="Deadline" class="form-label-add-edit fs-5">Deadline<bold class="text-danger">*</bold></label>
                 <input asp-for="@Model.Deadline" type="date" class="form-control" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
                 <span asp-validation-for="@Model.Deadline" class="text-danger"></span>
             </div>
 
-            <div class="form-group mt-1 d-flex justify-content-center">
+            <div class="form-group mt-2 mb-2 d-flex justify-content-center">
                 <input type="submit" value="Add Task" class="btn btn-outline-warning" />
             </div>
         </form>

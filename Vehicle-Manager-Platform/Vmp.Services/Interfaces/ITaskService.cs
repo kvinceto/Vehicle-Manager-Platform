@@ -10,11 +10,11 @@
 
         Task<TaskViewModelDetails> GetTaskByIdAsync(int taskId);
 
-        Task<ICollection<TaskViewModelAll>> GetMyTasks(string? userId);
+        Task<ICollection<TaskViewModelAll>> GetMyTasksAsync(string? userId);
 
-        Task<TaskViewModelAdd> GetTaskByIdForEdit(int taskId);
+        Task<TaskViewModelAdd> GetTaskByIdForEditAsync(int taskId);
 
-        Task<bool> EditTask(TaskViewModelAdd model, string? myId);
+        Task<bool> EditTaskAsync(TaskViewModelAdd model, string? myId);
 
         Task<bool> CompleteTaskByIdAsync(int taskId, string? myId);
     }

@@ -6,6 +6,7 @@
     using Vmp.Services.Interfaces;
     using Vmp.Web.ViewModels.MileageCheckViewModels;
 
+    using static Vmp.Common.GlobalApplicationConstants;
     using static Vmp.Common.NotificationMessagesConstants;
     using static Vmp.Services.Extensions.ClaimsPrincipalExtensions;
 
@@ -30,13 +31,13 @@
             {
                 dtoModel.Vehicles = await vehicleService.GetAllVehiclesAsync();
 
-                dtoModel.Checks = await mileageCheckService.GetAllAsync();
+                dtoModel.Checks = await mileageCheckService.GetAllActiveAsync();
 
-                TempData[SuccessMessage] = "All Mileage check viewed";
+                TempData[InformationMessage] = "All Mileage check viewed";
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error with the database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
             }
 
             return View(dtoModel);
@@ -53,11 +54,11 @@
 
                 dtoModel.Checks = await mileageCheckService.GetAllForVehicleAsync(vehicleNumber);
 
-                TempData[SuccessMessage] = $"All Mileage check viewed for vehicle with Registration number: {vehicleNumber}";
+                TempData[InformationMessage] = $"All Mileage check viewed for vehicle with Registration number: {vehicleNumber}";
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error with the database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
             }
 
             return View(dtoModel);
@@ -76,11 +77,11 @@
 
                 dtoModel.Checks = await mileageCheckService.GetAllMineAsync(myId);
 
-                TempData[SuccessMessage] = "All My Mileage check viewed";
+                TempData[InformationMessage] = "All My Mileage check viewed";
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error with the database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
             }
 
             return View("All", dtoModel);
@@ -90,8 +91,16 @@
         public async Task<IActionResult> Add()
         {
             MileageCheckViewModelAdd modelAdd = new MileageCheckViewModelAdd();
-            modelAdd.Vehicles = await vehicleService.GetAllVehiclesAsync();
-            return View(modelAdd);
+            try
+            {
+                modelAdd.Vehicles = await vehicleService.GetAllVehiclesAsync();
+                return View(modelAdd);
+            }
+            catch (Exception)
+            {
+                TempData[ErrorMessage] = DatabaseErrorMassage;
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         [HttpPost]
@@ -99,8 +108,17 @@
         {
             if (!ModelState.IsValid)
             {
-                TempData[ErrorMessage] = "Enter valid data!";
-                return View(modelAdd);
+                TempData[ErrorMessage] = InvalidDataErrorMassage;
+                try
+                {
+                    modelAdd.Vehicles = await vehicleService.GetAllVehiclesAsync();
+                    return View(modelAdd);
+                }
+                catch (Exception)
+                {
+                    TempData[ErrorMessage] = DatabaseErrorMassage;
+                    return RedirectToAction("Index", "Home");
+                }              
             }
 
             string myId = User.GetId()!;
@@ -112,12 +130,11 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error with the database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
             }
 
             return RedirectToAction("All", "MileageCheck");
         }
-
 
         [HttpGet]
         public async Task<IActionResult> ViewInfo(int id)
@@ -125,12 +142,12 @@
             try
             {
                 MileageCheckViewModelDetails viewModel = await mileageCheckService.GetChechByIdAsync(id);
-                TempData[SuccessMessage] = "Info viewed";
+                TempData[InformationMessage] = "Info viewed";
                 return View(viewModel);
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error with the database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("All", "MileageCheck");
             }
         }
@@ -166,9 +183,17 @@
             viewModel.UserId = User.GetId()!;
             if (!ModelState.IsValid)
             {
-                TempData[ErrorMessage] = "Enter valid data";
-                viewModel.Vehicles = await vehicleService.GetAllVehiclesAsync();
-                return View(viewModel);
+                TempData[ErrorMessage] = InvalidDataErrorMassage;
+                try
+                {
+                    viewModel.Vehicles = await vehicleService.GetAllVehiclesAsync();
+                    return View(viewModel);
+                }
+                catch (Exception)
+                {
+                    TempData[ErrorMessage] = DatabaseErrorMassage;
+                    return RedirectToAction("All", "MileageCheck");
+                }               
             }
 
             try
@@ -194,7 +219,7 @@
 
                 if (result == "not me")
                 {
-                    ViewData["Error"] = "Only the creator of the current chech can complete it!";
+                    ViewData["Error"] = "Only the creator of the current check can complete it!";
                     return View("NoAccess");
                 }
                 else if (result == "not changed")
@@ -215,7 +240,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the Database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("All", "MileageCheck");
             }
         }

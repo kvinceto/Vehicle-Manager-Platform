@@ -22,7 +22,7 @@
 
 <div class="container">
 
-    <h4 class="text-center">Details for vehicle with registration number: @Model.RegistrationNumber</h4>
+    <h4 class="text-center mt-2 mb-2">Details for vehicle with registration number: @Model.RegistrationNumber</h4>
 
     <div class="row justify-content-center mt-2">
 
@@ -68,7 +68,7 @@
 
                     <tr>
                         <th>
-                            Model:
+                            Vehicle Model:
                         </th>
                         @if (Model.Model == null)
                         {
@@ -86,7 +86,7 @@
 
                     <tr>
                         <th>
-                            Make:
+                            Vehicle Make:
                         </th>
                         @if (Model.Make == null)
                         {
@@ -104,7 +104,7 @@
 
                     <tr>
                         <th>
-                            Mileage:
+                            Vehicle current Mileage:
                         </th>
                         <td>
                             @Model.Mileage
@@ -113,7 +113,7 @@
 
                     <tr>
                         <th>
-                            Current fuel quantity:
+                            Vehicle current fuel quantity:
                         </th>
                         <td>
                             @Model.FuelQuantity
@@ -140,7 +140,7 @@
 
                     <tr>
                         <th>
-                            Fuel cost per 100 km or 1 hour:
+                            Fuel cost rate:
                         </th>
                         <td>
                             @Model.FuelCostRate
@@ -167,7 +167,7 @@
 
                     <tr>
                         <th>
-                            Waybills Count:
+                            Waybills Count for this Vehicle:
                         </th>
                         @if (Model.CountOfWaybills == 0)
                         {
@@ -188,7 +188,7 @@
 
                     <tr>
                         <th>
-                            Mileage checks:
+                            Mileage checks for this Vehicle:
                         </th>
                         @if (Model.CountOfMileageChecks == 0)
                         {
@@ -209,7 +209,7 @@
 
                     <tr>
                         <th>
-                            Date checks:
+                            Date checks for this Vehicle:
                         </th>
                         @if (Model.CountOfDateChecks == 0)
                         {

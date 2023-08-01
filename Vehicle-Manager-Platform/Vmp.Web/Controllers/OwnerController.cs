@@ -6,6 +6,7 @@
     using Vmp.Services.Interfaces;
     using Vmp.Web.ViewModels.OwnerViewModels;
 
+    using static Vmp.Common.GlobalApplicationConstants;
     using static Vmp.Common.NotificationMessagesConstants;
 
     [Authorize]
@@ -21,8 +22,17 @@
         [HttpGet]
         public async Task<IActionResult> All()
         {
-            ICollection<OwnerViewModelAll> models = await ownerService.GetAllOwnersAsync();
-            return View(models);
+            try
+            {
+                ICollection<OwnerViewModelAll> models = await ownerService.GetAllActiveOwnersAsync();
+                TempData[InformationMessage] = "All active Owners are viewed";
+                return View(models);
+            }
+            catch (Exception)
+            {
+                TempData[ErrorMessage] = DatabaseErrorMassage;
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         [HttpGet]
@@ -37,7 +47,7 @@
         {
             if (!ModelState.IsValid)
             {
-                TempData[ErrorMessage] = "Enter valid data!";
+                TempData[ErrorMessage] = InvalidDataErrorMassage;
                 return View(model);
             }
 
@@ -48,7 +58,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
             }
 
             return RedirectToAction("All", "Owner");
@@ -73,14 +83,22 @@
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            bool isCompleted = await ownerService.DeleteOwnerByIdAsync(id);
-            if (isCompleted)
+            try
             {
-                TempData[SuccessMessage] = "Owner Deleted! To restore contact Admin!";
+                bool isCompleted = await ownerService.DeleteOwnerByIdAsync(id);
+                if (isCompleted)
+                {
+                    TempData[SuccessMessage] = "Owner Deleted! To restore contact Admin!";
+                    return RedirectToAction("All", "Owner");
+                }
+                TempData[ErrorMessage] = "Owner is not deleted";
                 return RedirectToAction("All", "Owner");
             }
-            TempData[ErrorMessage] = "Owner is not deleted";
-            return RedirectToAction("All", "Owner");
+            catch (Exception)
+            {
+                TempData[ErrorMessage] = DatabaseErrorMassage;
+                return RedirectToAction("All", "Owners");
+            }
         }
 
         [HttpGet]
@@ -90,9 +108,9 @@
             {
                 OwnerViewModelEdit model = await ownerService.GetOwnerByIdForEditAsync(id);
 
-                if(model == null)
+                if (model == null)
                 {
-                    TempData[WarningMessage] = "Owner is null!";
+                    TempData[ErrorMessage] = "Owner is null!";
                     return RedirectToAction("All", "Owner");
                 }
                 TempData[WarningMessage] = "Owner viewed for edit";
@@ -100,7 +118,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("All", "Owner");
             }
         }
@@ -110,13 +128,13 @@
         {
             if (!ModelState.IsValid)
             {
-                TempData[ErrorMessage] = "Enter valid data";
+                TempData[ErrorMessage] = InvalidDataErrorMassage;
                 return View(model);
             }
 
             try
             {
-                await ownerService.EditOwner(model);
+                await ownerService.EditOwnerAsync(model);
                 TempData[SuccessMessage] = "Owner edited!";
                 return RedirectToAction("All", "Owner");
             }

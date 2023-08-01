@@ -21,7 +21,7 @@
         <form asp-controller="Waybill" asp-action="Add" method="post">
             <div class="form-group">
                 <div>
-                    <label>Vehicle Number</label>
+                    <label class="fs-5">Vehicle Number<bold class="text-danger">*</bold></label>
                     <select name="regNumber" class="form-control" required>
                         <option value="">Select a vehicle</option>
                         @foreach (var vehicle in Model)

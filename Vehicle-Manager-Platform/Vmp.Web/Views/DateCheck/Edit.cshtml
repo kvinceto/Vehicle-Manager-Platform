@@ -6,7 +6,7 @@
 <div class="container d-flex justify-content-center align-content-center">
     <div class="w-50">
 
-        <h4 class="text-center">@ViewData["Title"]</h4>
+        <h4 class="text-center mt-2 mb-2">@ViewData["Title"]</h4>
 
         <form asp-action="Edit" method="post">
 
@@ -18,21 +18,21 @@
                 <input type="hidden" asp-for="@Model.UserId" value="@Model.UserId" class="form-control" />
             </div>
 
-            <div class="form-group mt-2">
-                <label asp-for="@Model.Name">Name</label>
-                <input asp-for="@Model.Name" class="form-control" />
+            <div class="form-group">
+                <label asp-for="@Model.Name" class="fs-5">Date Check Name<bold class="text-danger">*</bold></label>
+                <input asp-for="@Model.Name" class="form-control" placeholder="Example: Oil change" />
                 <span asp-validation-for="@Model.Name" class="text-danger"></span>
             </div>
 
-            <div class="form-group mt-2">
-                <label asp-for="@Model.EndDate">Deadline</label>
+            <div class="form-group">
+                <label asp-for="@Model.EndDate" class="fs-5">Deadline<bold class="text-danger">*</bold></label>
                 <input asp-for="@Model.EndDate" type="date" value="@DateTime.UtcNow.Date" asp-format="dd/MM/yyyy" class="form-control" />
                 <span asp-validation-for="@Model.EndDate" class="text-danger"></span>
             </div>
 
-            <div class="form-group mt-2">
+            <div class="form-group">
                 <div>
-                    <label asp-for="@Model.VehicleNumber">Vehicle Number</label>
+                    <label asp-for="@Model.VehicleNumber" class="fs-5">Vehicle Number<bold class="text-danger">*</bold></label>
                     <select asp-for="@Model.VehicleNumber" class="form-control">
                         @foreach (var vehicle in Model.Vehicles)
                         {
@@ -42,6 +42,7 @@
                     <span asp-validation-for="@Model.VehicleNumber" class="text-danger"></span>
                 </div>
             </div>
+
 
             <div class="form-group mt-2 justify-content-md-around text-center">
                 <button type="submit" class="btn btn-outline-warning text-center justify-content-center align-content-center mt-2">Edit</button>

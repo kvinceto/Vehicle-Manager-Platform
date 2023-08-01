@@ -25,14 +25,14 @@
     }
 </style>
 
-<div class="container-fluid d-flex justify-content-center align-items-center mb-2">
+<div class="text-center align-content-center justify-content-center mb-2">
     <div class="text-decoration-none bg-info p-2">
         <form asp-area="" asp-controller="DateCheck" asp-action="AllMine" method="post">
             <button type="submit" class="btn btn-link text-dark">View only my checks</button>
         </form>
     </div>
 </div>
-<div class="container text-center mb-2 bg-info bg-opacity-10">
+<div class="text-center align-content-center justify-content-center mb-2">
     <div class="d-flex flex-column align-items-center">
         <form asp-area="" asp-controller="DateCheck" asp-action="All" method="post">
             <div class="row">
@@ -53,80 +53,91 @@
 </div>
 <div class="container">
 
-    <h4 class="text-center">@ViewData["Title"]</h4>
+    <h4 class="text-center mb-2">@ViewData["Title"]</h4>
 
-    <div class="row justify-content-center">
-        <div class="col-md-10">
-            <div class="table-responsive">
-                <table class="table table-bordered custom-table">
-                    <thead>
-                        <tr class="bg-success">
-                            <th>Name</th>
-                            <th>Vehicle Number</th>
-                            <th>Deadline</th>
-                            <th>View</th>
-                            <th>Edit</th>
-                            <th>Complete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var check in Model.Checks)
-                        {
-                            <tr>
-                                <td>@check.Name</td>
-                                <td>@check.VehicleNumber</td>
-                                @{
-                                    DateTime date = DateTime.MinValue;
-                                    bool isPastable = DateTime.TryParse(check.EndDate, out date);
-                                }
-                                @if (isPastable)
-                                {
-                                    int n = today.CompareTo(date);
+    <div class="text-center mt-2 mb-2">
+        <h6 class="text-center text-info"> Today: @DateTime.UtcNow.Date.ToString("dd/MM/yyyy")</h6>
+    </div>
 
-                                    string bootstrapClass = string.Empty;
-
-                                    if (n > 0)
-                                    {
-                                        bootstrapClass = "text-danger";
+    @if (Model.Checks.Count > 0)
+    {
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="table-responsive">
+                    <table class="table table-bordered custom-table">
+                        <thead>
+                            <tr class="bg-success">
+                                <th class="align-content-center col-4">Name</th>
+                                <th class="align-content-center col-2">Vehicle Number</th>
+                                <th class="align-content-center col-2">Deadline</th>
+                                <th class="align-content-center col-1">View</th>
+                                <th class="align-content-center col-1">Edit</th>
+                                <th class="align-content-center col-2">Complete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var check in Model.Checks)
+                            {
+                                <tr>
+                                    <td>@check.Name</td>
+                                    <td>@check.VehicleNumber</td>
+                                    @{
+                                        DateTime date = DateTime.MinValue;
+                                        bool isPastable = DateTime.TryParse(check.EndDate, out date);
                                     }
-                                    else if (n == 0)
+                                    @if (isPastable)
                                     {
-                                        bootstrapClass = "text-warning";
+                                        int n = today.CompareTo(date);
+
+                                        string bootstrapClass = string.Empty;
+
+                                        if (n > 0)
+                                        {
+                                            bootstrapClass = "text-danger";
+                                        }
+                                        else if (n == 0)
+                                        {
+                                            bootstrapClass = "text-warning";
+                                        }
+                                        else
+                                        {
+                                            bootstrapClass = "text-dark";
+                                        }
+
+                                        <td class="@bootstrapClass">@check.EndDate</td>
                                     }
                                     else
                                     {
-                                        bootstrapClass = "text-dark";
+                                        <td class="text-danger">Invalid date</td>
                                     }
-
-                                    <td class="@bootstrapClass">@check.EndDate</td>
-                                }
-                                else
-                                {
-                                    <td class="text-danger">Invalid date</td>
-                                }
-                                <td class="text-center bg-info">
-                                    <form asp-area="" asp-controller="DateCheck" asp-action="ViewInfo" method="get">
-                                        <input type="hidden" name="id" value="@check.Id" />
-                                        <button type="submit" class="btn btn-link text-dark align-content-center">View</button>
-                                    </form>
-                                </td>
-                                <td class="text-center bg-warning">
-                                    <form asp-area="" asp-controller="DateCheck" asp-action="Edit" method="get">
-                                        <input type="hidden" name="id" value="@check.Id" />
-                                        <button type="submit" class="btn btn-link text-dark align-content-center">Edit</button>
-                                    </form>
-                                </td>
-                                <td class="text-center bg-danger">
-                                    <form asp-area="" asp-controller="DateCheck" asp-action="Complete" method="post">
-                                        <input type="hidden" name="id" value="@check.Id" />
-                                        <button type="submit" class="btn btn-link text-dark align-content-center">Complete</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                                    <td class="text-center bg-info">
+                                        <form asp-area="" asp-controller="DateCheck" asp-action="ViewInfo" method="get">
+                                            <input type="hidden" name="id" value="@check.Id" />
+                                            <button type="submit" class="btn btn-link text-dark align-content-center text-decoration-none">View</button>
+                                        </form>
+                                    </td>
+                                    <td class="text-center bg-warning">
+                                        <form asp-area="" asp-controller="DateCheck" asp-action="Edit" method="get">
+                                            <input type="hidden" name="id" value="@check.Id" />
+                                            <button type="submit" class="btn btn-link text-dark align-content-center text-decoration-none">Edit</button>
+                                        </form>
+                                    </td>
+                                    <td class="text-center bg-danger">
+                                        <form asp-area="" asp-controller="DateCheck" asp-action="Complete" method="post">
+                                            <input type="hidden" name="id" value="@check.Id" />
+                                            <button type="submit" class="btn btn-link text-dark align-content-center text-decoration-none">Complete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
+    }
+    else
+    {
+        <h1 class="text-center text-danger">No active date checks</h1>
+    }
 </div>

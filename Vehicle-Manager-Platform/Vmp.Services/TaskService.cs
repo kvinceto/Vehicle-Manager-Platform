@@ -19,6 +19,13 @@
             this.dbContext = dbContext;
         }
 
+        /// <summary>
+        /// This method creates a new entry in the Database of type TaskModel
+        /// </summary>
+        /// <param name="model">View model of type TaskViewModelAdd</param>
+        /// <param name="userId">The Id of the user as string?</param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException">If userId is null throws exception</exception>
         public async Task AddNewTaskAsync(TaskViewModelAdd model, string? userId)
         {
             if (userId == null)
@@ -39,11 +46,22 @@
             await dbContext.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// This method marks a task entity for completed
+        /// </summary>
+        /// <param name="taskId">The Id of the task</param>
+        /// <param name="myId">This Id of the user</param>
+        /// <returns>True or False</returns>
         public async Task<bool> CompleteTaskByIdAsync(int taskId, string? myId)
         {
-            TaskModel task = await dbContext.Tasks
+            TaskModel? task = await dbContext.Tasks
                 .Include(t => t.User)
-                .FirstAsync(t => t.Id == taskId);
+                .FirstOrDefaultAsync(t => t.Id == taskId);
+
+            if (task == null)
+            {
+                return false;
+            }
 
             if(task.UserId.ToString() != myId)
             {
@@ -56,7 +74,13 @@
             return task.IsCompleted;
         }
 
-        public async Task<bool> EditTask(TaskViewModelAdd model, string? myId)
+        /// <summary>
+        /// This method makes changes to a entity of type TaskModel
+        /// </summary>
+        /// <param name="model">View Model with the new data</param>
+        /// <param name="myId">The Id of tha task to be edited</param>
+        /// <returns>True or False</returns>
+        public async Task<bool> EditTaskAsync(TaskViewModelAdd model, string? myId)
         {
             bool isMine = await dbContext.Tasks
                 .AnyAsync(t => t.Id == model.Id && t.UserId.ToString() == myId);
@@ -79,6 +103,10 @@
             return isMine;
         }
 
+        /// <summary>
+        /// This method returns all active tasks, for all users, ordered by End date accending
+        /// </summary>
+        /// <returns>Collection of tasks</returns>
         public async Task<ICollection<TaskViewModelAll>> GetAllActiveTasksAsync()
         {
 
@@ -98,7 +126,12 @@
             return tasks;
         }
 
-        public async Task<ICollection<TaskViewModelAll>> GetMyTasks(string? userId)
+        /// <summary>
+        /// This method returns all active tasks, for one user, ordered by End date accending
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>Collection of tasks</returns>
+        public async Task<ICollection<TaskViewModelAll>> GetMyTasksAsync(string? userId)
         {
             ICollection<TaskViewModelAll> tasks = new List<TaskViewModelAll>();
 
@@ -125,6 +158,12 @@
             return tasks;
         }
 
+        /// <summary>
+        /// This method returns one task entity
+        /// </summary>
+        /// <param name="taskId">The Id of the task to be viewed</param>
+        /// <returns>Task of type TaskViewModelDetails</returns>
+        /// <exception cref="NullReferenceException">If there is no such task throws exception</exception>
         public async Task<TaskViewModelDetails> GetTaskByIdAsync(int taskId)
         {
             TaskModel? task = await dbContext.Tasks
@@ -134,7 +173,7 @@
 
             if (task == null)
             {
-                throw new NullReferenceException();
+                throw new NullReferenceException(nameof(task));
             }
 
 
@@ -150,7 +189,13 @@
             return model;
         }
 
-        public async Task<TaskViewModelAdd> GetTaskByIdForEdit(int taskId)
+        /// <summary>
+        /// This method returns one task with the same Id
+        /// </summary>
+        /// <param name="taskId">The Id of the task</param>
+        /// <returns>View Model of type TaskViewModelAdd</returns>
+        /// <exception cref="NullReferenceException">If there is no such task throws exception</exception>
+        public async Task<TaskViewModelAdd> GetTaskByIdForEditAsync(int taskId)
         {
             TaskModel? task = await dbContext.Tasks
                .Include(t => t.User)
@@ -158,7 +203,7 @@
 
             if (task == null)
             {
-                return null;
+                throw new NullReferenceException(nameof(task));
             }
 
             TaskViewModelAdd model = new TaskViewModelAdd()

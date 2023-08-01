@@ -22,51 +22,58 @@
 <div class="container">
     <h4 class="text-center">@ViewData["Title"]</h4>
 
-    <div class="row justify-content-center">
-        <div class="col-md-10">
-            <div class="table-responsive table-container">
-                <table class="table table-striped table-bordered custom-table table-hover">
-                    <thead>
-                        <tr class="bg-success">
-                            <th class="text-center col-1">Row Number</th>
-                            <th class="text-center col-2">Owner ID</th>
-                            <th class="text-center col-3">Name</th>
-                            <th class="text-center col-2">View</th>
-                            <th class="text-center col-2">Edit</th>
-                            <th class="text-center col-2">Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var owner in Model)
-                        {
-                            rowCount++;
-                            <tr>
-                                <td>
-                                    @rowCount
-                                </td>
-                                <td>
-                                    @owner.Id
-                                </td>
-                                <td>
-                                    @owner.Name
-                                </td>
-                                <td class="text-center bg-info">
-                                    <a class="text-dark align-content-center text-decoration-none" asp-area="" asp-controller="Owner" asp-action="ViewOwnerInfo" asp-route-Id="@owner.Id">View</a>
-                                </td>
-                                <td class="text-center bg-warning">
-                                    <a class="text-dark align-content-center text-decoration-none" asp-area="" asp-controller="Owner" asp-action="Edit" asp-route-Id="@owner.Id">Edit</a>
-                                </td>
-                                <td class="text-center bg-danger">
-                                    <form asp-area="" asp-controller="Owner" asp-action="Delete" method="post">
-                                        <input type="hidden" name="Id" value="@owner.Id" />
-                                        <button type="submit" class="btn btn-link text-dark align-content-center text-decoration-none">Delete</button>
-                                    </form>
-                                </td>
+    @if (Model.Count > 0)
+    {
+        <div class="row justify-content-center text-center align-content-center">
+            <div class="col-md-10">
+                <div class="table-responsive table-container">
+                    <table class="table table-striped table-bordered custom-table table-hover">
+                        <thead>
+                            <tr class="bg-success">
+                                <th class="text-center col-1">Row Number</th>
+                                <th class="text-center col-2">Owner ID</th>
+                                <th class="text-center col-3">Name</th>
+                                <th class="text-center col-2">View</th>
+                                <th class="text-center col-2">Edit</th>
+                                <th class="text-center col-2">Delete</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var owner in Model)
+                            {
+                                rowCount++;
+                                <tr>
+                                    <td>
+                                        @rowCount
+                                    </td>
+                                    <td>
+                                        @owner.Id
+                                    </td>
+                                    <td>
+                                        @owner.Name
+                                    </td>
+                                    <td class="text-center bg-info">
+                                        <a class="text-dark align-content-center text-decoration-none" asp-area="" asp-controller="Owner" asp-action="ViewOwnerInfo" asp-route-Id="@owner.Id">View</a>
+                                    </td>
+                                    <td class="text-center bg-warning">
+                                        <a class="text-dark align-content-center text-decoration-none" asp-area="" asp-controller="Owner" asp-action="Edit" asp-route-Id="@owner.Id">Edit</a>
+                                    </td>
+                                    <td class="text-center bg-danger">
+                                        <form asp-area="" asp-controller="Owner" asp-action="Delete" method="post">
+                                            <input type="hidden" name="Id" value="@owner.Id" />
+                                            <button type="submit" class="btn btn-link text-dark align-content-center text-decoration-none">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
+    }
+    else
+    {
+        <h1 class="text-center text-danger">No active owners</h1>
+    }
 </div>

@@ -8,17 +8,61 @@
 
     public class ExcelService : IExcelService
     {
+        private bool license = IronXL.License.IsValidLicense("IRONSUITE.KVI.2012.ABV.BG.23029-7400CFFD9F-C5UTNBK-NSXHUP7OLUD2-TM7ZVXSR2HW3-7E5YKDH5XGSJ-55UCRAWZQIAB-OBXXM43YOYTD-6D6VPEQOBOZA-CDPL3L-TZGXJ3ROV5KKEA-DEPLOYMENT.TRIAL-5YTKZU.TRIAL.EXPIRES.31.AUG.2023");
+        private bool isLicensed = IronXL.License.IsLicensed;
+
         private readonly IWaybillService waybillService;
         private readonly IVehicleService vehicleService;
+        private readonly ITaskService taskService;
 
-        public ExcelService(IWaybillService waybillService, IVehicleService vehicleService)
+        public ExcelService(IWaybillService waybillService, IVehicleService vehicleService, ITaskService taskService)
         {
             this.waybillService = waybillService;
             this.vehicleService = vehicleService;
+            this.taskService = taskService;
         }
 
+        /// <summary>
+        /// This method returns a byte[] with list of tasks
+        /// </summary>
+        /// <returns>byte[]</returns>
+        public async Task<byte[]> GenerateExcelFileAllTasksAsync()
+        {
+            IsLicensed();
+
+            var tasks = await taskService.GetAllActiveTasksAsync();
+            WorkBook workbook = new WorkBook();
+            WorkSheet worksheet = workbook.CreateWorkSheet("AllTasks");
+            worksheet["A1"].Value = "Task Name";
+            worksheet["B1"].Value = "Deadline";
+            worksheet["C1"].Value = "Username of the creator";
+
+            int counter = 1;
+            foreach (var task in tasks)
+            {
+                counter++;
+                worksheet[$"A{counter}"].StringValue = task.Name;
+                worksheet[$"B{counter}"].StringValue = task.EndDate;
+                worksheet[$"C{counter}"].StringValue = task.User;
+            }
+
+            worksheet.AutoSizeColumn(0);
+            worksheet.AutoSizeColumn(1);
+            worksheet.AutoSizeColumn(2);
+
+            workbook.ToStream();
+            return workbook.ToByteArray();
+        }
+
+        /// <summary>
+        /// This method returns a byte[] with vehicle data
+        /// </summary>
+        /// <param name="regNumber">Tha registration number of the vehicle</param>
+        /// <returns>byte[]</returns>
         public async Task<byte[]> GenerateExcelFileVehicleAsync(string regNumber)
         {
+            IsLicensed();
+
             VehicleViewModelDetails vehicle = await vehicleService.GetVehicleByIdAsync(regNumber);
 
             WorkBook workbook = new WorkBook();
@@ -92,8 +136,12 @@
             return workbook.ToByteArray();
         }
 
+
+
         public async Task<byte[]> GenerateExcelFileWaybillAsync(int waybillId)
         {
+            IsLicensed();
+
             WaybillViewModelDetails waybill = await waybillService.GetWaybillByIdAsync(waybillId);
 
             WorkBook workbook = new WorkBook();
@@ -135,6 +183,18 @@
             worksheet.AutoSizeColumn(1);
             workbook.ToStream();
             return workbook.ToByteArray();
+        }
+
+        /// <summary>
+        /// This method check is the IronXL licenced
+        /// </summary>
+        /// <exception cref="Exception"></exception>
+        private void IsLicensed()
+        {
+            if (!isLicensed)
+            {
+                throw new Exception("Not licensed!");
+            }
         }
     }
 }

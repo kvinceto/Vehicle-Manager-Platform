@@ -12,6 +12,6 @@
 
         Task<bool> DeleteCostCenterByIdAsync(int costCenterId);
 
-        Task EditCostCenter(CostCenterViewModelEdit model);
+        Task EditCostCenterAsync(CostCenterViewModelEdit model);
     }
 }

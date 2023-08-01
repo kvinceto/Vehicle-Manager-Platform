@@ -6,7 +6,7 @@
 <div class="container d-flex justify-content-center">
     <div class="w-50">
 
-        <h4 class="text-center">@ViewData["Title"]</h4>
+        <h4 class="text-center mt-2 mb-2">@ViewData["Title"]</h4>
 
         <form asp-action="Edit" method="post">
             <div class="form-group">
@@ -14,20 +14,20 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="@Model.Name">Name</label>
-                <input asp-for="@Model.Name" class="form-control" />
+                <label asp-for="@Model.Name" class="fs-5">Mileage Check Name<bold class="text-danger">*</bold></label>
+                <input asp-for="@Model.Name" class="form-control" placeholder="Example: Oil change" />
                 <span asp-validation-for="@Model.Name" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="@Model.ExpectedMileage">Expected Mileage</label>
+                <label asp-for="@Model.ExpectedMileage" class="fs-5">Expected Mileage<bold class="text-danger">*</bold></label>
                 <input asp-for="@Model.ExpectedMileage" min="1" step="1" class="form-control" />
                 <span asp-validation-for="@Model.ExpectedMileage" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <div>
-                    <label asp-for="@Model.VehicleNumber">Vehicle Number</label>
+                    <label asp-for="@Model.VehicleNumber" class="fs-5">Vehicle Number<bold class="text-danger">*</bold></label>
                     <select asp-for="@Model.VehicleNumber" class="form-control">
                         @foreach (var vehicle in Model.Vehicles)
                         {

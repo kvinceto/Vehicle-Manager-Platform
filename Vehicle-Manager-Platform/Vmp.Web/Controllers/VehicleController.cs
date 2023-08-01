@@ -6,6 +6,7 @@
     using Vmp.Services.Interfaces;
     using Vmp.Web.ViewModels.VehicleViewModels;
 
+    using static Vmp.Common.GlobalApplicationConstants;
     using static Vmp.Common.NotificationMessagesConstants;
 
     [Authorize]
@@ -23,16 +24,34 @@
         [HttpGet]
         public async Task<IActionResult> All()
         {
-            var models = await vehicleService.GetAllVehiclesAsync();
-            return View(models);
+            try
+            {
+                var models = await vehicleService.GetAllVehiclesAsync();
+                TempData[InformationMessage] = "All active vehicles are viewed";
+                return View(models);
+            }
+            catch (Exception)
+            {
+                TempData[ErrorMessage] = DatabaseErrorMassage;
+                return RedirectToAction("Index", "Home");
+            }
+
         }
 
         [HttpGet]
         public async Task<IActionResult> Add()
         {
             VehicleViewModelAdd modelAdd = new VehicleViewModelAdd();
-            modelAdd.Owners = await ownerService.GetAllOwnersAsync();
-           
+            try
+            {
+                modelAdd.Owners = await ownerService.GetAllActiveOwnersAsync();
+            }
+            catch (Exception)
+            {
+                TempData[ErrorMessage] = DatabaseErrorMassage;
+                return RedirectToAction("Index", "Home");
+            }
+
             return View(modelAdd);
         }
 
@@ -41,9 +60,17 @@
         {
             if (!ModelState.IsValid)
             {
-                TempData[ErrorMessage] = "Enter valid data!";
-                viewModel.Owners = await ownerService.GetAllOwnersAsync();
-                return View(viewModel);
+                TempData[ErrorMessage] = InvalidDataErrorMassage;
+                try
+                {
+                    viewModel.Owners = await ownerService.GetAllActiveOwnersAsync();
+                    return View(viewModel);
+                }
+                catch (Exception)
+                {
+                    TempData[ErrorMessage] = DatabaseErrorMassage;
+                    return RedirectToAction("Index", "Home");
+                }
             }
 
             try
@@ -53,7 +80,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the database";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
             }
 
             return RedirectToAction("All", "Vehicle");
@@ -81,7 +108,7 @@
             try
             {
                 VehicleViewModelAdd model = await vehicleService.GetVehicleByIdForEditAsync(regNumber);
-                model.Owners = await ownerService.GetAllOwnersAsync();
+                model.Owners = await ownerService.GetAllActiveOwnersAsync();
                 TempData[WarningMessage] = "Vehicle is viewed for Edit!";
                 return View("EditVehicle", model);
             }
@@ -98,8 +125,15 @@
         {
             if (!ModelState.IsValid)
             {
-                TempData[ErrorMessage] = "Enter valid data";
-                vehicleModelEdit.Owners = await ownerService.GetAllOwnersAsync();
+                try
+                {
+                    TempData[ErrorMessage] = InvalidDataErrorMassage;
+                    vehicleModelEdit.Owners = await ownerService.GetAllActiveOwnersAsync();
+                }
+                catch (Exception)
+                {
+                    TempData[ErrorMessage] = DatabaseErrorMassage;
+                }
                 return View("EditVehicle", vehicleModelEdit);
             }
 
@@ -111,7 +145,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("All", "Vehicle");
             }
         }
@@ -119,14 +153,23 @@
         [HttpPost]
         public async Task<IActionResult> Delete(string regNumber)
         {
-            bool isCompleted = await vehicleService.DeleteVehicleByIdAsync(regNumber);
-            if (isCompleted)
+            try
             {
-                TempData[SuccessMessage] = "Vehicle Deleted! To restore contact Admin!";
+                bool isCompleted = await vehicleService.DeleteVehicleByIdAsync(regNumber);
+
+                if (isCompleted)
+                {
+                    TempData[SuccessMessage] = "Vehicle Deleted! To restore contact Admin!";
+                    return RedirectToAction("All", "Vehicle");
+                }
+                TempData[ErrorMessage] = "Vehicle is not deleted";
                 return RedirectToAction("All", "Vehicle");
             }
-            TempData[ErrorMessage] = "Vehicle is not deleted";
-            return RedirectToAction("All", "Vehicle");
+            catch (Exception)
+            {
+                TempData[ErrorMessage] = DatabaseErrorMassage;
+                return RedirectToAction("All", "Vehicle");
+            }
         }
     }
 }

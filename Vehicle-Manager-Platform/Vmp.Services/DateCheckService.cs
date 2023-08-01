@@ -19,6 +19,12 @@
             this.dbContext = dbContext;
         }
 
+        /// <summary>
+        /// This methos creates a date check entry in the Database
+        /// </summary>
+        /// <param name="viewModel">Viw Model for the data</param>
+        /// <param name="myId">User Id</param>
+        /// <returns>Void</returns>
         public async Task AddAsync(DateCheckViewModelAdd viewModel, string? myId)
         {
             DateCheck dateCheck = new DateCheck()
@@ -34,6 +40,12 @@
             await dbContext.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// This method marks date check as completed
+        /// </summary>
+        /// <param name="id">The Id of the date check</param>
+        /// <param name="myId">User Id</param>
+        /// <returns>string</returns>
         public async Task<string> CompleteCheckByIdAsync(int id, string myId)
         {
             DateCheck? dateCheck = await dbContext.DateChecks
@@ -57,6 +69,12 @@
 
         }
 
+        /// <summary>
+        /// This methos edits date checl entity in the Database
+        /// </summary>
+        /// <param name="viewModel">View Model for the data</param>
+        /// <returns>Void</returns>
+        /// <exception cref="NullReferenceException">If not found throws exception</exception>
         public async Task EditAsync(DateCheckViewModelEdit viewModel)
         {
             DateCheck? dateCheck = await dbContext.DateChecks
@@ -75,6 +93,10 @@
             await dbContext.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// This method returns all active date checks Ordered by End date accenting
+        /// </summary>
+        /// <returns>Collection of type DateCheckViewModelAll</returns>
         public async Task<ICollection<DateCheckViewModelAll>> GetAllDateChecksAsync()
         {
             var result = await dbContext.DateChecks
@@ -93,6 +115,10 @@
             return result;
         }
 
+        /// <summary>
+        /// This method returns all active date checks for vehicle
+        /// </summary>
+        /// <returns>Collection of type DateCheckViewModelAll</returns>
         public async Task<ICollection<DateCheckViewModelAll>> GetAllForVehicleAsync(string vehicleNumber)
         {
             return await dbContext.DateChecks
@@ -109,6 +135,10 @@
               .ToArrayAsync();
         }
 
+        /// <summary>
+        /// This method returns all active date checks for User
+        /// </summary>
+        /// <returns>Collection of type DateCheckViewModelAll</returns>
         public async Task<ICollection<DateCheckViewModelAll>> GetAllMineAsync(string myId)
         {
 
@@ -126,6 +156,12 @@
                .ToArrayAsync();
         }
 
+        /// <summary>
+        /// This methos returns date check data
+        /// </summary>
+        /// <param name="id">The Id of the date check</param>
+        /// <returns>Check of type DateCheckViewModelEdit</returns>
+        /// <exception cref="NullReferenceException">If not found throws exception</exception>
         public async Task<DateCheckViewModelEdit> GetCheckByIdForEditAsync(int id)
         {
             var dateCheck = await dbContext.DateChecks
@@ -150,6 +186,12 @@
             return result;
         }
 
+        /// <summary>
+        /// This methos returns date check data
+        /// </summary>
+        /// <param name="id">The Id of the date check</param>
+        /// <returns>Check of type DateCheckViewModelDetails</returns>
+        /// <exception cref="NullReferenceException">If not found throws exception</exception>
         public async Task<DateCheckViewModelDetails> GetDateCheckByIdAsync(int id)
         {
             DateCheck? dateCheck = await dbContext.DateChecks

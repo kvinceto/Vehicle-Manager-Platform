@@ -4,7 +4,7 @@
 
     public interface IOwnerService
     {
-        Task<ICollection<OwnerViewModelAll>> GetAllOwnersAsync();
+        Task<ICollection<OwnerViewModelAll>> GetAllActiveOwnersAsync();
 
         Task AddNewOwnerAsync(OwnerViewModelAdd ownerModel);
 
@@ -14,6 +14,6 @@
 
         Task<bool> DeleteOwnerByIdAsync(int ownerId);
 
-        Task EditOwner(OwnerViewModelEdit ownerModel);        
+        Task EditOwnerAsync(OwnerViewModelEdit ownerModel);        
     }
 }

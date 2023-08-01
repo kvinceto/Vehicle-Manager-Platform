@@ -20,6 +20,11 @@
             this.dbContext = dbContext;
         }
 
+        /// <summary>
+        /// This method creates a new Vehicle entry in tha Database
+        /// </summary>
+        /// <param name="model">Veiw Model for the data</param>
+        /// <returns>Void</returns>
         public async Task AddNewVehicleAsync(VehicleViewModelAdd model)
         {
             Vehicle vehicle = new Vehicle()
@@ -41,6 +46,11 @@
             await dbContext.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// This methos marks a vehicle as deleted
+        /// </summary>
+        /// <param name="regNumber">The registration number of the vehicle</param>
+        /// <returns>True or False</returns>
         public async Task<bool> DeleteVehicleByIdAsync(string regNumber)
         {
             Vehicle? vehicle= await dbContext.Vehicles.FirstOrDefaultAsync(v => v.Number == regNumber);
@@ -56,6 +66,12 @@
             return true;
         }
 
+        /// <summary>
+        /// This method edits a vehicle
+        /// </summary>
+        /// <param name="model">The registration number of the vehicle</param>
+        /// <returns>Void</returns>
+        /// <exception cref="NullReferenceException">If the vehicle does not exists throws exception</exception>
         public async Task EditVehicleAsync(VehicleViewModelAdd model)
         {
             Vehicle? vehicle = await dbContext.Vehicles
@@ -79,6 +95,7 @@
             await dbContext.SaveChangesAsync();       
         }
 
+
         public async Task<ICollection<VehicleViewModelShortInfo>> GetAllAsync()
         {
             return await dbContext.Vehicles
@@ -92,6 +109,10 @@
                 .ToArrayAsync();
         }
 
+        /// <summary>
+        /// This method return Collection of all active vehicles Ordered by Number accending
+        /// </summary>
+        /// <returns>Collection of type VehicleViewModelShortInfo</returns>
         public async Task<ICollection<VehicleViewModelShortInfo>> GetAllVehiclesAsync()
         {
             return await dbContext.Vehicles
@@ -106,6 +127,12 @@
                 .ToArrayAsync();
         }
 
+        /// <summary>
+        /// This method return a vehicle
+        /// </summary>
+        /// <param name="regNumber">The registration number of the vehicle</param>
+        /// <returns>Vehicle of type VehicleViewModelDetails</returns>
+        /// <exception cref="NullReferenceException">If a vehicle does not exists throws exception</exception>
         public async Task<VehicleViewModelDetails> GetVehicleByIdAsync(string regNumber)
         {
             var vehicle = await dbContext.Vehicles
@@ -144,25 +171,35 @@
             }     
         }
 
+        /// <summary>
+        /// This method return a vehicle for Edit
+        /// </summary>
+        /// <param name="regNumber">The registration number of the vehicle</param>
+        /// <returns>Vehicle of type VehicleViewModelAdd</returns>
         public async Task<VehicleViewModelAdd> GetVehicleByIdForEditAsync(string regNumber)
         {
-            var v = await dbContext
+            var vehicle = await dbContext
                 .Vehicles
                 .Include(v => v.Owner)
-                .FirstAsync(v => v.Number == regNumber);
+                .FirstOrDefaultAsync(v => v.Number == regNumber);
+
+            if(vehicle == null)
+            {
+                throw new NullReferenceException(nameof(vehicle));
+            }
 
             VehicleViewModelAdd model = new VehicleViewModelAdd()
             {
-                Number = v.Number,
-                Model = v.Model,
-                Make = v.Make,
-                Mileage = v.Mileage,
-                FuelQuantity = v.FuelQuantity,
-                FuelCapacity = v.FuelCapacity,
-                FuelCostRate = v.FuelCostRate,
-                VIN = v.VIN,
-                OwnerId = v.Owner.Id,
-                ModelImgUrl = v.ModelImgUrl
+                Number = vehicle.Number,
+                Model = vehicle.Model,
+                Make = vehicle.Make,
+                Mileage = vehicle.Mileage,
+                FuelQuantity = vehicle.FuelQuantity,
+                FuelCapacity = vehicle.FuelCapacity,
+                FuelCostRate = vehicle.FuelCostRate,
+                VIN = vehicle.VIN,
+                OwnerId = vehicle.Owner.Id,
+                ModelImgUrl = vehicle.ModelImgUrl
             };
 
             return model;

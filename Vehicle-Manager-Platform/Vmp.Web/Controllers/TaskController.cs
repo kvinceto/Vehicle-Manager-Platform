@@ -9,6 +9,7 @@
     using Vmp.Services.Interfaces;
     using Vmp.Web.ViewModels.TaskViewModels;
 
+    using static Vmp.Common.GlobalApplicationConstants;
     using static Vmp.Common.NotificationMessagesConstants;
 
     [Authorize]
@@ -27,12 +28,12 @@
             try
             {
                 var tasks = await taskService.GetAllActiveTasksAsync();
-                TempData[SuccessMessage] = "All Tasks Viewed";
+                TempData[InformationMessage] = "All active tasks are viewed";
                 return View(tasks);
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the Database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("Index", "Home");
             }
 
@@ -42,8 +43,17 @@
         public async Task<IActionResult> Mine()
         {
             string? userId = this.User.GetId();
-            ICollection<TaskViewModelAll> tasks = await taskService.GetMyTasks(userId);
-            return View(tasks);
+            try
+            {
+                ICollection<TaskViewModelAll> tasks = await taskService.GetMyTasksAsync(userId);
+                TempData[InformationMessage] = "All my active tasks are viewed";
+                return View(tasks);
+            }
+            catch (Exception)
+            {
+                TempData[ErrorMessage] = DatabaseErrorMassage;
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         [HttpGet]
@@ -58,7 +68,7 @@
         {
             if (!ModelState.IsValid)
             {
-                TempData[ErrorMessage] = "Enter valid data";
+                TempData[ErrorMessage] = InvalidDataErrorMassage;
                 return View(model);
             }
 
@@ -71,7 +81,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return View();
             }
 
@@ -83,8 +93,8 @@
         {
             try
             {
-                TaskViewModelAdd model = await taskService.GetTaskByIdForEdit(id);
-                if(model == null)
+                TaskViewModelAdd model = await taskService.GetTaskByIdForEditAsync(id);
+                if (model == null)
                 {
                     TempData[WarningMessage] = "Task is null!";
                     return RedirectToAction("Mine", "Task");
@@ -94,7 +104,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("Mine", "Task");
             }
         }
@@ -112,13 +122,13 @@
 
             if (!ModelState.IsValid)
             {
-                TempData[ErrorMessage] = "Enter valid data";
+                TempData[ErrorMessage] = InvalidDataErrorMassage;
                 return View(model);
             }
 
             try
             {
-                bool isEdited = await taskService.EditTask(model, myId);
+                bool isEdited = await taskService.EditTaskAsync(model, myId);
 
                 if (!isEdited)
                 {
@@ -131,7 +141,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("Mine", "Task");
             }
         }
@@ -143,12 +153,12 @@
             {
                 TaskViewModelDetails task = await taskService.GetTaskByIdAsync(id);
 
-                TempData[SuccessMessage] = "Task Info Viewed";
+                TempData[InformationMessage] = "Task Info Viewed";
                 return View(task);
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("All", "Task");
             }
         }
@@ -158,14 +168,13 @@
         {
             string? myId = User.GetId();
 
-            if(myId == null)
-            {              
+            if (myId == null)
+            {
                 return RedirectToAction("Index", "Home");
             }
 
             try
             {
-
                 bool isCompleted = await taskService.CompleteTaskByIdAsync((int)model.Id!, myId);
                 if (isCompleted)
                 {
@@ -177,7 +186,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the Database! Task is not completed";
+                TempData[ErrorMessage] = DatabaseErrorMassage + " Task is Not Comleted!";
                 return RedirectToAction("Mine", "Task");
             }
         }

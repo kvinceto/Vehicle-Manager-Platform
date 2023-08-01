@@ -13,7 +13,7 @@
 
         Task EditAsync(MileageCheckViewModelEdit viewModel);
 
-        Task<ICollection<MileageCheckViewModelAll>> GetAllAsync();
+        Task<ICollection<MileageCheckViewModelAll>> GetAllActiveAsync();
 
         Task<ICollection<MileageCheckViewModelAll>> GetAllForVehicleAsync(string vehicleNumber);
 

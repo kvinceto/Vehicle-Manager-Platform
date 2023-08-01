@@ -18,14 +18,14 @@
         }
 </style>
 
-<h4 class="text-center">@Model.Name Details</h4>
+<h4 class="text-center mt-2 mb-2">@Model.Name Details</h4>
 
 <div class="table-responsive">
     <table class="table custom-table mt-2 mb-5">
         <tbody>
             <tr>
                 <th>
-                    ID:
+                    Owner ID:
                 </th>
                 <td>
                     @Model.Id
@@ -34,7 +34,7 @@
 
             <tr>
                 <th>
-                    Name:
+                    Owner Name:
                 </th>
                 <td>
                     @Model.Name
@@ -61,7 +61,7 @@
 
             <tr>
                 <th>
-                    Vehicles Count:
+                    Vehicles of this owner:
                 </th>
                 @if (Model.VehiclesCount <= 0)
                 {
@@ -80,30 +80,37 @@
     </table>
 </div>
 
-@foreach (var vehicle in Model.Vehicles)
+@if (Model.Vehicles.Count > 0)
 {
-    <div class="row mt-4 justify-content-center align-content-center text-center">
-        <div class="col-md-6">
-            <h4 class="text-center">This owner vehicles</h4>
-            <table class="table table-striped table-hover table-responsive">
-                <thead>
-                    <tr>
-                        <th>Number</th>
-                        <th>View</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>@vehicle</td>
-                        <td class="text-center bg-info">
-                            <form asp-area="" asp-controller="Vehicle" asp-action="ViewVehicleInfo" method="post">
-                                <input type="hidden" name="regNumber" value="@vehicle" />
-                                <button type="submit" class="btn btn-link text-dark align-content-center text-decoration-none">View</button>
-                            </form>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+    @foreach (var vehicle in Model.Vehicles)
+    {
+        <div class="row mt-4 justify-content-center align-content-center text-center">
+            <div class="col-md-6">
+                <h4 class="text-center">This owner vehicles</h4>
+                <table class="table table-striped table-hover table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Registration Number</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@vehicle</td>
+                            <td class="text-center bg-info">
+                                <form asp-area="" asp-controller="Vehicle" asp-action="ViewVehicleInfo" method="post">
+                                    <input type="hidden" name="regNumber" value="@vehicle" />
+                                    <button type="submit" class="btn btn-link text-dark align-content-center text-decoration-none">View</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
+    }
+}
+else
+{
+    <h5 class="text-center text-danger">No vehicles for this owner</h5>
 }

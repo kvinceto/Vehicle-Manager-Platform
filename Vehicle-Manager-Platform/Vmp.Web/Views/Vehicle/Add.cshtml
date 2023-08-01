@@ -3,56 +3,56 @@
     ViewData["Title"] = "Add New Vehicle";
 }
 <div class="container">
-    <h4 class="text-center">@ViewData["Title"]</h4>
+    <h4 class="text-center mt-2 mb-2">@ViewData["Title"]</h4>
 
     <div class="row justify-content-center">
         <div class="col-lg-6">
             <form asp-action="Add" method="post">
                 <div class="form-group mt-2">
-                    <label asp-for="Number">Registration Number</label>
-                    <input asp-for="Number" class="form-control" />
+                    <label asp-for="Number" class="fs-5">Registration Number<bold class="text-danger">*</bold></label>
+                    <input asp-for="Number" class="form-control" placeholder="Example: TX1234XT"/>
                     <span asp-validation-for="Number" class="text-danger"></span>
                 </div>
 
                 <div class="form-group mt-2">
-                    <label asp-for="VIN">VIN</label>
-                    <input asp-for="VIN" class="form-control" />
+                    <label asp-for="VIN" class="fs-5">VIN<bold class="text-danger">*</bold></label>
+                    <input asp-for="VIN" class="form-control" placeholder="Example: 4Y1SL65848Z411439" />
                     <span asp-validation-for="VIN" class="text-danger"></span>
                 </div>
 
                 <div class="form-group mt-2">
-                    <label asp-for="Model">Model</label>
+                    <label asp-for="Model" class="fs-5">Vehicle Model</label>
                     <input asp-for="Model" class="form-control" />
                     <span asp-validation-for="Model" class="text-danger"></span>
                 </div>
 
                 <div class="form-group mt-2">
-                    <label asp-for="Make">Make</label>
+                    <label asp-for="Make" class="fs-5">Vehicle Make</label>
                     <input asp-for="Make" class="form-control" />
                     <span asp-validation-for="Make" class="text-danger"></span>
                 </div>
 
                 <div class="form-group mt-2">
-                    <label asp-for="Mileage">Mileage</label>
+                    <label asp-for="Mileage" class="fs-5">Vehicle current Mileage<bold class="text-danger">*</bold></label>
                     <input asp-for="Mileage" class="form-control" min="0" value="0" step="1"/>
                     <span asp-validation-for="Mileage" class="text-danger"></span>
                 </div>
 
                 <div class="form-group mt-2">
-                    <label asp-for="FuelQuantity">Fuel Quantity</label>
+                    <label asp-for="FuelQuantity" class="fs-5">Current Fuel Quantity<bold class="text-danger">*</bold></label>
                     <input asp-for="FuelQuantity" type="number" class="form-control" min="0" value="0" step="0.001" />
                     <span asp-validation-for="FuelQuantity" class="text-danger"></span>
                 </div>
 
                 <div class="form-group mt-2">
-                    <label asp-for="FuelCapacity">Fuel Capacity</label>
+                    <label asp-for="FuelCapacity" class="fs-5">Vehicle Fuel Capacity<bold class="text-danger">*</bold></label>
                     <input asp-for="FuelCapacity" type="number" class="form-control" min="0" value="0" step="0.001" />
                     <span asp-validation-for="FuelCapacity" class="text-danger"></span>
                 </div>
 
                 <div class="form-group mt-2">
                     <div>
-                        <label asp-for="OwnerId">Owner</label>
+                        <label asp-for="OwnerId" class="fs-5">Owner<bold class="text-danger">*</bold></label>
                         <select asp-for="@Model.OwnerId" class="form-control">
                             @foreach (var owner in Model.Owners)
                             {
@@ -64,13 +64,13 @@
                 </div>
 
                 <div class="form-group mt-2">
-                    <label asp-for="FuelCostRate">Fuel Cost Rate</label>
-                    <input asp-for="FuelCostRate" type="number" class="form-control" min="0" value="0" step="0.01" />
+                    <label asp-for="FuelCostRate" class="fs-5">Fuel Cost Rate<bold class="text-danger">*</bold></label>
+                    <input asp-for="FuelCostRate" type="number" class="form-control"  step="0.01" placeholder="Example: 0.07"/>
                     <span asp-validation-for="FuelCostRate" class="text-danger"></span>
                 </div>
 
                 <div class="form-group mt-2">
-                    <label asp-for="ModelImgUrl">Model Image URL</label>
+                    <label asp-for="ModelImgUrl" class="fs-5">Image URL</label>
                     <input asp-for="ModelImgUrl" class="form-control" />
                     <span asp-validation-for="ModelImgUrl" class="text-danger"></span>
                 </div>

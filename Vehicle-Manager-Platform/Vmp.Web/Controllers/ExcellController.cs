@@ -4,6 +4,8 @@
     using Microsoft.AspNetCore.Authorization;
 
     using Vmp.Services.Interfaces;
+    using static Vmp.Common.GlobalApplicationConstants;
+    using static Vmp.Common.NotificationMessagesConstants;
 
     [Authorize]
     public class ExcellController : Controller
@@ -26,9 +28,34 @@
         [HttpGet]
         public async Task<IActionResult> ExportVehicle(string registrationNumber)
         {
-            var file = await excelService.GenerateExcelFileVehicleAsync(registrationNumber);
+            try
+            {
+                var file = await excelService.GenerateExcelFileVehicleAsync(registrationNumber);
 
-            return File(file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "vehicle.xlsx");
+                return File(file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "vehicle.xlsx");
+            }
+            catch (Exception)
+            {
+
+                TempData[ErrorMessage] = DatabaseErrorMassage;
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ExportAllTasks()
+        {
+            try
+            {
+                var file = await excelService.GenerateExcelFileAllTasksAsync();
+                return File(file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "alltasks.xlsx");
+            }
+            catch (Exception)
+            {
+                TempData[ErrorMessage] = DatabaseErrorMassage;
+                return RedirectToAction("Index", "Home");
+            }
+
         }
     }
 }

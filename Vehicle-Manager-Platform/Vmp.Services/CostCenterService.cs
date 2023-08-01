@@ -21,6 +21,11 @@
             this.dbContext = dbContext;
         }
 
+        /// <summary>
+        /// This method creates a new CostCenter entity in the Database
+        /// </summary>
+        /// <param name="model">View Model for the data</param>
+        /// <returns>Void</returns>
         public async Task AddNewCostCenterAsync(CostCenterViewModelAdd model)
         {
             CostCenter costCenter = new CostCenter()
@@ -33,6 +38,11 @@
             await dbContext.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// This methos marks a cost center as deleted
+        /// </summary>
+        /// <param name="costCenterId">The Id of the Cost center</param>
+        /// <returns>True or False</returns>
         public async Task<bool> DeleteCostCenterByIdAsync(int costCenterId)
         {
            CostCenter? costCenter = await dbContext.CostCenters
@@ -48,7 +58,12 @@
             return true;
         }
 
-        public async Task EditCostCenter(CostCenterViewModelEdit model)
+        /// <summary>
+        /// This method edits a Cost center in the Database
+        /// </summary>
+        /// <param name="model">View Model for the data</param>
+        /// <returns>Void</returns>
+        public async Task EditCostCenterAsync(CostCenterViewModelEdit model)
         {
             var costCenter = await dbContext.CostCenters
                 .FirstOrDefaultAsync(cc => cc.Id == model.Id);
@@ -62,25 +77,33 @@
             await dbContext.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// This method return Collection of all active cost centers Ordered by Name accending
+        /// </summary>
+        /// <returns>Collction of CostCenterViewModelAll</returns>
         public async Task<ICollection<CostCenterViewModelAll>> GetAllCostCentersAsync()
         {
             var models = await dbContext.CostCenters
                 .Where(cc => cc.IsClosed == false)
-                .OrderBy(cc => cc.Id)
+                .OrderBy(cc => cc.Name)
                 .Select(cc => new CostCenterViewModelAll
                 {
                     Id = cc.Id,
                     Name = cc.Name
                 })
-                .OrderBy(cc => cc.Id)
                 .ToArrayAsync();
 
             return models;
         }
 
+        /// <summary>
+        /// This method returns CostCenter
+        /// </summary>
+        /// <param name="costCenterid">Ths Id of the cost center</param>
+        /// <returns>Cost Center of type CostCenterViewModelDetails</returns>
         public async Task<CostCenterViewModelDetails> GetCostCenterByIdAsync(int costCenterid)
         {
-            CostCenterViewModelDetails model = await dbContext.CostCenters
+            CostCenterViewModelDetails? model = await dbContext.CostCenters
                 .Where(cc => cc.Id == costCenterid)
                 .Select(cc => new CostCenterViewModelDetails()
                 {
@@ -89,7 +112,12 @@
                     IsClosed = cc.IsClosed,
                     WaybillsCount = cc.Waybills.Count()
                 })
-                .FirstAsync();
+                .FirstOrDefaultAsync();
+
+            if(model == null)
+            {
+                throw new NullReferenceException(nameof(model));
+            }
                 
             return model;
         }

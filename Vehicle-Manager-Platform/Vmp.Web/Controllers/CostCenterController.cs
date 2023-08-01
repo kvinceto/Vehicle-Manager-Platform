@@ -6,6 +6,7 @@
     using Vmp.Services.Interfaces;
     using Vmp.Web.ViewModels.CostCenterViewModels;
 
+    using static Vmp.Common.GlobalApplicationConstants;
     using static Vmp.Common.NotificationMessagesConstants;
 
     [Authorize]
@@ -25,11 +26,12 @@
             {
                 ICollection<CostCenterViewModelAll> models =
                     await costCenterService.GetAllCostCentersAsync();
+                TempData[InformationMessage] = "All active cost centers are viewed";
                 return View(models);
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error with the Database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("Index", "Home");
             }
         }
@@ -46,7 +48,7 @@
         {
             if (!ModelState.IsValid)
             {
-                TempData[ErrorMessage] = "Enter valid data!";
+                TempData[ErrorMessage] = InvalidDataErrorMassage;
                 return View(model);
             }
 
@@ -57,7 +59,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
             }
 
             return RedirectToAction("All", "CostCenter");
@@ -69,12 +71,12 @@
             try
             {
                 CostCenterViewModelDetails model = await costCenterService.GetCostCenterByIdAsync(id);
-                TempData[SuccessMessage] = "Cost center info is viewed";
+                TempData[InformationMessage] = "Cost center info is viewed";
                 return View(model);
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the Database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("All", "CostCenter");
             }
         }
@@ -82,14 +84,22 @@
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            bool isCompleted = await costCenterService.DeleteCostCenterByIdAsync(id);
-            if (isCompleted)
+            try
             {
-                TempData[SuccessMessage] = "Cost Center Deleted! To restore contact Admin!";
-                return RedirectToAction("All", "CostCenter");
+                bool isCompleted = await costCenterService.DeleteCostCenterByIdAsync(id);
+                if (isCompleted)
+                {
+                    TempData[SuccessMessage] = "Cost Center Deleted! To restore contact Admin!";
+                    return RedirectToAction("All", "CostCenter");
+                }
+                TempData[ErrorMessage] = "Cost Center is not deleted";
+                return RedirectToAction("All", "Cost Center");
             }
-            TempData[ErrorMessage] = "Cost Center is not deleted";
-            return RedirectToAction("All", "Cost Center");
+            catch (Exception)
+            {
+                TempData[ErrorMessage] = DatabaseErrorMassage;
+                return RedirectToAction("All", "Cost Center");
+            }
         }
 
         [HttpGet]
@@ -104,13 +114,13 @@
                     Name = model.Name
                 };
 
-                TempData[WarningMessage] = "Task viewed for edit";
+                TempData[WarningMessage] = "Cost center viewed for edit";
                 return View(viewModel);
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the database!";
-                return RedirectToAction("Mine", "Task");
+                TempData[ErrorMessage] = DatabaseErrorMassage;
+                return RedirectToAction("All", "CostCenter");
             }
         }
 
@@ -119,19 +129,19 @@
         {
             if (!ModelState.IsValid)
             {
-                TempData[ErrorMessage] = "Enter valid data";
+                TempData[ErrorMessage] = InvalidDataErrorMassage;
                 return View(model);
             }
 
             try
             {
-                await costCenterService.EditCostCenter(model);
+                await costCenterService.EditCostCenterAsync(model);
                 TempData[SuccessMessage] = "Cost Center edited!";
                 return RedirectToAction("All", "CostCenter");
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("All", "CostCenter");
             }
         }

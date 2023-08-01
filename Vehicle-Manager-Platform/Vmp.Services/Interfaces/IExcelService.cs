@@ -5,5 +5,7 @@
         Task<byte[]> GenerateExcelFileWaybillAsync(int waybillId);
 
         Task<byte[]> GenerateExcelFileVehicleAsync(string regNumber);
+
+        Task<byte[]> GenerateExcelFileAllTasksAsync();
     }
 }

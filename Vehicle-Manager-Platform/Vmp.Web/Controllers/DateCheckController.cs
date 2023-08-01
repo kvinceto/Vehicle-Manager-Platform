@@ -8,6 +8,7 @@
     using Vmp.Web.ViewModels.DateCheckViewModels;
     using Vmp.Web.ViewModels.VehicleViewModels;
 
+    using static Vmp.Common.GlobalApplicationConstants;
     using static Vmp.Common.NotificationMessagesConstants;
 
     [Authorize]
@@ -25,15 +26,23 @@
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            ICollection<VehicleViewModelShortInfo> vehicles =
-                await vehicleService.GetAllVehiclesAsync();
-
-            DateCheckViewModelAdd viewModel = new DateCheckViewModelAdd()
+            try
             {
-                Vehicles = vehicles
-            };
+                ICollection<VehicleViewModelShortInfo> vehicles =
+                    await vehicleService.GetAllVehiclesAsync();
+                DateCheckViewModelAdd viewModel = new DateCheckViewModelAdd()
+                {
+                    Vehicles = vehicles
+                };
 
-            return View(viewModel);
+                return View(viewModel);
+            }
+            catch (Exception)
+            {
+                TempData[ErrorMessage] = DatabaseErrorMassage;
+                return RedirectToAction("Index", "Home");
+            }
+
         }
 
         [HttpPost]
@@ -44,11 +53,11 @@
                 try
                 {
                     viewModel.Vehicles = await vehicleService.GetAllVehiclesAsync();
-                    TempData[ErrorMessage] = "Enter valid Data!";
+                    TempData[ErrorMessage] = InvalidDataErrorMassage;
                 }
                 catch (Exception)
                 {
-                    TempData[ErrorMessage] = "Error in the Database! Enter valid Data!";
+                    TempData[ErrorMessage] = DatabaseErrorMassage; ;
                 }
 
                 return View(viewModel);
@@ -69,7 +78,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the Database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
             }
 
             return RedirectToAction("All", "DateCheck");
@@ -83,11 +92,11 @@
             {
                 dtoModel.Vehicles = await vehicleService.GetAllVehiclesAsync();
                 dtoModel.Checks = await dateCheckService.GetAllDateChecksAsync();
-                TempData[SuccessMessage] = "All Date checks viewed";
+                TempData[InformationMessage] = "All Date checks viewed";
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the Database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
             }
 
             return View(dtoModel);
@@ -106,7 +115,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the Database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("All", "DateCheck");
             }
         }
@@ -132,7 +141,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("All", "DateCheck");
             }
         }
@@ -141,7 +150,7 @@
         public async Task<IActionResult> Edit(DateCheckViewModelEdit viewModel)
         {
             string? myId = User.GetId()!;
-            if(myId == null || myId != viewModel.UserId)
+            if (myId == null || myId != viewModel.UserId)
             {
                 ViewData["Error"] = "Only the creator of the current Check can Edit it!";
                 return View("NoAccess");
@@ -149,21 +158,29 @@
 
             if (!ModelState.IsValid)
             {
-                TempData[ErrorMessage] = "Enter valid data";
-                viewModel.Vehicles = await vehicleService.GetAllVehiclesAsync();
-                return View(viewModel);
+                try
+                {
+                    TempData[ErrorMessage] = InvalidDataErrorMassage;
+                    viewModel.Vehicles = await vehicleService.GetAllVehiclesAsync();
+                    return View(viewModel);
+                }
+                catch (Exception)
+                {
+                    TempData[ErrorMessage] = DatabaseErrorMassage;
+                    return RedirectToAction("All", "DateCheck");
+                }
             }
 
             try
             {
                 viewModel.UserId = myId;
                 await dateCheckService.EditAsync(viewModel);
-                TempData[InformationMessage] = "Date Check edited!";
+                TempData[SuccessMessage] = "Date Check edited!";
                 return RedirectToAction("All", "DateCheck");
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("All", "DateCheck");
             }
         }
@@ -199,7 +216,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the Database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("All", "DateCheck");
             }
         }
@@ -217,11 +234,11 @@
 
                 dtoModel.Checks = await dateCheckService.GetAllMineAsync(myId);
 
-                TempData[SuccessMessage] = "All My Date check viewed";
+                TempData[InformationMessage] = "All My Date check viewed";
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error with the database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("All", "DateCheck");
             }
 
@@ -243,7 +260,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error with the database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("All", "DateCheck");
             }
 

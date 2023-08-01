@@ -8,6 +8,7 @@
     using Vmp.Web.ViewModels.VehicleViewModels;
     using Vmp.Web.ViewModels.WaybillViewModels;
 
+    using static Vmp.Common.GlobalApplicationConstants;
     using static Vmp.Common.NotificationMessagesConstants;
 
     [Authorize]
@@ -27,18 +28,36 @@
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            ICollection<VehicleViewModelShortInfo> vehicles = await vehicleService.GetAllVehiclesAsync();
-            return View(vehicles);
+            try
+            {
+                ICollection<VehicleViewModelShortInfo> vehicles = await vehicleService.GetAllVehiclesAsync();
+                return View(vehicles);
+            }
+            catch (Exception)
+            {
+                TempData[ErrorMessage] = DatabaseErrorMassage;
+                return RedirectToAction("Index", "Home");
+            }
+
         }
 
         [HttpPost]
         public async Task<IActionResult> Add(string regNumber)
         {
-            WaybillViewModelAdd viewModel =
-                await waybillService.GetWaybillForAddingAsync(regNumber);
-            viewModel.CostCenters = await costCenterService.GetAllCostCentersAsync();
+            try
+            {
+                WaybillViewModelAdd viewModel =
+               await waybillService.GetWaybillForAddingAsync(regNumber);
+                viewModel.CostCenters = await costCenterService.GetAllCostCentersAsync();
+                return View(viewModel);
+            }
+            catch (Exception)
+            {
+                TempData[ErrorMessage] = DatabaseErrorMassage;
+                return RedirectToAction("Index", "Home");
+            }
 
-            return View(viewModel);
+
         }
 
         [HttpPost]
@@ -92,7 +111,7 @@
             {
                 ICollection<WaybillViewModelAll> waybills = await waybillService.GetAllForVehicleForPeriod(viewModel.VehicleNumber, viewModel.StartDate, viewModel.EndDate);
                 TempData[SuccessMessage] = $"All Waybills for vehicle {viewModel.VehicleNumber} between {viewModel.StartDate} and {viewModel.EndDate} are viewed";
-                ViewData["Text"] = $"for Vehicle: {viewModel.VehicleNumber} between {viewModel.StartDate} and {viewModel.EndDate}";                
+                ViewData["Text"] = $"for Vehicle: {viewModel.VehicleNumber} between {viewModel.StartDate} and {viewModel.EndDate}";
                 return View(waybills);
             }
             catch (Exception)
@@ -160,7 +179,7 @@
 
                 string myId = User.GetId()!;
 
-                if(myId != modelToCheckId.UserId)
+                if (myId != modelToCheckId.UserId)
                 {
                     ViewData["Error"] = "Only the creator of the waybill can edit it!";
                     return View("NoAccess");
