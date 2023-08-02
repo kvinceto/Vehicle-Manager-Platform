@@ -95,7 +95,10 @@
             await dbContext.SaveChangesAsync();       
         }
 
-
+        /// <summary>
+        /// This method returns all vehicle entryies in the Database
+        /// </summary>
+        /// <returns>Collection of type VehicleViewModelShortInfo</returns>
         public async Task<ICollection<VehicleViewModelShortInfo>> GetAllAsync()
         {
             return await dbContext.Vehicles

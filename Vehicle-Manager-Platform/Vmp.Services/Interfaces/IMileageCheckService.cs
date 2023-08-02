@@ -4,7 +4,6 @@
 
     using Vmp.Web.ViewModels.MileageCheckViewModels;
 
-
     public interface IMileageCheckService
     {
         Task AddAsync(MileageCheckViewModelAdd modelAdd, string myId);

@@ -137,7 +137,11 @@
         }
 
 
-
+        /// <summary>
+        /// This method returns a byte[] with waybill data
+        /// </summary>
+        /// <param name="waybillId">The Id of the waybill</param>
+        /// <returns>byte[]</returns>
         public async Task<byte[]> GenerateExcelFileWaybillAsync(int waybillId)
         {
             IsLicensed();
@@ -164,18 +168,18 @@
             worksheet["A15"].Value = "Creator";
 
             worksheet["B1"].Int32Value = waybill.Id;
-            worksheet["B2"].DateTimeValue = DateTime.Parse(waybill.Date);
-            worksheet["B3"].Value = waybill.VehicleNumber;
+            worksheet["B2"].StringValue = waybill.Date;
+            worksheet["B3"].StringValue = waybill.VehicleNumber;
             worksheet["B4"].Int32Value = waybill.MileageStart;
             worksheet["B5"].Int32Value = waybill.MileageEnd;
             worksheet["B6"].Int32Value = waybill.MileageTraveled;
             worksheet["B7"].StringValue = waybill.RouteTraveled;
-            worksheet["B8"].DecimalValue = decimal.Parse(waybill.FuelQuantityStart);
-            worksheet["B9"].DecimalValue = decimal.Parse(waybill.FuelQuantityEnd);
-            worksheet["B10"].DecimalValue = decimal.Parse(waybill.FuelConsumed);
-            worksheet["B11"].DecimalValue = decimal.Parse(waybill.FuelConsumed);
+            worksheet["B8"].StringValue = waybill.FuelQuantityStart;
+            worksheet["B9"].StringValue = waybill.FuelQuantityEnd;
+            worksheet["B10"].StringValue = waybill.FuelConsumed;
+            worksheet["B11"].StringValue = waybill.FuelLoaded;
             worksheet["B12"].Value = waybill.Info;
-            worksheet["B13"].DateTimeValue = DateTime.Parse(waybill.DateCreated);
+            worksheet["B13"].StringValue = waybill.DateCreated;
             worksheet["B14"].StringValue = waybill.CostCenter;
             worksheet["B15"].StringValue = waybill.Creator;
 
@@ -186,9 +190,55 @@
         }
 
         /// <summary>
-        /// This method check is the IronXL licenced
+        /// This method returns a byte[] with list of waybills
         /// </summary>
-        /// <exception cref="Exception"></exception>
+        /// <param name="vehicleNumber">Registration number of the vehicle</param>
+        /// <param name="startDate">Start date for the period</param>
+        /// <param name="endDate">End date for the period</param>
+        /// <returns>byte[]</returns>
+        public async Task<byte[]> GenerateExcelFileForAllWaybillsAsync(string vehicleNumber, string startDate, string endDate)
+        {
+            IsLicensed();
+
+            var waybills = await waybillService.GetAllForVehicleForPeriod(vehicleNumber, startDate, endDate);
+
+            WorkBook workbook = new WorkBook();
+            WorkSheet worksheet = workbook.CreateWorkSheet("AllWaybills");
+
+            worksheet["A1"].StringValue = "Id";
+            worksheet["B1"].StringValue = "Date";
+            worksheet["C1"].StringValue = "Vehicle Number";
+            worksheet["D1"].StringValue = "Info";
+
+            int counter = 1;
+            foreach (var waybill in waybills)
+            {
+                counter++;
+                worksheet[$"A{counter}"].Int32Value = waybill.Id!.Value;
+                worksheet[$"B{counter}"].StringValue = waybill.Date;
+                worksheet[$"C{counter}"].StringValue = waybill.VehicleNumber;
+                if (waybill.Info == null)
+                {
+                    worksheet[$"D{counter}"].StringValue = "No info";
+                }
+                else
+                {
+                    worksheet[$"D{counter}"].StringValue = waybill.Info;
+                }
+            }
+
+            worksheet.AutoSizeColumn(0);
+            worksheet.AutoSizeColumn(1);
+            worksheet.AutoSizeColumn(2);
+            worksheet.AutoSizeColumn(3);
+
+            workbook.ToStream();
+            return workbook.ToByteArray();
+        }
+
+        /// <summary>
+        /// This method checks is the IronXL licenced
+        /// </summary>
         private void IsLicensed()
         {
             if (!isLicensed)

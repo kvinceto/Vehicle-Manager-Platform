@@ -5,7 +5,6 @@
 
     using Vmp.Data.Models;
 
-
     public class DateCheckEntityConfiguration : IEntityTypeConfiguration<DateCheck>
     {
         public void Configure(EntityTypeBuilder<DateCheck> builder)

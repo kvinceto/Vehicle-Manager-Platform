@@ -19,7 +19,7 @@
         <form asp-area="" asp-controller="Waybill" asp-action="All" method="post">
             <div class="form-group">
                 <div>
-                    <label class="mb-1"><h5>Vehicle Number</h5></label>
+                    <label class="mb-2 fs-5">Vehicle Number<bold class="text-danger">*</bold></label>
                     <select asp-for="@Model.VehicleNumber" class="form-control" required>
                         <option value="">Select a vehicle</option>
                         @foreach (var vehicle in Model.Vehicles)
@@ -33,7 +33,7 @@
 
             <div class="form-group">
                 <div>
-                    <label class="mb-1"><h5>Start Date:</h5></label>
+                    <label class="mb-2 fs-5">Start Date:<bold class="text-danger">*</bold></label>
                     <input asp-for="@Model.StartDate" class="form-control" type="date" data-val-dateformat="dd/MM/yyyy" data-val="true" />
                     <span asp-validation-for="@Model.StartDate" class="text-danger"></span>
                 </div>
@@ -41,7 +41,7 @@
 
             <div class="form-group">
                 <div>
-                    <labe class="mb-1"><h5>End Date:</h5></labe>
+                    <label class="mb-1 fs-5">End Date:<bold class="text-danger">*</bold></label>
                     <input asp-for="@Model.EndDate" class="form-control" type="date" data-val-dateformat="dd/MM/yyyy" data-val="true" />
                     <span asp-validation-for="@Model.EndDate" class="text-danger"></span>
                 </div>

@@ -65,13 +65,13 @@
         {
             if (!ModelState.IsValid)
             {
-                TempData[ErrorMessage] = "Error! Invalid data!";
+                TempData[ErrorMessage] = InvalidDataErrorMassage;
                 return RedirectToAction("Index", "Waybill");
             }
 
             if (viewModel.MileageTraveled < 0)
             {
-                TempData[ErrorMessage] = "Error! Invalid data!";
+                TempData[ErrorMessage] = InvalidDataErrorMassage;
                 return RedirectToAction("Index", "Waybill");
             }
 
@@ -85,7 +85,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the Database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("Index", "Waybill");
             }
         }
@@ -94,8 +94,16 @@
         public async Task<IActionResult> AllPeriod()
         {
             WaybillDatesViewModel viewModel = new WaybillDatesViewModel();
-            viewModel.Vehicles = await vehicleService.GetAllAsync();
-            return View(viewModel);
+            try
+            {
+                viewModel.Vehicles = await vehicleService.GetAllAsync();
+                return View(viewModel);
+            }
+            catch (Exception)
+            {
+                TempData[ErrorMessage] = DatabaseErrorMassage;
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         [HttpPost]
@@ -103,7 +111,7 @@
         {
             if (!ModelState.IsValid)
             {
-                TempData[ErrorMessage] = "Enter valid data!";
+                TempData[ErrorMessage] = InvalidDataErrorMassage;
                 return RedirectToAction("AllPeriod", "Waybill");
             }
 
@@ -112,11 +120,15 @@
                 ICollection<WaybillViewModelAll> waybills = await waybillService.GetAllForVehicleForPeriod(viewModel.VehicleNumber, viewModel.StartDate, viewModel.EndDate);
                 TempData[SuccessMessage] = $"All Waybills for vehicle {viewModel.VehicleNumber} between {viewModel.StartDate} and {viewModel.EndDate} are viewed";
                 ViewData["Text"] = $"for Vehicle: {viewModel.VehicleNumber} between {viewModel.StartDate} and {viewModel.EndDate}";
+                ViewData["Number"] = viewModel.VehicleNumber;
+                ViewData["Start"] = viewModel.StartDate;
+                ViewData["End"] = viewModel.EndDate;
+
                 return View(waybills);
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the Database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("Index", "Home");
             }
         }
@@ -133,7 +145,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the Database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("All", "CostCenter");
             }
         }
@@ -149,7 +161,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the Database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("Index", "Home");
             }
         }
@@ -160,12 +172,12 @@
             try
             {
                 WaybillViewModelDetails viewModel = await waybillService.GetWaybillByIdAsync(id);
-                TempData[SuccessMessage] = "Details for waybill are viewed";
+                TempData[InformationMessage] = "Details for waybill are viewed";
                 return View(viewModel);
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in tha Database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("All", "Waybill");
             }
         }
@@ -177,12 +189,15 @@
             {
                 WaybillViewModelShort modelToCheckId = await waybillService.GetShortWaybillByIdAsync(id);
 
-                string myId = User.GetId()!;
-
-                if (myId != modelToCheckId.UserId)
+                if (!User.IsInRole(AdminRoleName))
                 {
-                    ViewData["Error"] = "Only the creator of the waybill can edit it!";
-                    return View("NoAccess");
+                    string myId = User.GetId()!;
+
+                    if (myId != modelToCheckId.UserId)
+                    {
+                        ViewData["Error"] = "Only the creator of the waybill can edit it!";
+                        return View("NoAccess");
+                    }
                 }
 
                 WaybillViewModelEdit modelForEdit = await waybillService.GetWaybillForEditByIdAsync(id);
@@ -193,7 +208,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the Database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("All", "Waybills");
             }
         }
@@ -211,7 +226,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in tha Database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("All", "Waybill");
             }
         }

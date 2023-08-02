@@ -18,38 +18,55 @@
         }
 </style>
 
+@{
+    string number = (string)ViewData["Number"]!;
+    string start = (string)ViewData["Start"]!;
+    string end = (string)ViewData["End"]!;
+}
+
 <h4 class="text-center">@ViewData["Title"] @ViewData["Text"]</h4>
 
-<div class="table-responsive w-75 mx-auto">
-    <table class="table table-striped table-hover custom-table">
-        <thead>
-            <tr>
-                <th class="col-3">Waybill Date</th>
-                <th class="col-3">Vehicle Number</th>
-                <th class="col-4">Info</th>
-                <th class="col-2">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var waybill in Model)
-            {
+@if (Model.Count > 0)
+{
+    <div class="container-fluid text-center mt-2 mb-2">
+        <a asp-area="" asp-controller="Excell" asp-action="ExportWaybills" asp-route-Number="@number" asp-route-Start="@start" asp-route-End="@end" class="btn btn-primary">Export to Excel</a>
+    </div>
+
+    <div class="table-responsive w-75 mx-auto">
+        <table class="table table-striped table-hover custom-table">
+            <thead>
                 <tr>
-                    <td class="col-3">@waybill.Date</td>
-                    <td class="col-3">@waybill.VehicleNumber</td>
-                    @if (string.IsNullOrEmpty(waybill.Info))
-                    {
-                        <td class="col-4 text-danger">@massage</td>
-                    }
-                    else
-                    {
-                        <td class="col-4">@waybill.Info</td>
-                    }
-                    <td class="col-2">
-                        <a asp-controller="Waybill" asp-action="Details" asp-route-id="@waybill.Id" class="btn btn-primary">View</a>
-                        <a asp-controller="Waybill" asp-action="Edit" asp-route-id="@waybill.Id" class="btn btn-primary">Edit</a>
-                    </td>
+                    <th class="col-3">Waybill Date</th>
+                    <th class="col-3">Vehicle Number</th>
+                    <th class="col-4">Info</th>
+                    <th class="col-2">Actions</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @foreach (var waybill in Model)
+                {
+                    <tr>
+                        <td class="col-3">@waybill.Date</td>
+                        <td class="col-3">@waybill.VehicleNumber</td>
+                        @if (string.IsNullOrEmpty(waybill.Info))
+                        {
+                            <td class="col-4 text-danger">@massage</td>
+                        }
+                        else
+                        {
+                            <td class="col-4">@waybill.Info</td>
+                        }
+                        <td class="col-2">
+                            <a asp-controller="Waybill" asp-action="Details" asp-route-id="@waybill.Id" class="btn btn-primary">View</a>
+                            <a asp-controller="Waybill" asp-action="Edit" asp-route-id="@waybill.Id" class="btn btn-primary">Edit</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <h1 class="text-center text-danger">No waybills @ViewData["Text"]</h1>
+}

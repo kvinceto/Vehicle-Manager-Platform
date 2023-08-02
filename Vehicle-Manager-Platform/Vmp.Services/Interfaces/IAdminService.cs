@@ -1,7 +1,7 @@
-﻿using Vmp.Web.ViewModels.AdminViewModels;
-
-namespace Vmp.Services.Interfaces
+﻿namespace Vmp.Services.Interfaces
 {
+    using Vmp.Web.ViewModels.AdminViewModels;
+
     public interface IAdminService
     {
         Task<string> RestoreTaskByIdAsync(int taskId);

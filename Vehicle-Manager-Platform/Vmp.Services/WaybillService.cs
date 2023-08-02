@@ -22,6 +22,12 @@
             this.dbContext = dbContext;
         }
 
+        /// <summary>
+        /// This methos adds a waybill to the Database
+        /// </summary>
+        /// <param name="viewModel">View Model for the data</param>
+        /// <param name="myId">User Id</param>
+        /// <returns>Void</returns>
         public async Task AddWaybillAsync(WaybillViewModelAdd viewModel, string myId)
         {
             Vehicle? vehicle = await dbContext.Vehicles
@@ -58,6 +64,12 @@
             await dbContext.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// This method edits waybill in the Database
+        /// </summary>
+        /// <param name="modelToEdit">View Model for the data</param>
+        /// <param name="myId">User Id</param>
+        /// <returns>Void</returns>
         public async Task EditWaybillAsync(WaybillViewModelEdit modelToEdit, string myId)
         {
             Waybill? waybillToEdit = await dbContext.Waybills
@@ -101,6 +113,10 @@
 
         }
 
+        /// <summary>
+        /// This method returns all waybills in the Database
+        /// </summary>
+        /// <returns>Collection of type WaybillViewModelAll</returns>
         public async Task<ICollection<WaybillViewModelAll>> GetAllAsync()
         {
             var result = await dbContext.Waybills
@@ -120,6 +136,11 @@
 
         }
 
+        /// <summary>
+        /// This method returns all waybills in the Database for cast center
+        /// </summary>
+        /// <param name="id">The Id of the cost center</param>
+        /// <returns>Collection of type WaybillViewModelAll</returns>
         public async Task<ICollection<WaybillViewModelAll>> GetAllForCostCenterAsync(int id)
         {
             return await dbContext.Waybills
@@ -136,6 +157,11 @@
                  .ToArrayAsync();
         }
 
+        /// <summary>
+        /// This method returns all waybills in the Database for a vehicle
+        /// </summary>
+        /// <param name="id">The Id of the vehicle</param>
+        /// <returns>Collection of type WaybillViewModelAll</returns>
         public async Task<ICollection<WaybillViewModelAll>> GetAllForVehicleAsync(string regNumber)
         {
             return await dbContext.Waybills
@@ -151,6 +177,13 @@
                 .ToArrayAsync();
         }
 
+        /// <summary>
+        /// This method returns Collection of waybills for a vehicle for a period
+        /// </summary>
+        /// <param name="vehicleNumber">Registration Number of the vehicle</param>
+        /// <param name="startDate">Start date of the period</param>
+        /// <param name="endDate">End date of the period</param>
+        /// <returns>Collection of type WaybillViewModelAll</returns>
         public async Task<ICollection<WaybillViewModelAll>> GetAllForVehicleForPeriod(string vehicleNumber, string startDate, string endDate)
         {
             DateTime start = DateTime.Parse(startDate);
@@ -170,6 +203,11 @@
                  .ToArrayAsync();
         }
 
+        /// <summary>
+        /// This method returns short info for waybill
+        /// </summary>
+        /// <param name="id">The Id of the waybill</param>
+        /// <returns>Waybill of type WaybillViewModelShort</returns>
         public async Task<WaybillViewModelShort> GetShortWaybillByIdAsync(int id)
         {
             var waybill = await dbContext.Waybills
@@ -187,6 +225,11 @@
             };
         }
 
+        /// <summary>
+        /// This method returns data for waybill
+        /// </summary>
+        /// <param name="id">The Id of the waybill</param>
+        /// <returns>Waybill of type WaybillViewModelDetails</returns>
         public async Task<WaybillViewModelDetails> GetWaybillByIdAsync(int id)
         {
             Waybill? waybill = await dbContext.Waybills
@@ -219,6 +262,11 @@
             };
         }
 
+        /// <summary>
+        /// This method returns data for waybill
+        /// </summary>
+        /// <param name="regNumber">Vehicle registration number</param>
+        /// <returns>Waybill of type WaybillViewModelAdd</returns>
         public async Task<WaybillViewModelAdd> GetWaybillForAddingAsync(string regNumber)
         {
             WaybillViewModelAdd model = new WaybillViewModelAdd();
@@ -237,6 +285,11 @@
             return model;
         }
 
+        /// <summary>
+        /// This methos return waybill for edit
+        /// </summary>
+        /// <param name="id">The Id of the Waybill</param>
+        /// <returns>Waybill of type WaybillViewModelEdit</returns>
         public async Task<WaybillViewModelEdit> GetWaybillForEditByIdAsync(int id)
         {
             Waybill? waybill = await dbContext.Waybills

@@ -4,6 +4,7 @@
     using Microsoft.AspNetCore.Authorization;
 
     using Vmp.Services.Interfaces;
+
     using static Vmp.Common.GlobalApplicationConstants;
     using static Vmp.Common.NotificationMessagesConstants;
 
@@ -20,9 +21,17 @@
         [HttpGet]
         public async Task<IActionResult> ExportWaybill(int id)
         {
-            var file = await excelService.GenerateExcelFileWaybillAsync(id);
+            try
+            {
+                var file = await excelService.GenerateExcelFileWaybillAsync(id);
 
-            return File(file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "waybill.xlsx");
+                return File(file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "waybill.xlsx");
+            }
+            catch (Exception)
+            {
+                TempData[ErrorMessage] = DatabaseErrorMassage;
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         [HttpGet]
@@ -56,6 +65,23 @@
                 return RedirectToAction("Index", "Home");
             }
 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ExportWaybills(string number, string start, string end)
+        {
+            try
+            {
+                var file = await excelService.GenerateExcelFileForAllWaybillsAsync(number, start, end);
+
+                return File(file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "allwaybills.xlsx");
+            }
+            catch (Exception)
+            {
+
+                TempData[ErrorMessage] = DatabaseErrorMassage;
+                return RedirectToAction("Index", "Home");
+            }
         }
     }
 }

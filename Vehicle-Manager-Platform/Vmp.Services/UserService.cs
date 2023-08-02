@@ -19,6 +19,12 @@
             this.dbContext = dbContext;
         }
 
+        /// <summary>
+        /// This method removes the personel data of User
+        /// </summary>
+        /// <param name="id">User Id</param>
+        /// <returns>Void</returns>
+        /// <exception cref="NullReferenceException">If User does not exists throws exception</exception>
         public async Task DeleteDataAsync(string? id)
         {
             ApplicationUser? user = await dbContext.AspNetUsers              

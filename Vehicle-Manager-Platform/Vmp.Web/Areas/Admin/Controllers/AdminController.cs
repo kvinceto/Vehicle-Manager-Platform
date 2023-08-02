@@ -45,7 +45,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the Database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("Index", "Admin");
             }
         }
@@ -62,7 +62,7 @@
             }
             catch (Exception)
             {
-                TempData[InformationMessage] = "Error in the Database!";
+                TempData[InformationMessage] = DatabaseErrorMassage;
             }
 
             return RedirectToAction("Index", "Admin");
@@ -80,7 +80,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the Database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("Index", "Admin");
             }
         }
@@ -96,7 +96,7 @@
             }
             catch (Exception)
             {
-                TempData[InformationMessage] = "Error in the Database!";
+                TempData[InformationMessage] = DatabaseErrorMassage;
             }
 
             return RedirectToAction("Index", "Admin");
@@ -113,7 +113,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the Database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("Index", "Admin");
             }
         }
@@ -129,7 +129,7 @@
             }
             catch (Exception)
             {
-                TempData[InformationMessage] = "Error in the Database!";
+                TempData[InformationMessage] = DatabaseErrorMassage;
             }
 
             return RedirectToAction("Index", "Admin");
@@ -146,7 +146,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the Database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("Index", "Admin");
             }
         }
@@ -162,7 +162,7 @@
             }
             catch (Exception)
             {
-                TempData[InformationMessage] = "Error in the Database!";
+                TempData[InformationMessage] = DatabaseErrorMassage;
             }
 
             return RedirectToAction("Index", "Admin");
@@ -179,7 +179,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the Database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("Index", "Admin");
             }
         }
@@ -195,7 +195,7 @@
             }
             catch (Exception)
             {
-                TempData[InformationMessage] = "Error in the Database!";
+                TempData[InformationMessage] = DatabaseErrorMassage;
             }
 
             return RedirectToAction("Index", "Admin");
@@ -212,7 +212,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the Database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("Index", "Admin");
             }
         }
@@ -228,7 +228,7 @@
             }
             catch (Exception)
             {
-                TempData[InformationMessage] = "Error in the Database!";
+                TempData[InformationMessage] = DatabaseErrorMassage;
             }
 
             return RedirectToAction("Index", "Admin");
@@ -246,7 +246,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the Database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("Index", "Admin");
             }
         }
@@ -286,7 +286,7 @@
             }
             catch (Exception)
             {
-                TempData[InformationMessage] = "Error in the Database!";
+                TempData[InformationMessage] = DatabaseErrorMassage;
                 return RedirectToAction("Index", "Admin");
             }
 
@@ -333,7 +333,7 @@
             }
             catch (Exception)
             {
-                TempData[InformationMessage] = "Error in the Database!";
+                TempData[InformationMessage] = DatabaseErrorMassage;
                 return RedirectToAction("Index", "Admin");
             }
 

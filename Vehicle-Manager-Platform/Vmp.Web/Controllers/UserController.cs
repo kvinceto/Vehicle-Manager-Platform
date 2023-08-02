@@ -24,8 +24,7 @@
             this.userService = userService;
             this.signInManager = signInManager;
         }
-
-        [Authorize(Roles = UserRoleName)]
+      
         [HttpGet]
         public IActionResult Delete()
         {
@@ -53,7 +52,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the Database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
             }
 
             return RedirectToAction("Index", "Home");
