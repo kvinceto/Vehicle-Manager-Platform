@@ -18,15 +18,16 @@
                 </div>
                 <label asp-for="Email" class="form-label"></label>
             </div>
-
-            <div class="form-floating mt-2">
+            <div><p class="fs-5 text-danger text-center">No use for email for this application</p></div>
+            @*Not in Use for this application*@
+            @*<div class="form-floating mt-2">
                 <input asp-for="Input.NewEmail" class="form-control" autocomplete="email" aria-required="true" />
                 <label asp-for="Input.NewEmail" class="form-label"></label>
                 <span asp-validation-for="Input.NewEmail" class="text-danger"></span>
             </div>
             <div class="form-floating mt-2">
                 <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="w-100 btn btn-lg btn-primary">Change email</button>
-            </div>
+            </div>*@
         </form>
     </div>
 </div>

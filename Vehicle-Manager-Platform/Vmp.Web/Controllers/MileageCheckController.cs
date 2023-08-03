@@ -118,7 +118,7 @@
                 {
                     TempData[ErrorMessage] = DatabaseErrorMassage;
                     return RedirectToAction("Index", "Home");
-                }              
+                }
             }
 
             string myId = User.GetId()!;
@@ -160,19 +160,20 @@
             try
             {
                 MileageCheckViewModelEdit model = await mileageCheckService.GetCheckByIdForEditAsync(id);
-
-                if (myId != model.UserId)
+                if (!User.IsInRole(AdminRoleName))
                 {
-                    ViewData["Error"] = "Only the creator of the current Check can Edit it!";
-                    return View("NoAccess");
+                    if (myId != model.UserId)
+                    {
+                        ViewData["Error"] = "Only the creator of the current Check can Edit it!";
+                        return View("NoAccess");
+                    }
                 }
-
                 TempData[WarningMessage] = "Mileage check viewed for edit";
                 return View(model);
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("All", "MileageCheck");
             }
         }
@@ -193,7 +194,7 @@
                 {
                     TempData[ErrorMessage] = DatabaseErrorMassage;
                     return RedirectToAction("All", "MileageCheck");
-                }               
+                }
             }
 
             try
@@ -204,7 +205,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("All", "MileageCheck");
             }
         }

@@ -128,11 +128,13 @@
             try
             {
                 DateCheckViewModelEdit viewModel = await dateCheckService.GetCheckByIdForEditAsync(id);
-
-                if (myId != viewModel.UserId)
+                if (!User.IsInRole(AdminRoleName))
                 {
-                    ViewData["Error"] = "Only the creator of the current Check can Edit it!";
-                    return View("NoAccess");
+                    if (myId != viewModel.UserId)
+                    {
+                        ViewData["Error"] = "Only the creator of the current Check can Edit it!";
+                        return View("NoAccess");
+                    }
                 }
                 viewModel.Vehicles = await vehicleService.GetAllVehiclesAsync();
 

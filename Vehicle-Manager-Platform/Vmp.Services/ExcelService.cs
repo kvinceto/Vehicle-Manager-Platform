@@ -178,7 +178,15 @@
             worksheet["B9"].StringValue = waybill.FuelQuantityEnd;
             worksheet["B10"].StringValue = waybill.FuelConsumed;
             worksheet["B11"].StringValue = waybill.FuelLoaded;
-            worksheet["B12"].Value = waybill.Info;
+            if (waybill.Info == null)
+            {
+                worksheet["B12"].StringValue = "No info";
+
+            }
+            else
+            {
+                worksheet["B12"].Value = waybill.Info;
+            }
             worksheet["B13"].StringValue = waybill.DateCreated;
             worksheet["B14"].StringValue = waybill.CostCenter;
             worksheet["B15"].StringValue = waybill.Creator;

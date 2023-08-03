@@ -222,12 +222,12 @@
             {
                 await waybillService.EditWaybillAsync(modelToEdit, myId);
                 TempData[SuccessMessage] = "Waybill Edited!";
-                return RedirectToAction("All", "Waybill");
+                return RedirectToAction("AllPeriod", "Waybill");
             }
             catch (Exception)
             {
                 TempData[ErrorMessage] = DatabaseErrorMassage;
-                return RedirectToAction("All", "Waybill");
+                return RedirectToAction("AllPeriod", "Waybill");
             }
         }
     }
