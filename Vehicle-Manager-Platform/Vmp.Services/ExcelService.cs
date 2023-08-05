@@ -28,8 +28,6 @@
         /// <returns>byte[]</returns>
         public async Task<byte[]> GenerateExcelFileAllTasksAsync()
         {
-            IsLicensed();
-
             var tasks = await taskService.GetAllActiveTasksAsync();
             WorkBook workbook = new WorkBook();
             WorkSheet worksheet = workbook.CreateWorkSheet("AllTasks");
@@ -61,8 +59,6 @@
         /// <returns>byte[]</returns>
         public async Task<byte[]> GenerateExcelFileVehicleAsync(string regNumber)
         {
-            IsLicensed();
-
             VehicleViewModelDetails vehicle = await vehicleService.GetVehicleByIdAsync(regNumber);
 
             WorkBook workbook = new WorkBook();
@@ -144,8 +140,6 @@
         /// <returns>byte[]</returns>
         public async Task<byte[]> GenerateExcelFileWaybillAsync(int waybillId)
         {
-            IsLicensed();
-
             WaybillViewModelDetails waybill = await waybillService.GetWaybillByIdAsync(waybillId);
 
             WorkBook workbook = new WorkBook();
@@ -206,8 +200,6 @@
         /// <returns>byte[]</returns>
         public async Task<byte[]> GenerateExcelFileForAllWaybillsAsync(string vehicleNumber, string startDate, string endDate)
         {
-            IsLicensed();
-
             var waybills = await waybillService.GetAllForVehicleForPeriod(vehicleNumber, startDate, endDate);
 
             WorkBook workbook = new WorkBook();
@@ -242,17 +234,6 @@
 
             workbook.ToStream();
             return workbook.ToByteArray();
-        }
-
-        /// <summary>
-        /// This method checks is the IronXL licenced
-        /// </summary>
-        private void IsLicensed()
-        {
-            if (!isLicensed)
-            {
-                throw new Exception("Not licensed!");
-            }
         }
     }
 }

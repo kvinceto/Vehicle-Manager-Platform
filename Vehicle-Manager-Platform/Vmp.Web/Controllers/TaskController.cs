@@ -82,7 +82,7 @@
             catch (Exception)
             {
                 TempData[ErrorMessage] = DatabaseErrorMassage;
-                return View();
+                return View(model);
             }
 
             return RedirectToAction("Mine", "Task");
