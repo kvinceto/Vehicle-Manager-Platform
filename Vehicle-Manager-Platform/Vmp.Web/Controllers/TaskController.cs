@@ -94,11 +94,6 @@
             try
             {
                 TaskViewModelAdd model = await taskService.GetTaskByIdForEditAsync(id);
-                if (model == null)
-                {
-                    TempData[WarningMessage] = "Task is null!";
-                    return RedirectToAction("Mine", "Task");
-                }
                 TempData[WarningMessage] = "Task viewed for edit";
                 return View(model);
             }
@@ -113,12 +108,6 @@
         public async Task<IActionResult> Edit(TaskViewModelAdd model)
         {
             string? myId = this.User.GetId();
-
-            if (myId == null)
-            {
-                TempData[ErrorMessage] = "You must regist an account to enter this page!";
-                return RedirectToAction("Index", "Home");
-            }
 
             if (!ModelState.IsValid)
             {
@@ -167,15 +156,11 @@
         public async Task<IActionResult> Complete(TaskViewModelAdd model)
         {
             string? myId = User.GetId();
-
-            if (myId == null)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
+         
             try
             {
                 bool isCompleted = await taskService.CompleteTaskByIdAsync((int)model.Id!, myId);
+
                 if (isCompleted)
                 {
                     TempData[SuccessMessage] = "Task Completed";

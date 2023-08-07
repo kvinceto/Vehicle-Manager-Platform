@@ -2,9 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Security.Claims;
-    using System.Text;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Http;
@@ -37,7 +35,7 @@
                 .FindFirst(ClaimTypes.NameIdentifier))
                 .Returns(new Claim(ClaimTypes.NameIdentifier, testUserId));
 
-            taskService = new Mock<ITaskService>();           
+            taskService = new Mock<ITaskService>();
 
             testControllerContext = new ControllerContext
             {
@@ -62,7 +60,7 @@
                 .ReturnsAsync(new List<TaskViewModelAll>());
 
             var result = await taskController.All();
-            var viewResult =  result as ViewResult;
+            var viewResult = result as ViewResult;
             var expectedModel = new List<TaskViewModelAll>();
 
             Assert.NotNull(viewResult);
@@ -81,7 +79,7 @@
             var result = await taskController.All();
             var viewResult = result as RedirectToActionResult;
 
-            Assert.NotNull(viewResult);      
+            Assert.NotNull(viewResult);
             Assert.That(viewResult.ControllerName, Is.EqualTo("Home"));
             Assert.That(viewResult.ActionName, Is.EqualTo("Index"));
         }
@@ -124,7 +122,7 @@
             var result = taskController.Add();
             var viewResult = result as ViewResult;
 
-            Assert.NotNull(viewResult);            
+            Assert.NotNull(viewResult);
         }
 
         [Test]
@@ -153,67 +151,159 @@
             var result = await taskController.Add(taskViewModelAdd);
             var viewResult = result as ViewResult;
 
-            Assert.NotNull(viewResult);         
+            Assert.NotNull(viewResult);
         }
 
+        [Test]
+        public async Task EditRetursView()
+        {
+            taskService
+                .Setup(s => s.GetTaskByIdForEditAsync(1))
+                .ReturnsAsync(new TaskViewModelAdd());
 
+            var result = await taskController.Edit(1);
+            var viewResult = result as ViewResult;
 
+            Assert.NotNull(viewResult);
+            Assert.IsTrue(viewResult.TempData.ContainsKey(WarningMessage));
+            Assert.That(viewResult.TempData[WarningMessage], Is.EquivalentTo("Task viewed for edit"));
+        }
 
+        [Test]
+        public async Task EditRedirects()
+        {
+            taskService
+                .Setup(s => s.GetTaskByIdForEditAsync(1))
+                .ThrowsAsync(new Exception());
 
+            var result = await taskController.Edit(1);
+            var viewResult = result as RedirectToActionResult;
 
+            Assert.NotNull(viewResult);
+            Assert.That(viewResult.ControllerName, Is.EquivalentTo("Task"));
+            Assert.That(viewResult.ActionName, Is.EquivalentTo("Mine"));
+        }
 
+        [Test]
+        public async Task EditPostRedirects1()
+        {
+            taskService
+                .Setup(s => s.EditTaskAsync(new TaskViewModelAdd(), testUserId))
+                .ReturnsAsync(false);
 
+            var result = await taskController.Edit(new TaskViewModelAdd());
+            var viewResult = result as RedirectToActionResult;
 
+            Assert.NotNull(viewResult);
+            Assert.That(viewResult.ControllerName, Is.EquivalentTo("Task"));
+            Assert.That(viewResult.ActionName, Is.EquivalentTo("Mine"));
+        }
 
+        [Test]
+        public async Task EditPostRedirects2()
+        {
+            taskService
+                .Setup(s => s.EditTaskAsync(new TaskViewModelAdd(), testUserId))
+                .ReturnsAsync(true);
 
+            var result = await taskController.Edit(new TaskViewModelAdd());
+            var viewResult = result as RedirectToActionResult;
 
+            Assert.NotNull(viewResult);
+            Assert.That(viewResult.ControllerName, Is.EquivalentTo("Task"));
+            Assert.That(viewResult.ActionName, Is.EquivalentTo("Mine"));
+        }
 
+        [Test]
+        public async Task EditPostRedirects3()
+        {
+            TaskViewModelAdd taskViewModelAdd = new TaskViewModelAdd();
+            taskService
+                .Setup(s => s.EditTaskAsync(taskViewModelAdd, testUserId))
+                .ThrowsAsync(new Exception());
 
+            var result = await taskController.Edit(new TaskViewModelAdd());
+            var viewResult = result as RedirectToActionResult;
 
+            Assert.NotNull(viewResult);
+            Assert.That(viewResult.ControllerName, Is.EquivalentTo("Task"));
+            Assert.That(viewResult.ActionName, Is.EquivalentTo("Mine"));
+        }
 
+        [Test]
+        public async Task ViewTaskReturnsView()
+        {
+            taskService
+                .Setup(s => s.GetTaskByIdAsync(1))
+                .ReturnsAsync(new TaskViewModelDetails());
 
+            var result = await taskController.ViewTask(1);
+            var viewResult = result as ViewResult;
 
+            Assert.NotNull(viewResult);
+            Assert.That(viewResult.Model, Is.TypeOf<TaskViewModelDetails>());
+            Assert.IsTrue(viewResult.TempData.ContainsKey(InformationMessage));
+            Assert.That(viewResult.TempData[InformationMessage], Is.EquivalentTo("Task Info Viewed"));
+        }
 
+        [Test]
+        public async Task ViewTaskRedirects()
+        {
+            taskService
+                .Setup(s => s.GetTaskByIdAsync(1))
+                .ThrowsAsync(new Exception());
 
+            var result = await taskController.ViewTask(1);
+            var viewResult = result as RedirectToActionResult;
 
+            Assert.NotNull(viewResult);
+            Assert.That(viewResult.ControllerName, Is.EquivalentTo("Task"));
+            Assert.That(viewResult.ActionName, Is.EquivalentTo("All"));
+        }
 
+        [Test]
+        public async Task CompleteRedirects1()
+        {
+            taskService
+                .Setup(s => s.CompleteTaskByIdAsync(1, testUserId))
+                .ReturnsAsync(true);
 
+            var result = await taskController.Complete(new TaskViewModelAdd() { Id = 1 });
+            var viewResult = result as RedirectToActionResult;
 
+            Assert.NotNull(viewResult);
+            Assert.That(viewResult.ControllerName, Is.EquivalentTo("Task"));
+            Assert.That(viewResult.ActionName, Is.EquivalentTo("Mine"));
+        }
 
+        [Test]
+        public async Task CompleteRedirects2()
+        {
+            taskService
+                .Setup(s => s.CompleteTaskByIdAsync(1, testUserId))
+                .ReturnsAsync(false);
 
+            var result = await taskController.Complete(new TaskViewModelAdd() { Id = 1 });
+            var viewResult = result as RedirectToActionResult;
 
+            Assert.NotNull(viewResult);
+            Assert.That(viewResult.ControllerName, Is.EquivalentTo("Task"));
+            Assert.That(viewResult.ActionName, Is.EquivalentTo("Mine"));
+        }
 
+        [Test]
+        public async Task CompleteRedirects3()
+        {
+            taskService
+                .Setup(s => s.CompleteTaskByIdAsync(1, testUserId))
+                .ThrowsAsync(new Exception());
 
+            var result = await taskController.Complete(new TaskViewModelAdd() { Id = 1 });
+            var viewResult = result as RedirectToActionResult;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            Assert.NotNull(viewResult);
+            Assert.That(viewResult.ControllerName, Is.EquivalentTo("Task"));
+            Assert.That(viewResult.ActionName, Is.EquivalentTo("Mine"));
+        }
     }
 }

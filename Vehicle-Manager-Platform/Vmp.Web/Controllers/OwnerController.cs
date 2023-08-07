@@ -97,7 +97,7 @@
             catch (Exception)
             {
                 TempData[ErrorMessage] = DatabaseErrorMassage;
-                return RedirectToAction("All", "Owners");
+                return RedirectToAction("All", "Owner");
             }
         }
 
@@ -108,11 +108,6 @@
             {
                 OwnerViewModelEdit model = await ownerService.GetOwnerByIdForEditAsync(id);
 
-                if (model == null)
-                {
-                    TempData[ErrorMessage] = "Owner is null!";
-                    return RedirectToAction("All", "Owner");
-                }
                 TempData[WarningMessage] = "Owner viewed for edit";
                 return View(model);
             }
@@ -140,7 +135,7 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Error in the database!";
+                TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("All", "Owner");
             }
         }
