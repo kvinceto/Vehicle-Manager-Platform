@@ -56,8 +56,6 @@
                 TempData[ErrorMessage] = DatabaseErrorMassage;
                 return RedirectToAction("Index", "Home");
             }
-
-
         }
 
         [HttpPost]
@@ -118,6 +116,7 @@
             try
             {
                 ICollection<WaybillViewModelAll> waybills = await waybillService.GetAllForVehicleForPeriod(viewModel.VehicleNumber, viewModel.StartDate, viewModel.EndDate);
+
                 TempData[SuccessMessage] = $"All Waybills for vehicle {viewModel.VehicleNumber} between {viewModel.StartDate} and {viewModel.EndDate} are viewed";
                 ViewData["Text"] = $"for Vehicle: {viewModel.VehicleNumber} between {viewModel.StartDate} and {viewModel.EndDate}";
                 ViewData["Number"] = viewModel.VehicleNumber;

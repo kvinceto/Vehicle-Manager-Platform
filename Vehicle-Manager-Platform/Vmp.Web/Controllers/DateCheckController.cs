@@ -128,6 +128,7 @@
             try
             {
                 DateCheckViewModelEdit viewModel = await dateCheckService.GetCheckByIdForEditAsync(id);
+
                 if (!User.IsInRole(AdminRoleName))
                 {
                     if (myId != viewModel.UserId)

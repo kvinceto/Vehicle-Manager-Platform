@@ -93,12 +93,12 @@
                     return RedirectToAction("All", "CostCenter");
                 }
                 TempData[ErrorMessage] = "Cost Center is not deleted";
-                return RedirectToAction("All", "Cost Center");
+                return RedirectToAction("All", "CostCenter");
             }
             catch (Exception)
             {
                 TempData[ErrorMessage] = DatabaseErrorMassage;
-                return RedirectToAction("All", "Cost Center");
+                return RedirectToAction("All", "CostCenter");
             }
         }
 

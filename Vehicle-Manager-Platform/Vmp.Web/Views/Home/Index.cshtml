@@ -4,5 +4,8 @@
 
 <div class="text-center">
     <h1 class="display-4 text-center">Welcome to Vehicle Manager</h1>
-    <h4 class=" text-center"><a href="https://github.com/kvinceto/Vehicle-Manager-Platform/blob/main/README.md" target="_blank">How to use</a></h4>
+    @if (this.User.Identity?.IsAuthenticated ?? false)
+    {
+        <h4 class=" text-center"><a href="https://github.com/kvinceto/Vehicle-Manager-Platform/blob/main/README.md" target="_blank">How to use</a></h4>
+    }
 </div>
