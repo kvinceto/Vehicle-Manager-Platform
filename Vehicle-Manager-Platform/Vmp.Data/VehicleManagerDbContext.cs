@@ -44,7 +44,7 @@
             const string adminPassword = "Admin123";
             var hasher = new PasswordHasher<ApplicationUser>();
 
-            Guid adminUserId = Guid.NewGuid();
+            Guid adminUserId = Guid.Parse("d22b0574-0303-435d-b4b1-8c5e47e6f622");
 
             var adminUser = new ApplicationUser
             {
