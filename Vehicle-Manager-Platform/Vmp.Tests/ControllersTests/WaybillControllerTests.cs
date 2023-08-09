@@ -2,20 +2,22 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Security.Claims;
-    using System.Text;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.ViewFeatures;
+
     using Moq;
+
     using Vmp.Services.Interfaces;
     using Vmp.Web.Controllers;
     using Vmp.Web.ViewModels.VehicleViewModels;
     using Vmp.Web.ViewModels.WaybillViewModels;
     using Vmp.Web.ViewModels.CostCenterViewModels;
+
+    using static Vmp.Common.NotificationMessagesConstants;
 
     [TestFixture]
     public class WaybillControllerTests
@@ -207,12 +209,150 @@
             Assert.That(viewResult.ActionName, Is.EquivalentTo("Index"));
         }
 
+        [Test]
+        public async Task AllForCostCenterReturnsView()
+        {
+            waybillService.Setup(s => s.GetAllForCostCenterAsync(1))
+                .ReturnsAsync(new List<WaybillViewModelAll>());
+
+            var result = await waybillController.AllForCostCenter(1);
+            var viewResult = result as ViewResult;
+
+            Assert.IsNotNull(viewResult);
+            Assert.IsTrue(viewResult.TempData.ContainsKey(InformationMessage));
+            Assert.IsTrue(viewResult.ViewData.ContainsKey("Text"));
+            Assert.That(viewResult.Model, Is.TypeOf<List<WaybillViewModelAll>>());
+        }
+
+        [Test]
+        public async Task AllForCostCenterRedirects()
+        {
+            waybillService.Setup(s => s.GetAllForCostCenterAsync(1))
+                .ThrowsAsync(new Exception());
+
+            var result = await waybillController.AllForCostCenter(1);
+            var viewResult = result as RedirectToActionResult;
+
+            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult.ControllerName, Is.EquivalentTo("CostCenter"));
+            Assert.That(viewResult.ActionName, Is.EquivalentTo("All"));
+        }
+
+        [Test]
+        public async Task AllForVehicleReturnsView()
+        {
+            waybillService.Setup(s => s.GetAllForVehicleAsync("th1234th"))
+                .ReturnsAsync(new List<WaybillViewModelAll>());
+
+            var result = await waybillController.AllForVehicle("th1234th");
+            var viewResult = result as ViewResult;
+
+            Assert.IsNotNull(viewResult);
+            Assert.IsTrue(viewResult.TempData.ContainsKey(SuccessMessage));
+            Assert.That(viewResult.Model, Is.TypeOf<List<WaybillViewModelAll>>());
+        }
+
+        [Test]
+        public async Task AllForVehicleRedirects()
+        {
+            waybillService.Setup(s => s.GetAllForVehicleAsync("th1234th"))
+                .ThrowsAsync(new Exception());
+
+            var result = await waybillController.AllForVehicle("th1234th");
+            var viewResult = result as RedirectToActionResult;
+
+            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult.ControllerName, Is.EquivalentTo("Home"));
+            Assert.That(viewResult.ActionName, Is.EquivalentTo("Index"));
+        }
+
+        [Test]
+        public async Task DetailsReturnsView()
+        {
+            waybillService.Setup(s => s.GetWaybillByIdAsync(1))
+                .ReturnsAsync(new WaybillViewModelDetails());
+
+            var result = await waybillController.Details(1);
+            var viewResult = result as ViewResult;
+
+            Assert.IsNotNull(viewResult);
+            Assert.IsTrue(viewResult.TempData.ContainsKey(InformationMessage));
+            Assert.That(viewResult.Model, Is.TypeOf<WaybillViewModelDetails>());
+        }
+
+        [Test]
+        public async Task DetailsRedirects()
+        {
+            waybillService.Setup(s => s.GetWaybillByIdAsync(1))
+                .ThrowsAsync(new Exception());
+
+            var result = await waybillController.Details(1);
+            var viewResult = result as RedirectToActionResult;
+
+            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult.ControllerName, Is.EquivalentTo("Waybill"));
+            Assert.That(viewResult.ActionName, Is.EquivalentTo("All"));
+        }
+
+        [Test]
+        public async Task EditReturnsViewNoAccess()
+        {
+            waybillService.Setup(s => s.GetShortWaybillByIdAsync(1))
+                .ReturnsAsync(new WaybillViewModelShort());
+
+            var result = await waybillController.Edit(1);
+            var viewResult = result as ViewResult;
+
+            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult.ViewName, Is.EquivalentTo("NoAccess"));
+        }
+
+        [Test]
+        public async Task EditReturnsViewEdit()
+        {
+            waybillService.Setup(s => s.GetShortWaybillByIdAsync(1))
+                .ReturnsAsync(new WaybillViewModelShort() { UserId = testUserId });
+
+            waybillService.Setup(s => s.GetWaybillForEditByIdAsync(1))
+                .ReturnsAsync(new WaybillViewModelEdit());
+
+            var result = await waybillController.Edit(1);
+            var viewResult = result as ViewResult;
+
+            Assert.IsNotNull(viewResult);
+            Assert.IsTrue(viewResult.TempData.ContainsKey(WarningMessage));
+        }
+
+        [Test]
+        public async Task EditRedirects()
+        {
+            waybillService.Setup(s => s.GetShortWaybillByIdAsync(1))
+                .ThrowsAsync(new Exception());
+
+            waybillService.Setup(s => s.GetWaybillForEditByIdAsync(1))
+                .ThrowsAsync(new Exception());
+
+            var result = await waybillController.Edit(1);
+            var viewResult = result as RedirectToActionResult;
+
+            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult.ControllerName, Is.EquivalentTo("Waybills"));
+            Assert.That(viewResult.ActionName, Is.EquivalentTo("All"));
+        }
+
+        [Test]
+        public async Task EditWaybillRedirects()
+        {
+            waybillService.Setup(s => s.EditWaybillAsync(new WaybillViewModelEdit(), testUserId));
 
 
+            var result = await waybillController.EditWaybill(new WaybillViewModelEdit());
 
+            var viewResult = result as RedirectToActionResult;
 
-
-
-
+            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult.ControllerName, Is.EquivalentTo("Waybill"));
+            Assert.That(viewResult.ActionName, Is.EquivalentTo("AllPeriod"));
+        }    
     }
 }
