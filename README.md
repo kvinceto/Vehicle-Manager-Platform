@@ -40,6 +40,8 @@ from the **Admin panel** of the application.
 7.	You are ready to use the application.
 8.	If you want some example data there is a <a href="https://github.com/kvinceto/Vehicle-Manager-Platform/blob/main/SQLQuery_1.sql">SQL Query file</a>  that can be used to populate your database.
 9.	**!!! Be aware that if you have changed the name of the Database in the connection string put the new name of the Database in the Sql Query in the USE statement!!!**
+If all the data is entered in the database you should receive response:
+<img src="https://github.com/kvinceto/Vehicle-Manager-Platform/blob/main/dbresponce.jpg" alt="Response">
 
 
 # Functionality:
