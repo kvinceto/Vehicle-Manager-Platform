@@ -143,51 +143,6 @@
             Assert.IsNotNull(data);
         }
 
-        [Test]
-        public async Task GenerateExcelFileForAllWaybillsAsyncReturnsData()
-        {
-            await dbContext.Vehicles.AddAsync(new Vehicle()
-            {
-                Number = "th1235hh",
-                FuelCapacity = 60,
-                FuelCostRate = 1,
-                FuelQuantity = 1,
-                IsDeleted = false,
-                Make = null,
-                Model = null,
-                Mileage = 1212,
-                ModelImgUrl = null,
-                OwnerId = 1,
-                VIN = "jhgfdfg2h5gf545"
-            });
-            await dbContext.CostCenters.AddAsync(new CostCenter()
-            {
-                Id = 1,
-                Name = "Test",
-                IsClosed = false
-            });
-
-            await dbContext.SaveChangesAsync();
-
-            await waybillService.AddWaybillAsync(new WaybillViewModelAdd()
-            {
-                Info = null,
-                FuelLoaded = 20,
-                FuelQuantityEnd = 20,
-                FuelQuantityStart = 20,
-                CostCenterId = 1,
-                Date = "30/12/2023",
-                MileageEnd = 120,
-                MileageStart = 100,
-                RouteTraveled = "test",
-                VehicleNumber = "th1235hh"
-            }, testUserId);
-
-            var data = await excelService.GenerateExcelFileForAllWaybillsAsync("th1235hh", "29/12/2023", "31/12/2023");
-
-            Assert.IsNotNull(data);
-        }
-
         [TearDown]
         public async Task TearDown()
         {

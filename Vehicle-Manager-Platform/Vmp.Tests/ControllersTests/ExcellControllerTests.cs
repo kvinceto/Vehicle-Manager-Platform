@@ -125,31 +125,5 @@
             Assert.That(viewResult.ControllerName, Is.EquivalentTo("Home"));
             Assert.That(viewResult.ActionName, Is.EquivalentTo("Index"));
         }
-
-        [Test]
-        public async Task ExportWaybillsReturnsFile()
-        {
-            excellServices.Setup(s => s.GenerateExcelFileForAllWaybillsAsync("th1234ht", "12/12/2023", "29/12/2023"))
-                .ReturnsAsync(new byte[1]);
-
-            var result = await excellController.ExportWaybills("th1234ht", "12/12/2023", "29/12/2023");
-            var fileResult = result as FileResult;
-
-            Assert.IsNotNull(fileResult);
-        }
-
-        [Test]
-        public async Task ExportWaybillsRedirects()
-        {
-            excellServices.Setup(s => s.GenerateExcelFileForAllWaybillsAsync("th1234ht", "12/12/2023", "29/12/2023"))
-                .ThrowsAsync(new Exception());
-
-            var result = await excellController.ExportWaybills("th1234ht", "12/12/2023", "29/12/2023");
-            var viewResult = result as RedirectToActionResult;
-
-            Assert.IsNotNull(viewResult);
-            Assert.That(viewResult.ControllerName, Is.EquivalentTo("Home"));
-            Assert.That(viewResult.ActionName, Is.EquivalentTo("Index"));
-        }
     }
 }

@@ -190,50 +190,5 @@
             workbook.ToStream();
             return workbook.ToByteArray();
         }
-
-        /// <summary>
-        /// This method returns a byte[] with list of waybills
-        /// </summary>
-        /// <param name="vehicleNumber">Registration number of the vehicle</param>
-        /// <param name="startDate">Start date for the period</param>
-        /// <param name="endDate">End date for the period</param>
-        /// <returns>byte[]</returns>
-        public async Task<byte[]> GenerateExcelFileForAllWaybillsAsync(string vehicleNumber, string startDate, string endDate)
-        {
-            var waybills = await waybillService.GetAllForVehicleForPeriod(vehicleNumber, startDate, endDate);
-
-            WorkBook workbook = new WorkBook();
-            WorkSheet worksheet = workbook.CreateWorkSheet("AllWaybills");
-
-            worksheet["A1"].StringValue = "Id";
-            worksheet["B1"].StringValue = "Date";
-            worksheet["C1"].StringValue = "Vehicle Number";
-            worksheet["D1"].StringValue = "Info";
-
-            int counter = 1;
-            foreach (var waybill in waybills)
-            {
-                counter++;
-                worksheet[$"A{counter}"].Int32Value = waybill.Id!.Value;
-                worksheet[$"B{counter}"].StringValue = waybill.Date;
-                worksheet[$"C{counter}"].StringValue = waybill.VehicleNumber;
-                if (waybill.Info == null)
-                {
-                    worksheet[$"D{counter}"].StringValue = "No info";
-                }
-                else
-                {
-                    worksheet[$"D{counter}"].StringValue = waybill.Info;
-                }
-            }
-
-            worksheet.AutoSizeColumn(0);
-            worksheet.AutoSizeColumn(1);
-            worksheet.AutoSizeColumn(2);
-            worksheet.AutoSizeColumn(3);
-
-            workbook.ToStream();
-            return workbook.ToByteArray();
-        }
     }
 }

@@ -66,22 +66,5 @@
             }
 
         }
-
-        [HttpGet]
-        public async Task<IActionResult> ExportWaybills(string number, string start, string end)
-        {
-            try
-            {
-                var file = await excelService.GenerateExcelFileForAllWaybillsAsync(number, start, end);
-
-                return File(file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "allwaybills.xlsx");
-            }
-            catch (Exception)
-            {
-
-                TempData[ErrorMessage] = DatabaseErrorMassage;
-                return RedirectToAction("Index", "Home");
-            }
-        }
     }
 }
