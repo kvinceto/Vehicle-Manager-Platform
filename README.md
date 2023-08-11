@@ -28,7 +28,7 @@ It supports the automatic calculation of fuel costs for a certain vehicle and se
 from the **Admin panel** of the application.
 
 # Diagram of the Database can be found here:
-Link: ![Database Diagram]([https://github.com/logos/github-logo.png](https://github.com/kvinceto/Vehicle-Manager-Platform/blob/main/Diagram.jpg)https://github.com/kvinceto/Vehicle-Manager-Platform/blob/main/Diagram.jpg)
+<img src="https://github.com/kvinceto/Vehicle-Manager-Platform/blob/main/Diagram.jpg" alt="DatabaseDiagram">
 
 # Instruction on how to start the application:
 1.	Clone the VMP repository from GitHub.
@@ -37,7 +37,9 @@ Link: ![Database Diagram]([https://github.com/logos/github-logo.png](https://git
 4.	Configure the database connection string in appsettings.json.
 5.	Go to Package Manager Console and Update Database. This will seed the Admin account also.
 6.	Run the application. This will create the Roles in the Database.
-7.	You are ready to use the application. If you want some example data there is a SQL Query file that can be used to populate your database.
+7.	You are ready to use the application.
+8.	If you want some example data there is a <a href="https://github.com/kvinceto/Vehicle-Manager-Platform/blob/main/SQLQuery_1.sql">SQL Query file</a>  that can be used to populate your database.
+9.	**!!! Be aware that if you have changed the name of the Database in the connection string put the new name of the Database in the Sql Query in the USE statement!!!**
 
 
 # Functionality:
